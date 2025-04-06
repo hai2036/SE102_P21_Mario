@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
+#include "Border.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -105,6 +106,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
+	case OBJECT_TYPE_BORDER:
+	{
+		int border_width = atoi(tokens[3].c_str());
+		int border_height = atoi(tokens[4].c_str());
+		obj = new CBorder(x, y, border_width, border_height);
+		break;
+	}
 	case OBJECT_TYPE_MARIO:
 		if (player!=NULL) 
 		{
@@ -147,8 +155,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
 	break;
-
-
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
 		return;
