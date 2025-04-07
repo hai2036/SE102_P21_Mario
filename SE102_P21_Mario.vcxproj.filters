@@ -78,6 +78,9 @@
     <ClCompile Include="Border.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -153,6 +156,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Border.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
