@@ -1,7 +1,7 @@
 # list of object assets to load in this scene
 [ASSETS]
 mario.txt
-cloud.txt
+
 
 #
 [OBJECTS]
@@ -13,10 +13,11 @@ cloud.txt
 0	16	10
 
 #BORDER
--1	0	120	16	240
--1	160	150	320	1
--1	320	138	160	24
--1	630	126	320	1
+-1	0	120	16	240	0
+-1	160	150	320	1	0
+-1	320	138	160	24	0
+-1	630	126	320	1	0
+-1	0	200	1000	1	1
 
 
 
