@@ -10,6 +10,7 @@
 #include "Coin.h"
 #include "Platform.h"
 #include "Border.h"
+#include "Ground.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -147,7 +148,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
-
+	case OBJECT_TYPE_GROUND:
+	{
+		int ground_width = atoi(tokens[3].c_str());
+		int ground_height = atoi(tokens[4].c_str());
+		obj = new CGround(x, y, ground_width, ground_height);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -155,6 +162,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int scene_id = atoi(tokens[5].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
+
 	break;
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
