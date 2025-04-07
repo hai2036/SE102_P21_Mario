@@ -11,6 +11,7 @@
 #include "Platform.h"
 #include "Border.h"
 #include "Ground.h"
+#include "BoxPlatform.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -155,6 +156,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CGround(x, y, ground_width, ground_height);
 		break;
 	}
+	case OBJECT_TYPE_BOX_PLATFORM:
+	{
+		int box_width = atoi(tokens[3].c_str());
+		int box_height = atoi(tokens[4].c_str());
+		int color = atoi(tokens[5].c_str());
+		obj = new CBoxPlatform(x, y, box_width, box_height, color);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -282,8 +291,9 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 1; i < objects.size(); i++)
 		objects[i]->Render();
+	objects[0]->Render();
 }
 
 /*
