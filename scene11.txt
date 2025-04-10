@@ -4,6 +4,8 @@ mario.txt
 ground.txt
 boxplatform.txt
 pipe.txt
+cloudBlock.txt
+dirtBlock.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -54,6 +56,27 @@ pipe.txt
 8	2224	32	12
 
 8	2288	144	2
+
+
+#DIRT BLOCKS
+9	1472	80	2	90001
+
+9	1536	144	3	90001
+9	1552	128	2	90001
+9	1568	112	1	90001
+
+9	1632	144	3	90001
+9	1632	128	2	90001
+9	1632	112	1	90001
+
+9	2224	112	2	90001
+9	2224	48	2	90001
+
+#CLOUD BLOCKS
+9	1376	-64	4	91001
+9	1440	-80	13	91001
+
+
 
 
 

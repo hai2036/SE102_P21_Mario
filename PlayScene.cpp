@@ -13,6 +13,7 @@
 #include "Ground.h"
 #include "BoxPlatform.h"
 #include "Pipe.h"
+#include "Blocks.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -169,6 +170,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int pipe_height = atoi(tokens[3].c_str());
 		obj = new CPipe(x, y, pipe_height);
+		break;
+	}
+	case OBJECT_TYPE_BLOCKS:
+	{
+		int length = atoi(tokens[3].c_str());
+		int sprite_id = atoi(tokens[4].c_str());
+		obj = new CBlocks(x, y, length, sprite_id);
 		break;
 	}
 	case OBJECT_TYPE_PORTAL:

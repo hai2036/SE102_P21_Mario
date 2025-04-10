@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="BoxPlatform.cpp" />
     <ClCompile Include="Brick.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="AssetIDs.h" />
+    <ClInclude Include="Blocks.h" />
     <ClInclude Include="Border.h" />
     <ClInclude Include="BoxPlatform.h" />
     <ClInclude Include="Brick.h" />
