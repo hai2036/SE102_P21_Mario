@@ -12,6 +12,7 @@
 #include "Border.h"
 #include "Ground.h"
 #include "BoxPlatform.h"
+#include "Pipe.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -162,6 +163,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int box_height = atoi(tokens[4].c_str());
 		int color = atoi(tokens[5].c_str());
 		obj = new CBoxPlatform(x, y, box_width, box_height, color);
+		break;
+	}
+	case OBJECT_TYPE_PIPE:
+	{
+		int pipe_height = atoi(tokens[3].c_str());
+		obj = new CPipe(x, y, pipe_height);
 		break;
 	}
 	case OBJECT_TYPE_PORTAL:
