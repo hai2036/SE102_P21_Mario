@@ -13,7 +13,7 @@ dirtBlock.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	24	0
+0	4	22
 
 #BORDER
 
