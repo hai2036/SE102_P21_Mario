@@ -17,8 +17,15 @@ dirtBlock.txt
 
 #BORDER
 
-#GROUND
-6	0	26	38	1
+# GROUND
+# Type	X	Y	Length	Height
+6	0	26	39	1
+6	39	25	29	2
+6	72	26	22	1
+6	96	26	5	1
+6	104	26	36	1
+
+
 
 #BOX PLATFORM
 
