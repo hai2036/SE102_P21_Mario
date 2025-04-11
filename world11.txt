@@ -1,0 +1,30 @@
+# list of object assets to load in this scene
+[ASSETS]
+mario.txt
+ground.txt
+boxplatform.txt
+pipe.txt
+cloudBlock.txt
+dirtBlock.txt
+#
+[OBJECTS]
+# type	x	y	extra_settings per object type
+# type: -1 = border, 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
+# See OBJECT_TYPE constants in AssetIDs.h
+
+# MARIO
+0	24	0
+
+#BORDER
+
+#GROUND
+6	0	26	38	1
+
+#BOX PLATFORM
+
+#PIPE
+
+
+#DIRT BLOCKS
+
+#CLOUD BLOCKS
