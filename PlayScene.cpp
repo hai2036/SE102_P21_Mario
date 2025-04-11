@@ -14,6 +14,7 @@
 #include "BoxPlatform.h"
 #include "Pipe.h"
 #include "Blocks.h"
+#include "BackgroundBush.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -124,13 +125,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y); 
+		obj = new CMario(x, y); 
 		player = (CMario*)obj;  
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
+	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
+	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 
 	case OBJECT_TYPE_PLATFORM:
@@ -185,6 +186,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float b = (float)atof(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
+	}
+	case OBJECT_TYPE_BACKGROUND_BUSH:
+	{
+		int length = atoi(tokens[3].c_str());
+		obj = new CBackgroundBush(x, y, length);
+		break;
 	}
 
 	break;
