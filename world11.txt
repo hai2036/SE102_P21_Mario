@@ -42,7 +42,8 @@ backgroundBush.txt
 7	136	17	3	9	1
 7	134	23	3	3	2
 
-#PIPE
+#PIPES
+8	22	23	3
 
 #DIRT BLOCKS
 

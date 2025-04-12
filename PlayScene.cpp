@@ -169,8 +169,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_PIPE:
 	{
-		int pipe_height = atoi(tokens[3].c_str());
-		obj = new CPipe(x, y, pipe_height);
+		int height = atoi(tokens[3].c_str());
+		obj = new CPipe(x, y, height);
 		break;
 	}
 	case OBJECT_TYPE_BLOCKS:
