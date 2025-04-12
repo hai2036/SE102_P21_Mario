@@ -15,7 +15,7 @@ void CPipe::Render()
 		sprites->Get(ID_SPRITE_PIPE_BODY_RIGHT)->Draw(x + UNIT_SIZE, yy);
 	}
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CPipe::GetBoundingBox(float& l, float& t, float& r, float& b)

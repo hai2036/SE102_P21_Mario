@@ -5,8 +5,6 @@
 #include "Animations.h"
 #include "AssetIDs.h"
 
-#define UNIT_SIZE 16
-
 class CPipe	: public CGameObject {
 	int height;
 public:
