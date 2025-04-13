@@ -1,28 +1,47 @@
 # list of object assets to load in this scene
 [ASSETS]
-mario.txt
+backgroundBush.txt
+backgroundCloud.txt
 ground.txt
 boxplatform.txt
 pipe.txt
 cloudBlock.txt
 dirtBlock.txt
-backgroundBush.txt
-backgroundCloud.txt
+coin.txt
+mario.txt
+goomba.txt
+
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
 # type: -1 = border, 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
 # See OBJECT_TYPE constants in AssetIDs.h
 
-# MARIO
+#MARIO
 0	4	22
 
-# BORDERS
+#BACKGROUND BUSHES
+101	10	25	3
+101	42	24	6
+101	65	24	2
+101	74	25	3
+101	108	25	3
+
+#BACKGROUND CLOUDS
+102	7	17	2
+102	20	16	1
+102	40	17	1
+102	45	19	3
+102	73	17	1
+102	103	17	3
+102	145	18	1
+
+#BORDERS
 -1	0	0	1	26	0
 -1	171	0	1	26	0
 -1	0	27	172	1	1
 
-# GROUND
+#GROUND
 # Type	X	Y	Length	Height
 6	0	26	39	1
 6	39	25	29	2
@@ -31,7 +50,7 @@ backgroundCloud.txt
 6	104	26	36	1
 6	141	26	35	1
 
-#BOX PLATFORM
+#BOX PLATFORMS
 7	17	21	3	5	3
 7	15	23	3	3	2
 
@@ -75,18 +94,8 @@ backgroundCloud.txt
 9	88	12	4	91001
 9	93	11	13	91001
 
-#BACKGROUND BUSHES
-101	10	25	3
-101	42	24	6
-101	65	24	2
-101	74	25	3
-101	108	25	3
+#COINS
+4	10	21
 
-#BACKGROUND CLOUDS
-102	7	17	2
-102	20	16	1
-102	40	17	1
-102	45	19	3
-102	73	17	1
-102	103	17	3
-102	145	18	1
+#GOOMBAS
+2	14	25

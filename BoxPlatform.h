@@ -46,8 +46,6 @@
 #define ID_SPRITE_BLUE_BOX8 73008
 #define ID_SPRITE_BLUE_BOX9 73009
 
-
-
 class CBoxPlatform : public CGameObject
 {
 	void RenderWhiteBox();
