@@ -4,7 +4,6 @@
 // 
 // The most popular type of object in Mario! 
 // 
-#define UNIT_SIZE 16
 
 class CBlocks : public CGameObject
 {

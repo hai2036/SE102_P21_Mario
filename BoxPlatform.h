@@ -1,8 +1,6 @@
 #pragma once
 #include "GameObject.h"
 
-#define UNIT_SIZE 16
-
 #define COLOR_WHITE 0
 #define COLOR_GREEN 1
 #define COLOR_PINK 2

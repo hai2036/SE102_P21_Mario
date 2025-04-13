@@ -1,0 +1,92 @@
+# list of object assets to load in this scene
+[ASSETS]
+mario.txt
+ground.txt
+boxplatform.txt
+pipe.txt
+cloudBlock.txt
+dirtBlock.txt
+backgroundBush.txt
+backgroundCloud.txt
+#
+[OBJECTS]
+# type	x	y	extra_settings per object type
+# type: -1 = border, 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
+# See OBJECT_TYPE constants in AssetIDs.h
+
+# MARIO
+0	4	22
+
+# BORDERS
+-1	0	0	1	26	0
+-1	171	0	1	26	0
+-1	0	27	172	1	1
+
+# GROUND
+# Type	X	Y	Length	Height
+6	0	26	39	1
+6	39	25	29	2
+6	72	26	22	1
+6	96	26	5	1
+6	104	26	36	1
+6	141	26	35	1
+
+#BOX PLATFORM
+7	17	21	3	5	3
+7	15	23	3	3	2
+
+7	32	19	4	7	0
+7	29	21	4	5	2
+7	25	23	5	3	1
+7	32	24	6	2	1
+
+7	83	20	7	6	3
+7	81	22	7	4	2
+7	79	24	7	2	1
+
+7	82	9	4	2	2
+
+7	136	17	3	9	1
+7	134	23	3	3	2
+
+#PIPES
+8	22	23	3	0
+8	112	24	2	0
+8	116	23	3	0
+8	141	7	12	1
+8	141	23	3	0
+8	145	24	2	0
+
+#WOODEN BLOCKS
+9	94	21	2	90001
+
+9	100	23	1	90001
+9	99	24	2	90001
+9	98	25	3	90001
+
+9	104	23	1	90001
+9	104	24	2	90001
+9	104	25	3	90001
+
+9	141	19	2	90001
+9	141	23	2	90001
+
+#CLOUD BLOCKS
+9	88	12	4	91001
+9	93	11	13	91001
+
+#BACKGROUND BUSHES
+101	10	25	3
+101	42	24	6
+101	65	24	2
+101	74	25	3
+101	108	25	3
+
+#BACKGROUND CLOUDS
+102	7	17	2
+102	20	16	1
+102	40	17	1
+102	45	19	3
+102	73	17	1
+102	103	17	3
+102	145	18	1

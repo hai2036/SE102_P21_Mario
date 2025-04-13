@@ -14,6 +14,8 @@
 #include "BoxPlatform.h"
 #include "Pipe.h"
 #include "Blocks.h"
+#include "BackgroundBush.h"
+#include "BackgroundCloud.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -103,8 +105,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (tokens.size() < 2) return;
 
 	int object_type = atoi(tokens[0].c_str());
-	float x = (float)atof(tokens[1].c_str());
-	float y = (float)atof(tokens[2].c_str());
+	float x = (float)atof(tokens[1].c_str()) * 16;
+	float y = (float)atof(tokens[2].c_str()) * 16;
 
 	CGameObject *obj = NULL;
 
@@ -112,10 +114,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 	case OBJECT_TYPE_BORDER:
 	{
-		int border_width = atoi(tokens[3].c_str());
-		int border_height = atoi(tokens[4].c_str());
-		int border_type = atoi(tokens[5].c_str());
-		obj = new CBorder(x, y, border_width, border_height, border_type);
+		int width = atoi(tokens[3].c_str());
+		int height = atoi(tokens[4].c_str());
+		int type = atoi(tokens[5].c_str());
+		obj = new CBorder(x, y, width, height, type);
 		break;
 	}
 	case OBJECT_TYPE_MARIO:
@@ -124,13 +126,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y); 
+		obj = new CMario(x, y); 
 		player = (CMario*)obj;  
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
+	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
+	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 
 	case OBJECT_TYPE_PLATFORM:
@@ -168,8 +170,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_PIPE:
 	{
-		int pipe_height = atoi(tokens[3].c_str());
-		obj = new CPipe(x, y, pipe_height);
+		int height = atoi(tokens[3].c_str());
+		obj = new CPipe(x, y, height);
 		break;
 	}
 	case OBJECT_TYPE_BLOCKS:
@@ -185,6 +187,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float b = (float)atof(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
+	}
+	case OBJECT_TYPE_BACKGROUND_BUSH:
+	{
+		int length = atoi(tokens[3].c_str());
+		obj = new CBackgroundBush(x, y, length);
+		break;
+	}
+	case OBJECT_TYPE_BACKGROUND_CLOUD:
+	{
+		int length = atoi(tokens[3].c_str());
+		obj = new CBackgroundCloud(x, y, length);
+		break;
 	}
 
 	break;
@@ -298,8 +312,9 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
+	if (cy > 224) cy = 224;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	CGame::GetInstance()->SetCamPos(cx, cy);
 
 	PurgeDeletedObjects();
 }
