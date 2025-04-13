@@ -7,7 +7,7 @@ pipe.txt
 cloudBlock.txt
 dirtBlock.txt
 prizeBlock.txt
-coin.txt
+superMushroom.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -79,7 +79,8 @@ coin.txt
 9	1440	-80	13	91001
 
 #PRIZE BLOCKS
-10	200	100	4
+10	100	100	4
+10	116	100	20
 
 
 

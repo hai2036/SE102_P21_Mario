@@ -1,6 +1,6 @@
 #include "PrizeBlock.h"
 #include "Mario.h"
-#include "Coin.h"
+#include "SuperMushroom.h"
 
 void CPrizeBlock::Render()
 {
@@ -28,6 +28,11 @@ void CPrizeBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	if (this->prize!=nullptr)
 	{
 		this->prize->Update(dt, coObjects);
+		if (this->prize->IsDeleted())
+		{
+			delete this->prize;
+			this->prize = nullptr;
+		}
 	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -41,6 +46,23 @@ void CPrizeBlock::OnCollisionWithMario(LPCOLLISIONEVENT e) {
 		case OBJECT_TYPE_COIN:
 			mario->AddCoin(1);
 			break;
+		case OBJECT_TYPE_SUPER_MUSHROOM:
+		{
+			int dx = 0;
+			float mario_X = 0;
+			float mario_Y = 0; 
+			mario->GetPosition(mario_X, mario_Y);
+			if (mario_X > x + UNIT_SIZE/2)
+			{
+				dx = -1;
+			}
+			else
+			{
+				dx = 1;
+			}
+			this->prize = new CSuperMushroom(x, y - UNIT_SIZE, dx);
+			break;
+		}
 		default:
 			break;
 		}
