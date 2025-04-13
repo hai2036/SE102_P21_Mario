@@ -16,7 +16,10 @@ backgroundBush.txt
 # MARIO
 0	4	22
 
-#BORDER
+# BORDERS
+-1	0	0	1	26	0
+-1	171	0	1	26	0
+-1	0	27	172	1	1
 
 # GROUND
 # Type	X	Y	Length	Height

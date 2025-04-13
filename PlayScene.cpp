@@ -113,10 +113,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 	case OBJECT_TYPE_BORDER:
 	{
-		int border_width = atoi(tokens[3].c_str());
-		int border_height = atoi(tokens[4].c_str());
-		int border_type = atoi(tokens[5].c_str());
-		obj = new CBorder(x, y, border_width, border_height, border_type);
+		int width = atoi(tokens[3].c_str());
+		int height = atoi(tokens[4].c_str());
+		int type = atoi(tokens[5].c_str());
+		obj = new CBorder(x, y, width, height, type);
 		break;
 	}
 	case OBJECT_TYPE_MARIO:
