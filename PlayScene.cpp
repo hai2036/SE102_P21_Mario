@@ -133,7 +133,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
+	case OBJECT_TYPE_COIN:
+	{
+		int columns = atoi(tokens[3].c_str());
+		int rows = atoi(tokens[4].c_str());
+
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				int xx = x + UNIT_SIZE * j;
+				int yy = y + UNIT_SIZE * i;
+				obj = new CCoin(xx, yy);
+				obj->SetPosition(xx, yy);
+				objects.push_back(obj);
+			}
+		}
+		return;
+	}
+
 
 	case OBJECT_TYPE_PLATFORM:
 	{
