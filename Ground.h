@@ -4,10 +4,6 @@
 #include "Animation.h"
 #include "Animations.h"
 
-#define BRICK_WIDTH 16
-
-#define GROUND_TILE_SIZE 16
-
 #define	ID_SPRITE_GROUND1	60001
 #define	ID_SPRITE_GROUND2	60002
 #define	ID_SPRITE_GROUND3	60003

@@ -3,8 +3,6 @@
 #include "Animation.h"
 #include "Animations.h"
 
-#define UNIT_SIZE 16
-
 #define	ID_SPRITE_PIPE1	80001
 #define	ID_SPRITE_PIPE2	80002
 #define	ID_SPRITE_PIPE3	80003
