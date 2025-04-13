@@ -5,10 +5,10 @@
 #include "Animation.h"
 #include "Animations.h"
 
-class CBackgroundBush : public CGameObject {
+class CBackgroundCloud : public CGameObject {
 	int length;
 public:
-	CBackgroundBush(float x, float y, int length) : CGameObject(x, y)
+	CBackgroundCloud(float x, float y, int length) : CGameObject(x, y)
 	{
 		this->length = length;
 	}

@@ -15,6 +15,7 @@
 #include "Pipe.h"
 #include "Blocks.h"
 #include "BackgroundBush.h"
+#include "BackgroundCloud.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -191,6 +192,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int length = atoi(tokens[3].c_str());
 		obj = new CBackgroundBush(x, y, length);
+		break;
+	}
+	case OBJECT_TYPE_BACKGROUND_CLOUD:
+	{
+		int length = atoi(tokens[3].c_str());
+		obj = new CBackgroundCloud(x, y, length);
 		break;
 	}
 
