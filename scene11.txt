@@ -6,6 +6,8 @@ boxplatform.txt
 pipe.txt
 cloudBlock.txt
 dirtBlock.txt
+prizeBlock.txt
+coin.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -75,6 +77,9 @@ dirtBlock.txt
 #CLOUD BLOCKS
 9	1376	-64	4	91001
 9	1440	-80	13	91001
+
+#PRIZE BLOCKS
+10	200	100	4
 
 
 

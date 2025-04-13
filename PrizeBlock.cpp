@@ -1,0 +1,63 @@
+#include "PrizeBlock.h"
+#include "Mario.h"
+#include "Coin.h"
+
+void CPrizeBlock::Render()
+{
+	if (this->prize != nullptr)
+	{
+		this->prize->Render();
+	}
+	CAnimations* animations = CAnimations::GetInstance();
+	CSprites* sprites = CSprites::GetInstance();
+	switch (this->state)
+	{
+	case STATE_NORMAL:
+		animations->Get(ID_ANI_PRIZE_BLOCK)->Render(x, y);
+		break;
+	case STATE_EMPTY:
+		sprites->Get(ID_SPRITE_EMPTY_PRIZE_BLOCK)->Draw(x, y);
+		break;
+	default:
+		break;
+	}
+	//RenderBoundingBox();
+}
+
+void CPrizeBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+	if (this->prize!=nullptr)
+	{
+		this->prize->Update(dt, coObjects);
+	}
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+}
+
+void CPrizeBlock::OnCollisionWithMario(LPCOLLISIONEVENT e) {
+	CMario* mario = dynamic_cast<CMario*>(e->obj);
+	if (e->ny < 0 && this->state == STATE_NORMAL)
+	{
+		switch (this->prizeID)
+		{
+		case OBJECT_TYPE_COIN:
+			mario->AddCoin(1);
+			break;
+		default:
+			break;
+		}
+		this->state = STATE_EMPTY;
+	}
+
+}
+
+void CPrizeBlock::OnCollisionWith(LPCOLLISIONEVENT e) {
+	if (dynamic_cast<CMario*>(e->obj))
+		OnCollisionWithMario(e);
+}
+
+void CPrizeBlock::GetBoundingBox(float& l, float& t, float& r, float& b)
+{
+	l = x - UNIT_SIZE / 2;
+	t = y - UNIT_SIZE / 2;
+	r = l + UNIT_SIZE;
+	b = t + UNIT_SIZE;
+}
