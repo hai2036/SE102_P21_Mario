@@ -8,6 +8,7 @@ cloudBlock.txt
 dirtBlock.txt
 prizeBlock.txt
 superMushroom.txt
+superLeaf.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -80,7 +81,8 @@ superMushroom.txt
 
 #PRIZE BLOCKS
 10	100	100	4
-10	116	100	20
+10	132	100	20
+10	164	100	21
 
 
 

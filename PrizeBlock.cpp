@@ -1,6 +1,7 @@
 #include "PrizeBlock.h"
 #include "Mario.h"
 #include "SuperMushroom.h"
+#include "SuperLeaf.h"
 
 void CPrizeBlock::Render()
 {
@@ -61,6 +62,11 @@ void CPrizeBlock::OnCollisionWithMario(LPCOLLISIONEVENT e) {
 				dx = 1;
 			}
 			this->prize = new CSuperMushroom(x, y - UNIT_SIZE, dx);
+			break;
+		}
+		case OBJECT_TYPE_SUPER_LEAF:
+		{
+			this->prize = new CSuperLeaf(x, y - UNIT_SIZE);
 			break;
 		}
 		default:
