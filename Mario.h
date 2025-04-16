@@ -14,8 +14,11 @@
 
 #define MARIO_JUMP_SPEED_Y		0.5f
 #define MARIO_JUMP_RUN_SPEED_Y	0.6f
+#define MARIO_FLY_SPEED_Y		0.25f
+#define MARIO_WAGGING_FALL_SPEED_Y	0.01f
 
 #define MARIO_GRAVITY			0.002f
+#define MARIO_FLYING_GRAVITY	0.0002f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.4f
 
@@ -33,6 +36,7 @@
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
 
+#define MARIO_STATE_TAIL_ATTACKING	700
 
 #pragma region ANIMATION_ID
 
@@ -78,6 +82,35 @@
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 1600
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 1601
 
+// RACCOON MARIO
+#define ID_ANI_MARIO_RACCOON_IDLE_RIGHT 1700
+#define ID_ANI_MARIO_RACCOON_IDLE_LEFT 1701
+
+#define ID_ANI_MARIO_RACCOON_WALKING_RIGHT 1800
+#define ID_ANI_MARIO_RACCOON_WALKING_LEFT 1801
+
+#define ID_ANI_MARIO_RACCOON_RUNNING_RIGHT 1900
+#define ID_ANI_MARIO_RACCOON_RUNNING_LEFT 1901
+
+#define ID_ANI_MARIO_RACCOON_JUMP_WALK_RIGHT 2000
+#define ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT 2001
+#define ID_ANI_MARIO_RACCOON_TAIL_WAGGING_RIGHT 2020
+#define ID_ANI_MARIO_RACCOON_TAIL_WAGGING_LEFT 2021
+
+#define ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT 2100
+#define ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT 2101
+#define ID_ANI_MARIO_RACCOON_FLY_TAIL_WAGGING_RIGHT 2110
+#define ID_ANI_MARIO_RACCOON_FLY_TAIL_WAGGING_LEFT 2111
+
+#define ID_ANI_MARIO_RACCOON_SIT_RIGHT 2200
+#define ID_ANI_MARIO_RACCOON_SIT_LEFT 2201
+
+#define ID_ANI_MARIO_RACCOON_BRACE_RIGHT 2300
+#define ID_ANI_MARIO_RACCOON_BRACE_LEFT 2301
+
+#define ID_ANI_MARIO_RACCOON_TAIL_ATTACKING_LEFT 2401
+#define ID_ANI_MARIO_RACCOON_TAIL_ATTACKING_RIGHT 2402
+
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -89,6 +122,7 @@
 #define	MARIO_LEVEL_BIG		2
 #define MARIO_LEVEL_RACOON	3
 
+#define	MARIO_RACOON_TAIL_ATTACKING_BBOX_WIDTH	24
 #define MARIO_BIG_BBOX_WIDTH  14
 #define MARIO_BIG_BBOX_HEIGHT 24
 #define MARIO_BIG_SITTING_BBOX_WIDTH  14
@@ -101,10 +135,14 @@
 
 
 #define MARIO_UNTOUCHABLE_TIME 2500
+#define MARIO_TAIL_ATTACKING_TIME	500
 
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
+	BOOLEAN isFlying;
+	BOOLEAN isTailAttacking;
+	BOOLEAN isWagging;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -112,14 +150,16 @@ class CMario : public CGameObject
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
+	ULONGLONG tail_attacking_start;
 	BOOLEAN isOnPlatform;
-	int coin; 
+	int coin;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithBorder(LPCOLLISIONEVENT e);
 
+	int GetAniIdRacoon();
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	
@@ -128,13 +168,17 @@ public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		isSitting = false;
+		isFlying = false;
+		isTailAttacking = false;
+		isWagging = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
-		level = MARIO_LEVEL_SMALL;
+		level = MARIO_LEVEL_RACOON;
 		untouchable = 0;
 		untouchable_start = -1;
+		tail_attacking_start = -1;
 		isOnPlatform = false;
 		coin = 0;
 	}
@@ -153,8 +197,11 @@ public:
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	void SetLevel(int l);
+	int GetLevel() { return this->level; };
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void AddCoin(int Coin) { this->coin += Coin; };
+
+	BOOLEAN IsTailAttacking() { return this->isTailAttacking; };
 };

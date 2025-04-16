@@ -40,7 +40,7 @@ void CPrizeBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 void CPrizeBlock::OnCollisionWithMario(LPCOLLISIONEVENT e) {
 	CMario* mario = dynamic_cast<CMario*>(e->obj);
-	if (e->ny < 0 && this->state == STATE_NORMAL)
+	if ((e->ny < 0 || (e->nx != 0 && mario->IsTailAttacking())) && this->state == STATE_NORMAL)
 	{
 		switch (this->prizeID)
 		{
