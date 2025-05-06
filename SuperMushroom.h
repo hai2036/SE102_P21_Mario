@@ -10,7 +10,6 @@
 
 class CSuperMushroom : public CGameObject
 {
-	void OnCollisionWithMario(LPCOLLISIONEVENT e);
 protected:
 	int dx;
 	float ax;

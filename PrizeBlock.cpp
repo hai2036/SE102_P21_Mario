@@ -23,6 +23,10 @@ void CPrizeBlock::Render()
 }
 
 void CPrizeBlock::SetState(int state) {
+	if (this->state == STATE_EMPTY)
+	{
+		return;
+	}
 	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentScene()->GetPlayer();
 	CMario* mario = dynamic_cast<CMario*>(player);
 	if (state == STATE_HIT)

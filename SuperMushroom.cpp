@@ -1,5 +1,4 @@
 #include "SuperMushroom.h"
-#include "Mario.h"
 CSuperMushroom::CSuperMushroom(float x, float y, int dx) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -37,18 +36,6 @@ void CSuperMushroom::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-
-	if (dynamic_cast<CMario*>(e->obj))
-	{
-		OnCollisionWithMario(e);
-		SetState(SUPER_MUSHROOM_STATE_DIE);
-	}
-}
-
-void CSuperMushroom::OnCollisionWithMario(LPCOLLISIONEVENT e) {
-	CMario* mario = dynamic_cast<CMario*>(e->obj);
-
-	mario->SetLevel(MARIO_LEVEL_BIG);
 }
 
 void CSuperMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -69,7 +56,7 @@ void CSuperMushroom::Render()
 void CSuperMushroom::SetState(int state)
 {
 	CGameObject::SetState(state);
-	switch (state)
+	switch (this->state)
 	{
 	case SUPER_MUSHROOM_STATE_DIE:
 		this->Delete();

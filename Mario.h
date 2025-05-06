@@ -159,6 +159,8 @@ class CMario : public CGameObject
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithBorder(LPCOLLISIONEVENT e);
 	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithSuperMushroom(LPCOLLISIONEVENT e);
+
 
 
 	int GetAniIdRacoon();
