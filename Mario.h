@@ -160,6 +160,8 @@ class CMario : public CGameObject
 	void OnCollisionWithBorder(LPCOLLISIONEVENT e);
 	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithSuperMushroom(LPCOLLISIONEVENT e);
+	void OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e);
+
 
 
 

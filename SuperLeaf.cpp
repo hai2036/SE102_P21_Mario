@@ -1,5 +1,4 @@
 #include "SuperLeaf.h"
-#include "Mario.h"
 CSuperLeaf::CSuperLeaf(float x, float y) :CGameObject(x, y)
 {
 	this->state = SUPER_LEAF_STATE_ALIVE;
@@ -31,18 +30,6 @@ void CSuperLeaf::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-
-	if (dynamic_cast<CMario*>(e->obj))
-	{
-		OnCollisionWithMario(e);
-		SetState(SUPER_LEAF_STATE_DIE);
-	}
-}
-
-void CSuperLeaf::OnCollisionWithMario(LPCOLLISIONEVENT e) {
-	CMario* mario = dynamic_cast<CMario*>(e->obj);
-
-	mario->SetLevel(MARIO_LEVEL_RACOON);
 }
 
 void CSuperLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

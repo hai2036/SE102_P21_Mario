@@ -10,6 +10,7 @@
 #include "Border.h"
 #include "PrizeBlock.h"
 #include "SuperMushroom.h"
+#include "SuperLeaf.h"
 #include "Collision.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -76,6 +77,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPrizeBlock(e);
 	else if (dynamic_cast<CSuperMushroom*>(e->obj))
 		OnCollisionWithSuperMushroom(e);
+	else if (dynamic_cast<CSuperLeaf*>(e->obj))
+		OnCollisionWithSuperLeaf(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -150,6 +153,13 @@ void CMario::OnCollisionWithSuperMushroom(LPCOLLISIONEVENT e)
 	CSuperMushroom* superMushroom = (CSuperMushroom*)e->obj;
 	superMushroom->SetState(SUPER_MUSHROOM_STATE_DIE);
 	SetLevel(MARIO_LEVEL_BIG);
+}
+
+void CMario::OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e)
+{
+	CSuperLeaf* superLeaf = (CSuperLeaf*)e->obj;
+	superLeaf->SetState(SUPER_LEAF_STATE_DIE);
+	SetLevel(MARIO_LEVEL_RACOON);
 }
 
 //

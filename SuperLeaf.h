@@ -9,7 +9,6 @@
 
 class CSuperLeaf : public CGameObject
 {
-	void OnCollisionWithMario(LPCOLLISIONEVENT e);
 protected:
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
