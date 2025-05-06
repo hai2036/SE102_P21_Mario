@@ -55,8 +55,8 @@ void CCollision::SweptAABB(
 	if (ml < sr && mr > sl && mt < sb && mb > st)
 	{
 		t = 0;
-		nx = (ml < sl) ? 1 : -1;
-		ny = (mb > st) ? 1 : -1;
+		nx = (ml < sl) ? 1.0f : -1.0f;
+		ny = (mb > st) ? 1.0f : -1.0f;
 	}
 
 	if (dx > 0)

@@ -99,6 +99,9 @@
     <ClCompile Include="SuperLeaf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TailHitBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -195,6 +198,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SuperLeaf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TailHitBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

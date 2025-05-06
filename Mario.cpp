@@ -23,6 +23,23 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		ay = MARIO_GRAVITY;
 	}
+
+	if (this->level != MARIO_LEVEL_RACOON && this->tailHitBox !=nullptr)
+	{
+		tailHitBox->Delete();
+		tailHitBox = nullptr;
+	}
+	else if (this->level == MARIO_LEVEL_RACOON && this->tailHitBox !=nullptr)
+	{
+		if (this->nx >0)
+		{
+			tailHitBox->SetPosition(x + MARIO_BIG_BBOX_WIDTH, y);
+		}
+		else
+		{
+			tailHitBox->SetPosition(x - MARIO_BIG_BBOX_WIDTH, y);
+		}
+	}
 	
 	vy += ay * dt;
 	vx += ax * dt;
@@ -533,6 +550,14 @@ void CMario::SetLevel(int l)
 	if (this->level == MARIO_LEVEL_SMALL)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+	}
+	if (l == MARIO_LEVEL_RACOON)
+	{
+		if (tailHitBox == nullptr)
+		{
+			tailHitBox = new CTailHitBox(x + MARIO_BIG_BBOX_WIDTH, y);
+			CGame::GetInstance()->GetCurrentScene()->AddObject(tailHitBox);
+		}
 	}
 	level = l;
 }

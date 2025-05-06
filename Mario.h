@@ -5,6 +5,7 @@
 #include "Animations.h"
 
 #include "debug.h"
+#include "TailHitBox.h"
 
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
@@ -122,7 +123,6 @@
 #define	MARIO_LEVEL_BIG		2
 #define MARIO_LEVEL_RACOON	3
 
-#define	MARIO_RACOON_TAIL_ATTACKING_BBOX_WIDTH	24
 #define MARIO_BIG_BBOX_WIDTH  14
 #define MARIO_BIG_BBOX_HEIGHT 24
 #define MARIO_BIG_SITTING_BBOX_WIDTH  14
@@ -135,7 +135,7 @@
 
 
 #define MARIO_UNTOUCHABLE_TIME 2500
-#define MARIO_TAIL_ATTACKING_TIME	500
+#define MARIO_TAIL_ATTACKING_TIME	400
 
 class CMario : public CGameObject
 {
@@ -153,6 +153,7 @@ class CMario : public CGameObject
 	ULONGLONG tail_attacking_start;
 	BOOLEAN isOnPlatform;
 	int coin;
+	CTailHitBox* tailHitBox;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
@@ -181,12 +182,13 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
-		level = MARIO_LEVEL_RACOON;
+		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
 		untouchable_start = -1;
 		tail_attacking_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		tailHitBox = nullptr;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -208,4 +210,5 @@ public:
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void AddCoin(int Coin) { this->coin += Coin; };
+	BOOLEAN IsTailAttacking() { return this->isTailAttacking; };
 };
