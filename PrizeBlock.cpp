@@ -22,13 +22,10 @@ void CPrizeBlock::Render()
 	//RenderBoundingBox();
 }
 
-void CPrizeBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-	CCollision::GetInstance()->Process(this, dt, coObjects);
-}
-
-void CPrizeBlock::OnCollisionWithMario(LPCOLLISIONEVENT e) {
-	CMario* mario = dynamic_cast<CMario*>(e->obj);
-	if ((e->ny < 0 || (e->nx != 0 && mario->IsTailAttacking())) && this->state == STATE_NORMAL)
+void CPrizeBlock::SetState(int state) {
+	LPGAMEOBJECT player = CGame::GetInstance()->GetCurrentScene()->GetPlayer();
+	CMario* mario = dynamic_cast<CMario*>(player);
+	if (state == STATE_HIT)
 	{
 		switch (this->prizeID)
 		{
@@ -66,12 +63,6 @@ void CPrizeBlock::OnCollisionWithMario(LPCOLLISIONEVENT e) {
 			CGame::GetInstance()->GetCurrentScene()->AddObject(this->prize);
 		}
 	}
-	
-}
-
-void CPrizeBlock::OnCollisionWith(LPCOLLISIONEVENT e) {
-	if (dynamic_cast<CMario*>(e->obj))
-		OnCollisionWithMario(e);
 }
 
 void CPrizeBlock::GetBoundingBox(float& l, float& t, float& r, float& b)

@@ -8,6 +8,7 @@
 #include "Coin.h"
 #include "Portal.h"
 #include "Border.h"
+#include "PrizeBlock.h"
 
 #include "Collision.h"
 
@@ -71,6 +72,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CBorder*>(e->obj))
 		OnCollisionWithBorder(e);
+	else if (dynamic_cast<CPrizeBlock*>(e->obj))
+		OnCollisionWithPrizeBlock(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -126,6 +129,17 @@ void CMario::OnCollisionWithBorder(LPCOLLISIONEVENT e)
 	{
 		DebugOut(L">>> Mario DIE >>> \n");
 		SetState(MARIO_STATE_DIE);
+	}
+}
+
+void CMario::OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e)
+{
+	CPrizeBlock* prizeblock = dynamic_cast<CPrizeBlock*>(e->obj);
+
+	// hit the prize block from below
+	if (e->ny > 0)
+	{
+		prizeblock->SetState(STATE_HIT);
 	}
 }
 

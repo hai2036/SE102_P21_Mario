@@ -158,6 +158,8 @@ class CMario : public CGameObject
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithBorder(LPCOLLISIONEVENT e);
+	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
+
 
 	int GetAniIdRacoon();
 	int GetAniIdBig();
@@ -202,6 +204,4 @@ public:
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void AddCoin(int Coin) { this->coin += Coin; };
-
-	BOOLEAN IsTailAttacking() { return this->isTailAttacking; };
 };
