@@ -479,31 +479,10 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		}
 		else 
 		{
-			if (isTailAttacking)
-			{
-				if (this->nx >= 0)
-				{
-					left = x - MARIO_BIG_BBOX_WIDTH / 2;
-					top = y - MARIO_BIG_BBOX_HEIGHT / 2;
-					right = left + MARIO_RACOON_TAIL_ATTACKING_BBOX_WIDTH;
-					bottom = top + MARIO_BIG_BBOX_HEIGHT;
-				}
-				else
-				{
-					left = x - (MARIO_RACOON_TAIL_ATTACKING_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH / 2);
-					top = y - MARIO_BIG_BBOX_HEIGHT / 2;
-					right = left + MARIO_RACOON_TAIL_ATTACKING_BBOX_WIDTH;
-					bottom = top + MARIO_BIG_BBOX_HEIGHT;
-				}
-			}
-			else
-			{
-				left = x - MARIO_BIG_BBOX_WIDTH / 2;
-				top = y - MARIO_BIG_BBOX_HEIGHT / 2;
-				right = left + MARIO_BIG_BBOX_WIDTH;
-				bottom = top + MARIO_BIG_BBOX_HEIGHT;
-			}
-			
+			left = x - MARIO_BIG_BBOX_WIDTH / 2;
+			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
+			right = left + MARIO_BIG_BBOX_WIDTH;
+			bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		}
 	}
 	else

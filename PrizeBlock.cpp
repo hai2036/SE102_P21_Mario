@@ -2,13 +2,10 @@
 #include "Mario.h"
 #include "SuperMushroom.h"
 #include "SuperLeaf.h"
+#include "Game.h"
 
 void CPrizeBlock::Render()
 {
-	if (this->prize != nullptr)
-	{
-		this->prize->Render();
-	}
 	CAnimations* animations = CAnimations::GetInstance();
 	CSprites* sprites = CSprites::GetInstance();
 	switch (this->state)
@@ -26,15 +23,6 @@ void CPrizeBlock::Render()
 }
 
 void CPrizeBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-	if (this->prize!=nullptr)
-	{
-		this->prize->Update(dt, coObjects);
-		if (this->prize->IsDeleted())
-		{
-			delete this->prize;
-			this->prize = nullptr;
-		}
-	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -73,8 +61,12 @@ void CPrizeBlock::OnCollisionWithMario(LPCOLLISIONEVENT e) {
 			break;
 		}
 		this->state = STATE_EMPTY;
+		if (this->prize != nullptr)
+		{
+			CGame::GetInstance()->GetCurrentScene()->AddObject(this->prize);
+		}
 	}
-
+	
 }
 
 void CPrizeBlock::OnCollisionWith(LPCOLLISIONEVENT e) {
