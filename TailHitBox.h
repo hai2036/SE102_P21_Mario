@@ -1,5 +1,7 @@
 #pragma once
 #include "GameObject.h"
+
+#define TAIL_SPEED 0.2f
 class CTailHitBox : public CGameObject
 {
 
@@ -7,7 +9,7 @@ class CTailHitBox : public CGameObject
 	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
 
 public:
-	CTailHitBox(float x, float y) :CGameObject(x, y) {};
+	CTailHitBox(float x, float y) :CGameObject(x, y) { this->vx = TAIL_SPEED; };
 	
 	void Render();
 	void GetBoundingBox(float& l, float& t, float& r, float& b);

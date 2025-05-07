@@ -24,20 +24,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		ay = MARIO_GRAVITY;
 	}
 
-	if (this->level != MARIO_LEVEL_RACOON && this->tailHitBox !=nullptr)
-	{
-		tailHitBox->Delete();
-		tailHitBox = nullptr;
-	}
-	else if (this->level == MARIO_LEVEL_RACOON && this->tailHitBox !=nullptr)
+
+	if (this->level == MARIO_LEVEL_RACOON && this->tailHitBox !=nullptr)
 	{
 		if (this->nx >0)
 		{
-			tailHitBox->SetPosition(x + MARIO_BIG_BBOX_WIDTH, y);
+			tailHitBox->SetPosition(x + MARIO_BIG_BBOX_WIDTH +3, y);
 		}
 		else
 		{
-			tailHitBox->SetPosition(x - MARIO_BIG_BBOX_WIDTH, y);
+			tailHitBox->SetPosition(x - MARIO_BIG_BBOX_WIDTH-3, y);
 		}
 	}
 	
@@ -57,6 +53,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		tail_attacking_start = 0;
 		isTailAttacking = false;
+		if (tailHitBox != nullptr)
+		{
+			tailHitBox->Delete();
+			tailHitBox = nullptr;
+		}
 	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -479,7 +480,17 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_TAIL_ATTACKING:
 	{
-		isTailAttacking = true; 
+		if (isTailAttacking == true)
+		{
+			break;
+		}
+		
+		if (tailHitBox == nullptr)
+		{
+			tailHitBox = new CTailHitBox(x + MARIO_BIG_BBOX_WIDTH+3, y);
+			CGame::GetInstance()->GetCurrentScene()->AddObject(tailHitBox);
+		}
+		isTailAttacking = true;
 		tail_attacking_start = GetTickCount64();
 		break;
 	}
@@ -550,14 +561,6 @@ void CMario::SetLevel(int l)
 	if (this->level == MARIO_LEVEL_SMALL)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
-	}
-	if (l == MARIO_LEVEL_RACOON)
-	{
-		if (tailHitBox == nullptr)
-		{
-			tailHitBox = new CTailHitBox(x + MARIO_BIG_BBOX_WIDTH, y);
-			CGame::GetInstance()->GetCurrentScene()->AddObject(tailHitBox);
-		}
 	}
 	level = l;
 }
