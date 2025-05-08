@@ -1,5 +1,5 @@
 #pragma once
-
+#include "GameObject.h"
 #include "KeyEventHandler.h"
 
 /*
@@ -25,6 +25,8 @@ public:
 	virtual void Unload() = 0;
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0; 
+	virtual void AddObject(LPGAMEOBJECT obj)=0;
+	virtual LPGAMEOBJECT GetPlayer() = 0;
 };
 typedef CScene * LPSCENE;
 

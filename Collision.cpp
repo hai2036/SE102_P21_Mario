@@ -51,6 +51,14 @@ void CCollision::SweptAABB(
 
 	if (dx == 0 && dy == 0) return;		// moving object is not moving > obvious no collision
 
+	// Check if two objects already overlap
+	if (ml < sr && mr > sl && mt < sb && mb > st)
+	{
+		t = 0;
+		nx = (ml < sl) ? 1.0f : -1.0f;
+		ny = (mb > st) ? 1.0f : -1.0f;
+	}
+
 	if (dx > 0)
 	{
 		dx_entry = sl - mr;

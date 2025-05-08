@@ -16,6 +16,7 @@
 #include "Blocks.h"
 #include "BackgroundBush.h"
 #include "BackgroundCloud.h"
+#include "PrizeBlock.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -197,6 +198,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBlocks(x, y, length, sprite_id);
 		break;
 	}
+	case OBJECT_TYPE_PRIZE_BLOCK:
+	{
+		int prizeID = atoi(tokens[3].c_str());
+		obj = new CPrizeBlock(x, y, prizeID);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -306,7 +313,7 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
 	}
@@ -392,4 +399,8 @@ void CPlayScene::PurgeDeletedObjects()
 	objects.erase(
 		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
 		objects.end());
+}
+
+void CPlayScene::AddObject(LPGAMEOBJECT obj) {
+	objects.push_back(obj);
 }

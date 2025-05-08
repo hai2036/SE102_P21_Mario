@@ -94,6 +94,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BackgroundCloud.cpp">
+    <ClCompile Include="PrizeBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SuperMushroom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SuperLeaf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TailHitBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -189,6 +199,16 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BackgroundCloud.h">
+    <ClInclude Include="PrizeBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SuperMushroom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SuperLeaf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TailHitBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

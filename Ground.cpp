@@ -7,10 +7,10 @@ void CGround::Render()
 	float yy = 0;
 	for (int i = 0; i < this->ground_height; i++)
 	{
-		yy = y + GROUND_TILE_SIZE *i;
+		yy = y + UNIT_SIZE *i;
 		for (int k = 0; k < this->ground_width; k++)
 		{
-			xx = x + GROUND_TILE_SIZE * k;
+			xx = x + UNIT_SIZE * k;
 			if (i == 0)
 			{
 				if (k == 0)
@@ -63,8 +63,8 @@ void CGround::Render()
 
 void CGround::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x - GROUND_TILE_SIZE / 2;
-	t = y - GROUND_TILE_SIZE / 2;
-	r = l + GROUND_TILE_SIZE * this->ground_width;
-	b = t + GROUND_TILE_SIZE * this->ground_height;
+	l = x - UNIT_SIZE / 2;
+	t = y - UNIT_SIZE / 2;
+	r = l + UNIT_SIZE * this->ground_width;
+	b = t + UNIT_SIZE * this->ground_height;
 }

@@ -8,21 +8,55 @@
 #include "Coin.h"
 #include "Portal.h"
 #include "Border.h"
-
+#include "PrizeBlock.h"
+#include "SuperMushroom.h"
+#include "SuperLeaf.h"
 #include "Collision.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	if (this->isFlying)
+	{
+		ay = MARIO_FLYING_GRAVITY;
+	}
+	else
+	{
+		ay = MARIO_GRAVITY;
+	}
+
+	if (this->level != MARIO_LEVEL_RACOON && this->tailHitBox !=nullptr)
+	{
+		tailHitBox->Delete();
+		tailHitBox = nullptr;
+	}
+	else if (this->level == MARIO_LEVEL_RACOON && this->tailHitBox !=nullptr)
+	{
+		if (this->nx >0)
+		{
+			tailHitBox->SetPosition(x + MARIO_BIG_BBOX_WIDTH, y);
+		}
+		else
+		{
+			tailHitBox->SetPosition(x - MARIO_BIG_BBOX_WIDTH, y);
+		}
+	}
+	
 	vy += ay * dt;
 	vx += ax * dt;
 
-	if (abs(vx) > abs(maxVx)) vx = maxVx;
-
+	if (abs(vx) > abs(maxVx)) vx = maxVx; 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
 		untouchable_start = 0;
 		untouchable = 0;
+	}
+
+	// reset tail attacking timmer if tail attacking time has passed
+	if (GetTickCount64() - tail_attacking_start > MARIO_TAIL_ATTACKING_TIME)
+	{
+		tail_attacking_start = 0;
+		isTailAttacking = false;
 	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -56,6 +90,12 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CBorder*>(e->obj))
 		OnCollisionWithBorder(e);
+	else if (dynamic_cast<CPrizeBlock*>(e->obj))
+		OnCollisionWithPrizeBlock(e);
+	else if (dynamic_cast<CSuperMushroom*>(e->obj))
+		OnCollisionWithSuperMushroom(e);
+	else if (dynamic_cast<CSuperLeaf*>(e->obj))
+		OnCollisionWithSuperLeaf(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -79,7 +119,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
-					level = MARIO_LEVEL_SMALL;
+					level -= 1;
 					StartUntouchable();
 				}
 				else
@@ -112,6 +152,31 @@ void CMario::OnCollisionWithBorder(LPCOLLISIONEVENT e)
 		DebugOut(L">>> Mario DIE >>> \n");
 		SetState(MARIO_STATE_DIE);
 	}
+}
+
+void CMario::OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e)
+{
+	CPrizeBlock* prizeblock = dynamic_cast<CPrizeBlock*>(e->obj);
+
+	// hit the prize block from below
+	if (e->ny > 0)
+	{
+		prizeblock->SetState(STATE_HIT);
+	}
+}
+
+void CMario::OnCollisionWithSuperMushroom(LPCOLLISIONEVENT e)
+{
+	CSuperMushroom* superMushroom = (CSuperMushroom*)e->obj;
+	superMushroom->SetState(SUPER_MUSHROOM_STATE_DIE);
+	SetLevel(MARIO_LEVEL_BIG);
+}
+
+void CMario::OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e)
+{
+	CSuperLeaf* superLeaf = (CSuperLeaf*)e->obj;
+	superLeaf->SetState(SUPER_LEAF_STATE_DIE);
+	SetLevel(MARIO_LEVEL_RACOON);
 }
 
 //
@@ -237,6 +302,100 @@ int CMario::GetAniIdBig()
 	return aniId;
 }
 
+//
+// Get animdation ID for Racoon Mario
+//
+int CMario::GetAniIdRacoon()
+{
+	int aniId = -1;
+	if (isTailAttacking)
+	{
+		if (nx > 0)
+		{
+			aniId = ID_ANI_MARIO_RACCOON_TAIL_ATTACKING_RIGHT;
+		}
+		else
+		{
+			aniId = ID_ANI_MARIO_RACCOON_TAIL_ATTACKING_LEFT;
+
+		}
+	}
+	else
+		if (!isOnPlatform)
+		{
+			if (isFlying)
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_RACCOON_FLY_TAIL_WAGGING_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_RACCOON_FLY_TAIL_WAGGING_LEFT;
+			}
+			else if (isWagging)
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_RACCOON_TAIL_WAGGING_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_RACCOON_TAIL_WAGGING_LEFT;
+			}
+			else
+			{
+				if (abs(ax) == MARIO_ACCEL_RUN_X)
+				{
+
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT;
+				}
+				else
+				{
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_RACCOON_JUMP_WALK_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT;
+				}
+				
+			}
+			
+		}
+		else
+			if (isSitting)
+			{
+				if (nx > 0)
+					aniId = ID_ANI_MARIO_RACCOON_SIT_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_RACCOON_SIT_LEFT;
+			}
+			else
+				if (vx == 0)
+				{
+					if (nx > 0) aniId = ID_ANI_MARIO_RACCOON_IDLE_RIGHT;
+					else aniId = ID_ANI_MARIO_RACCOON_IDLE_LEFT;
+				}
+				else if (vx > 0)
+				{
+					if (ax < 0)
+						aniId = ID_ANI_MARIO_RACCOON_BRACE_RIGHT;
+					else if (ax == MARIO_ACCEL_RUN_X)
+						aniId = ID_ANI_MARIO_RACCOON_RUNNING_RIGHT;
+					else if (ax == MARIO_ACCEL_WALK_X)
+						aniId = ID_ANI_MARIO_RACCOON_WALKING_RIGHT;
+				}
+				else // vx < 0
+				{
+					if (ax > 0)
+						aniId = ID_ANI_MARIO_RACCOON_BRACE_LEFT;
+					else if (ax == -MARIO_ACCEL_RUN_X)
+						aniId = ID_ANI_MARIO_RACCOON_RUNNING_LEFT;
+					else if (ax == -MARIO_ACCEL_WALK_X)
+						aniId = ID_ANI_MARIO_RACCOON_WALKING_LEFT;
+				}
+
+	if (aniId == -1) aniId = ID_ANI_MARIO_RACCOON_IDLE_RIGHT;
+
+	return aniId;
+}
+
 void CMario::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -244,6 +403,8 @@ void CMario::Render()
 
 	if (state == MARIO_STATE_DIE)
 		aniId = ID_ANI_MARIO_DIE;
+	else if (level == MARIO_LEVEL_RACOON)
+		aniId = GetAniIdRacoon();
 	else if (level == MARIO_LEVEL_BIG)
 		aniId = GetAniIdBig();
 	else if (level == MARIO_LEVEL_SMALL)
@@ -251,9 +412,9 @@ void CMario::Render()
 
 	animations->Get(aniId)->Render(x, y);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d", coin);
+	DebugOutTitle(L"Coins: %d | Level: %d", coin,level);
 }
 
 void CMario::SetState(int state)
@@ -293,15 +454,35 @@ void CMario::SetState(int state)
 		{
 			if (abs(this->vx) == MARIO_RUNNING_SPEED)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
-			else
+			else 
 				vy = -MARIO_JUMP_SPEED_Y;
+		}
+		else if (this->level == MARIO_LEVEL_RACOON)
+		{
+			if (abs(this->vx) == MARIO_RUNNING_SPEED)
+			{
+				this->isFlying = true;
+				vy = -MARIO_FLY_SPEED_Y;
+			}
+			else
+			{
+				this->isWagging = true;
+				vy = -MARIO_WAGGING_FALL_SPEED_Y;
+			}
 		}
 		break;
 
 	case MARIO_STATE_RELEASE_JUMP:
 		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
+		this->isFlying = false;
+		this->isWagging = false;
 		break;
-
+	case MARIO_STATE_TAIL_ATTACKING:
+	{
+		isTailAttacking = true; 
+		tail_attacking_start = GetTickCount64();
+		break;
+	}
 	case MARIO_STATE_SIT:
 		if (isOnPlatform && level != MARIO_LEVEL_SMALL)
 		{
@@ -320,7 +501,6 @@ void CMario::SetState(int state)
 			y -= MARIO_SIT_HEIGHT_ADJUST;
 		}
 		break;
-
 	case MARIO_STATE_IDLE:
 		ax = 0.0f;
 		vx = 0.0f;
@@ -338,7 +518,7 @@ void CMario::SetState(int state)
 
 void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-	if (level==MARIO_LEVEL_BIG)
+	if (level==MARIO_LEVEL_BIG || level == MARIO_LEVEL_RACOON)
 	{
 		if (isSitting)
 		{
@@ -349,8 +529,8 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		}
 		else 
 		{
-			left = x - MARIO_BIG_BBOX_WIDTH/2;
-			top = y - MARIO_BIG_BBOX_HEIGHT/2;
+			left = x - MARIO_BIG_BBOX_WIDTH / 2;
+			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		}
@@ -370,6 +550,14 @@ void CMario::SetLevel(int l)
 	if (this->level == MARIO_LEVEL_SMALL)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+	}
+	if (l == MARIO_LEVEL_RACOON)
+	{
+		if (tailHitBox == nullptr)
+		{
+			tailHitBox = new CTailHitBox(x + MARIO_BIG_BBOX_WIDTH, y);
+			CGame::GetInstance()->GetCurrentScene()->AddObject(tailHitBox);
+		}
 	}
 	level = l;
 }
