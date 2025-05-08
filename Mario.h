@@ -153,7 +153,7 @@ class CMario : public CGameObject
 	ULONGLONG tail_attacking_start;
 	BOOLEAN isOnPlatform;
 	int coin;
-	CTailHitBox* tailHitBox;
+	LPGAMEOBJECT tailHitBox;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);

@@ -10,7 +10,9 @@ dirtBlock.txt
 coin.txt
 mario.txt
 goomba.txt
-
+prizeBlock.txt
+superMushroom.txt
+superLeaf.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -108,6 +110,19 @@ goomba.txt
 4	110	8	1	1
 4	113	6	1	1
 4	115	8	1	1
+
+#PRIZE BLOCKS
+10	11	22	4
+10	12	22	4
+
+10	14	19	4
+10	15	19	20
+
+10	26	20	4
+
+10	41	24	21
+
+10	44	22	4
 
 #GOOMBAS
 2	14	25

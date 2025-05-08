@@ -124,7 +124,6 @@ void CCollision::SweptAABB(
 		nx = 0.0f;
 		dy > 0 ? ny = -1.0f : ny = 1.0f;
 	}
-
 }
 
 /*
@@ -161,7 +160,6 @@ LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJE
 		sl, st, sr, sb,
 		t, nx, ny
 	);
-
 	CCollisionEvent* e = new CCollisionEvent(t, nx, ny, dx, dy, objDest, objSrc);
 	return e;
 }
