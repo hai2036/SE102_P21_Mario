@@ -12,6 +12,7 @@
 #include "SuperMushroom.h"
 #include "SuperLeaf.h"
 #include "Collision.h"
+#include "Koopa.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -44,20 +45,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
-		untouchable_start = 0;
 		untouchable = 0;
 	}
 
 	// reset tail attacking timmer if tail attacking time has passed
-	if (GetTickCount64() - tail_attacking_start > MARIO_TAIL_ATTACKING_TIME)
+	if (isTailAttacking && GetTickCount64() - tail_attacking_start > MARIO_TAIL_ATTACKING_TIME)
 	{
-		tail_attacking_start = 0;
 		isTailAttacking = false;
 		if (tailHitBox != nullptr)
 		{
 			tailHitBox->Delete();
 			tailHitBox = nullptr;
 		}
+	}
+
+	// reset kicking timmer if kicking time has passed
+	if (isKicking && GetTickCount64() - kicking_start > MARIO_KICKING_TIME)
+	{
+		isKicking = false;
 	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -97,6 +102,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithSuperMushroom(e);
 	else if (dynamic_cast<CSuperLeaf*>(e->obj))
 		OnCollisionWithSuperLeaf(e);
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -128,6 +135,50 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
 				}
+			}
+		}
+	}
+}
+
+void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (koopa->GetState() != KOOPA_STATE_DIE)
+		{
+			koopa->SetState(KOOPA_STATE_HIDE);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+	}
+	else // hit by Goomba
+	{
+		if (untouchable == 0)
+		{
+			if (koopa->GetState() != KOOPA_STATE_DIE)
+			{
+				if (koopa->GetState() == KOOPA_STATE_HIDE && isKicking==false)
+				{
+					isKicking = true;
+					kicking_start = GetTickCount64();
+					koopa->SetState(KOOPA_STATE_KICKED);
+				}
+				else
+				{
+					if (level > MARIO_LEVEL_SMALL)
+					{
+						level -= 1;
+						StartUntouchable();
+					}
+					else
+					{
+						DebugOut(L">>> Mario DIE >>> \n");
+						SetState(MARIO_STATE_DIE);
+					}
+				}
+				
 			}
 		}
 	}

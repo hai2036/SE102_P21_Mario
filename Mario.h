@@ -136,6 +136,7 @@
 
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_TAIL_ATTACKING_TIME	400
+#define MARIO_KICKING_TIME 2000
 
 class CMario : public CGameObject
 {
@@ -143,6 +144,7 @@ class CMario : public CGameObject
 	BOOLEAN isFlying;
 	BOOLEAN isTailAttacking;
 	BOOLEAN isWagging;
+	BOOLEAN isKicking;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -151,6 +153,8 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	ULONGLONG tail_attacking_start;
+	ULONGLONG kicking_start;
+
 	BOOLEAN isOnPlatform;
 	int coin;
 	LPGAMEOBJECT tailHitBox;
@@ -162,7 +166,7 @@ class CMario : public CGameObject
 	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithSuperMushroom(LPCOLLISIONEVENT e);
 	void OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e);
-
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 
 
 
@@ -178,6 +182,7 @@ public:
 		isFlying = false;
 		isTailAttacking = false;
 		isWagging = false;
+		isKicking = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
@@ -186,6 +191,7 @@ public:
 		untouchable = 0;
 		untouchable_start = -1;
 		tail_attacking_start = -1;
+		kicking_start = -1;
 		isOnPlatform = false;
 		coin = 0;
 		tailHitBox = nullptr;

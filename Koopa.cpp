@@ -1,16 +1,18 @@
 #include "Koopa.h"
-
+#include "debug.h"
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = KOOPA_GRAVITY;
 	die_start = -1;
+	hide_start = -1;
+	wake_up_start = -1;
 	SetState(KOOPA_STATE_WALKING);
 }
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == KOOPA_STATE_HIDE)
+	if (state != KOOPA_STATE_WALKING)
 	{
 		left = x - UNIT_SIZE / 2;
 		top = y - UNIT_SIZE / 2;
@@ -35,7 +37,6 @@ void CKoopa::OnNoCollision(DWORD dt)
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CKoopa*>(e->obj)) return;
 
 	if (e->ny != 0)
 	{
@@ -44,6 +45,14 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (e->nx != 0)
 	{
 		vx = -vx;
+	}
+
+	if (state== KOOPA_STATE_KICKED)
+	{
+		/*if (dynamic_cast<CGoomba*>(e->obj))
+			OnCollisionWithGoomba(e);
+		else if (dynamic_cast<CKoopa*>(e->obj))
+			OnCollisionWithKoopa(e);*/
 	}
 }
 
@@ -56,6 +65,19 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		isDeleted = true;
 		return;
+	}
+
+	if ((state == KOOPA_STATE_HIDE) && (GetTickCount64() - hide_start > KOOPA_HIDE_TIMEOUT))
+	{
+		SetState(KOOPA_STATE_WAKE_UP);
+	}
+
+	if ((state == KOOPA_STATE_WAKE_UP) && (GetTickCount64() - wake_up_start > KOOPA_WAKE_UP_TIMEOUT))
+	{
+		// Adjust position to avoid falling off platform
+
+		this->y -= ((KOOPA_BBOX_HEIGHT - UNIT_SIZE) / 2)+2;
+		SetState(KOOPA_STATE_WALKING);
 	}
 
 	CGameObject::Update(dt, coObjects);
@@ -88,6 +110,11 @@ void CKoopa::Render()
 		aniId = ID_ANI_KOOPA_WAKE_UP;
 		break;
 	}
+	case KOOPA_STATE_KICKED:
+	{
+		aniId = ID_ANI_KOOPA_HIDE;
+		break;
+	}
 	default:
 		break;
 	}
@@ -98,7 +125,7 @@ void CKoopa::Render()
 
 void CKoopa::SetState(int state)
 {
-	CGameObject::SetState(state);
+	
 	switch (state)
 	{
 	case KOOPA_STATE_DIE:
@@ -112,8 +139,18 @@ void CKoopa::SetState(int state)
 		vx = -KOOPA_WALKING_SPEED;
 		break;
 	case KOOPA_STATE_HIDE:
+		vx = 0;
+		hide_start = GetTickCount64();
 		break;
 	case KOOPA_STATE_WAKE_UP:
+		wake_up_start = GetTickCount64();
+	case KOOPA_STATE_KICKED:
+	{
+		vx = KOOPA_SPINNING_SPEED;
 		break;
 	}
+	default:
+		break;
+	}
+	CGameObject::SetState(state);
 }
