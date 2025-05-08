@@ -1,14 +1,13 @@
 [SETTINGS]
 start	1
-width	320
+width	920
 height	240
 
 #id	type	file
 # type: 0: intro, 1: play scene 
 [SCENES]
 0	intro.txt
-1	scene11.txt
-
+1	world11.txt
 
 # id	file 
 [TEXTURES]
@@ -17,3 +16,5 @@ height	240
 10	textures\enemies.png
 20	textures\misc.png
 30	textures\tiles.png
+40	textures\misc_v2.png
+50	textures\tiles_v2.png
