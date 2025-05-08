@@ -28,6 +28,10 @@
 
 class CKoopa : public CGameObject
 {
+
+	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 protected:
 	float ax;
 	float ay;

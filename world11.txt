@@ -127,5 +127,7 @@ koopa.txt
 
 #GOOMBAS
 2	14	25
+
 #KOOPAS
+
 3	36	21

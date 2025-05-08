@@ -1,4 +1,6 @@
 #include "Koopa.h"
+#include "Goomba.h"
+#include "PrizeBlock.h"
 #include "debug.h"
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
@@ -36,25 +38,53 @@ void CKoopa::OnNoCollision(DWORD dt)
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
+	if (e->obj->IsBlocking()) {
+		if (e->ny != 0)
+		{
+			vy = 0;
+		}
+		else if (e->nx != 0)
+		{
+			vx = -vx;
+		}
+	}
 
-	if (e->ny != 0)
-	{
-		vy = 0;
-	}
-	else if (e->nx != 0)
-	{
-		vx = -vx;
-	}
+	
 
 	if (state== KOOPA_STATE_KICKED)
 	{
-		/*if (dynamic_cast<CGoomba*>(e->obj))
-			OnCollisionWithGoomba(e);
+		if (dynamic_cast<CGoomba*>(e->obj))
+			OnCollisionWithGoomba(e);			
 		else if (dynamic_cast<CKoopa*>(e->obj))
-			OnCollisionWithKoopa(e);*/
+			OnCollisionWithKoopa(e);
+		else if (dynamic_cast<CPrizeBlock*>(e->obj))
+			OnCollisionWithPrizeBlock(e);
 	}
 }
+
+void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (goomba->GetState() != GOOMBA_STATE_DIE)
+	{
+		goomba->SetState(GOOMBA_STATE_DIE);
+	}
+}
+
+void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e) {
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	if (koopa->GetState() != KOOPA_STATE_DIE)
+	{
+		koopa->SetState(KOOPA_STATE_DIE);
+	}
+
+}
+
+void CKoopa::OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e) {
+	CPrizeBlock* prizeBlock = dynamic_cast<CPrizeBlock*>(e->obj);
+
+	prizeBlock->SetState(STATE_HIT);
+}
+
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
