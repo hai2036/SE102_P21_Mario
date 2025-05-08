@@ -13,6 +13,7 @@ goomba.txt
 prizeBlock.txt
 superMushroom.txt
 superLeaf.txt
+koopa.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -126,3 +127,5 @@ superLeaf.txt
 
 #GOOMBAS
 2	14	25
+#KOOPAS
+3	36	21
