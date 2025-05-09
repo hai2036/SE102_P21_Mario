@@ -129,4 +129,4 @@ superLeaf.txt
 #2	14	25
 
 #PARAGOOMBAS
-2	14	25
+11	14	25

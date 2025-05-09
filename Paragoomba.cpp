@@ -1,35 +1,24 @@
+#include "debug.h"
+
 #include "Paragoomba.h"
 
 CParagoomba::CParagoomba(float x, float y) :CGoomba(x, y)
 {
+	SetState(PARAGOOMBA_STATE_WING);
+
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
 	die_start = -1;
-	SetState(GOOMBA_STATE_WALKING);
-}
 
-void CParagoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
-{
-	if (state == GOOMBA_STATE_DIE)
-	{
-		left = x - GOOMBA_BBOX_WIDTH / 2;
-		top = y - GOOMBA_BBOX_HEIGHT_DIE / 2;
-		right = left + GOOMBA_BBOX_WIDTH;
-		bottom = top + GOOMBA_BBOX_HEIGHT_DIE;
-	}
-	else
-	{
-		left = x - GOOMBA_BBOX_WIDTH / 2;
-		top = y - GOOMBA_BBOX_HEIGHT / 2;
-		right = left + GOOMBA_BBOX_WIDTH;
-		bottom = top + GOOMBA_BBOX_HEIGHT;
-	}
+	isOnPlatform = false;
+	bounceCount = 0;
 }
 
 void CParagoomba::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
+	isOnPlatform = false;
 };
 
 void CParagoomba::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -40,6 +29,7 @@ void CParagoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0)
 	{
 		vy = 0;
+		if (e->ny < 0) isOnPlatform = true;
 	}
 	else if (e->nx != 0)
 	{
@@ -51,8 +41,24 @@ void CParagoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
+	ULONGLONG tick = GetTickCount64();
 
-	if ((state == GOOMBA_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT))
+	if (isOnPlatform)
+	{
+		if (tick - walk_start >= PARAGOOMBA_FLY_COOLDOWN) {
+			if (bounceCount >= PARAGOOMBA_BOUNCE_THRESHOLD) {
+				vy = -PARAGOOMBA_FLY_SPEED;
+				walk_start = tick;
+				bounceCount = 0;
+			}
+			else
+			{
+				vy = -PARAGOOMBA_BOUNCE_SPEED;
+				bounceCount++;
+			}
+		}
+	}
+	if ((state == GOOMBA_STATE_DIE) && (tick - die_start > GOOMBA_DIE_TIMEOUT))
 	{
 		isDeleted = true;
 		return;
