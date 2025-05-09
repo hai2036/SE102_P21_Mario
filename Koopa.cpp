@@ -97,7 +97,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 
-	if ((state == KOOPA_STATE_HIDE) && (GetTickCount64() - hide_start > KOOPA_HIDE_TIMEOUT))
+	if ((state == KOOPA_STATE_HIDE || state == KOOPA_STATE_HOLDED) && (GetTickCount64() - hide_start > KOOPA_HIDE_TIMEOUT))
 	{
 		SetState(KOOPA_STATE_WAKE_UP);
 	}
@@ -109,7 +109,6 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		this->y -= ((KOOPA_BBOX_HEIGHT - UNIT_SIZE) / 2)+2;
 		SetState(KOOPA_STATE_WALKING);
 	}
-
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -145,6 +144,11 @@ void CKoopa::Render()
 		aniId = ID_ANI_KOOPA_HIDE;
 		break;
 	}
+	case KOOPA_STATE_HOLDED:
+	{
+		aniId = ID_ANI_KOOPA_HIDE;
+		break;
+	}
 	default:
 		break;
 	}
@@ -167,9 +171,12 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_WALKING:
 		vx = -KOOPA_WALKING_SPEED;
+		ay = KOOPA_GRAVITY;
 		break;
 	case KOOPA_STATE_HIDE:
 		vx = 0;
+		vy = 0;
+		ay = KOOPA_GRAVITY;
 		hide_start = GetTickCount64();
 		break;
 	case KOOPA_STATE_WAKE_UP:
@@ -177,6 +184,14 @@ void CKoopa::SetState(int state)
 	case KOOPA_STATE_KICKED:
 	{
 		vx = KOOPA_SPINNING_SPEED;
+		ay = KOOPA_GRAVITY;
+		break;
+	}
+	case KOOPA_STATE_HOLDED:
+	{
+		vx = 0;
+		vy = 0;
+		ay = 0;
 		break;
 	}
 	default:

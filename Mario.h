@@ -39,6 +39,10 @@
 
 #define MARIO_STATE_TAIL_ATTACKING	700
 
+#define MARIO_STATE_RELEASE_HOLD	800
+#define MARIO_STATE_HOLDING_RUNNING_RIGHT	801
+#define MARIO_STATE_HOLDING_RUNNING_LEFT	802
+
 #pragma region ANIMATION_ID
 
 #define ID_ANI_MARIO_IDLE_RIGHT 400
@@ -145,6 +149,7 @@ class CMario : public CGameObject
 	BOOLEAN isTailAttacking;
 	BOOLEAN isWagging;
 	BOOLEAN isKicking;
+	BOOLEAN isHolding;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -158,6 +163,7 @@ class CMario : public CGameObject
 	BOOLEAN isOnPlatform;
 	int coin;
 	LPGAMEOBJECT tailHitBox;
+	LPGAMEOBJECT holdingObject;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
@@ -174,7 +180,7 @@ class CMario : public CGameObject
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	
-
+	void GetHitByEnemy();
 public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
@@ -183,6 +189,7 @@ public:
 		isTailAttacking = false;
 		isWagging = false;
 		isKicking = false;
+		isHolding = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
@@ -195,6 +202,7 @@ public:
 		isOnPlatform = false;
 		coin = 0;
 		tailHitBox = nullptr;
+		holdingObject = nullptr;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -217,4 +225,5 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void AddCoin(int Coin) { this->coin += Coin; };
 	BOOLEAN IsTailAttacking() { return this->isTailAttacking; };
+	BOOLEAN IsHolding() { return this->isHolding; };
 };
