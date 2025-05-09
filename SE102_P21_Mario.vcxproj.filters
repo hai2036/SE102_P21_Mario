@@ -34,6 +34,7 @@
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="RedKoopa.cpp" />
+    <ClCompile Include="GhostBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -72,6 +73,7 @@
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Koopa.h" />
     <ClInclude Include="RedKoopa.h" />
+    <ClInclude Include="GhostBlock.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
