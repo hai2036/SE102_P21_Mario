@@ -30,9 +30,7 @@
 class CKoopa : public CGameObject
 {
 
-	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
-	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
-	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
+	
 protected:
 	float ax;
 	float ay;
@@ -41,6 +39,9 @@ protected:
 	ULONGLONG hide_start;
 	ULONGLONG wake_up_start;
 
+	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

@@ -14,19 +14,19 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state != KOOPA_STATE_WALKING)
-	{
-		left = x - UNIT_SIZE / 2;
-		top = y - UNIT_SIZE / 2;
-		right = left + UNIT_SIZE;
-		bottom = top + UNIT_SIZE;
-	}
-	else
+	if (state == KOOPA_STATE_WALKING)
 	{
 		left = x - KOOPA_BBOX_WIDTH / 2;
 		top = y - KOOPA_BBOX_HEIGHT / 2;
 		right = left + KOOPA_BBOX_WIDTH;
 		bottom = top + KOOPA_BBOX_HEIGHT;
+	}
+	else
+	{
+		left = x - UNIT_SIZE / 2;
+		top = y - UNIT_SIZE / 2;
+		right = left + UNIT_SIZE;
+		bottom = top + UNIT_SIZE;
 	}
 }
 
@@ -180,6 +180,9 @@ void CKoopa::SetState(int state)
 		hide_start = GetTickCount64();
 		break;
 	case KOOPA_STATE_WAKE_UP:
+		vx = 0;
+		vy = 0;
+		ay = KOOPA_GRAVITY;
 		wake_up_start = GetTickCount64();
 	case KOOPA_STATE_KICKED:
 	{
