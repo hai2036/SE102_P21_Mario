@@ -6,17 +6,6 @@
 #include "Utils.h"
 #include "Textures.h"
 #include "Sprites.h"
-#include "Portal.h"
-#include "Coin.h"
-#include "Platform.h"
-#include "Border.h"
-#include "Ground.h"
-#include "BoxPlatform.h"
-#include "Pipe.h"
-#include "Blocks.h"
-#include "BackgroundBush.h"
-#include "BackgroundCloud.h"
-#include "PrizeBlock.h"
 
 #include "SampleKeyEventHandler.h"
 
