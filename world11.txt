@@ -10,6 +10,7 @@ dirtBlock.txt
 coin.txt
 mario.txt
 goomba.txt
+paragoomba.txt
 prizeBlock.txt
 superMushroom.txt
 superLeaf.txt
@@ -125,4 +126,7 @@ superLeaf.txt
 10	44	22	4
 
 #GOOMBAS
+#2	14	25
+
+#PARAGOOMBAS
 2	14	25
