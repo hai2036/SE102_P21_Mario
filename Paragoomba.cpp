@@ -132,10 +132,6 @@ void CParagoomba::SetState(int state)
 		ay = 0;
 		break;
 	case PARAGOOMBA_STATE_FOOT:
-		if (!isOnPlatform)
-		{
-			vy += PARAGOOMBA_FLY_SPEED / 2;
-		}
 		isHostile = false;
 		unhostile_start = tick;
 		vx = -GOOMBA_WALKING_SPEED;

@@ -111,6 +111,7 @@ void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
 	{
 		if (goomba->GetState() != PARAGOOMBA_STATE_DIE)
 		{
+			y -= 16;
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			if (goomba->GetState() == PARAGOOMBA_STATE_WING)
 			{
