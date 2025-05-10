@@ -14,6 +14,24 @@ CParagoomba::CParagoomba(float x, float y) :CGoomba(x, y)
 	bounceCount = 0;
 }
 
+void CParagoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	if (state == PARAGOOMBA_STATE_DIE)
+	{
+		left = x - GOOMBA_BBOX_WIDTH / 2;
+		top = y - GOOMBA_BBOX_HEIGHT_DIE / 2;
+		right = left + GOOMBA_BBOX_WIDTH;
+		bottom = top + GOOMBA_BBOX_HEIGHT_DIE;
+	}
+	else
+	{
+		left = x - GOOMBA_BBOX_WIDTH / 2;
+		top = y - GOOMBA_BBOX_HEIGHT / 2;
+		right = left + GOOMBA_BBOX_WIDTH;
+		bottom = top + GOOMBA_BBOX_HEIGHT;
+	}
+}
+
 void CParagoomba::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
@@ -43,7 +61,7 @@ void CParagoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	ULONGLONG tick = GetTickCount64();
 
-	if (isOnPlatform)
+	if ((state == PARAGOOMBA_STATE_WING) && (isOnPlatform)) // Automatically bounce & fly
 	{
 		if (tick - walk_start >= PARAGOOMBA_FLY_COOLDOWN) {
 			if (bounceCount >= PARAGOOMBA_BOUNCE_THRESHOLD) {
@@ -58,7 +76,7 @@ void CParagoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-	if ((state == GOOMBA_STATE_DIE) && (tick - die_start > GOOMBA_DIE_TIMEOUT))
+	if ((state == PARAGOOMBA_STATE_DIE) && (tick - die_start > GOOMBA_DIE_TIMEOUT))
 	{
 		isDeleted = true;
 		return;
@@ -71,10 +89,18 @@ void CParagoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CParagoomba::Render()
 {
-	int aniId = ID_ANI_GOOMBA_WALKING;
-	if (state == GOOMBA_STATE_DIE)
+	int aniId = ID_ANI_PARAGOOMBA_WING_FLY;
+	if (state == PARAGOOMBA_STATE_DIE)
 	{
-		aniId = ID_ANI_GOOMBA_DIE;
+		aniId = ID_ANI_PARAGOOMBA_DIE;
+	}
+	else if (state == PARAGOOMBA_STATE_FOOT)
+	{
+		aniId = ID_ANI_PARAGOOMBA_FOOT_WALK;
+	}
+	else if (isOnPlatform)
+	{
+		aniId = ID_ANI_PARAGOOMBA_WING_WALK;
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -86,15 +112,14 @@ void CParagoomba::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case GOOMBA_STATE_DIE:
+	case PARAGOOMBA_STATE_DIE:
 		die_start = GetTickCount64();
 		y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
 		ay = 0;
 		break;
-	case GOOMBA_STATE_WALKING:
+	default:
 		vx = -GOOMBA_WALKING_SPEED;
-		break;
 	}
 }

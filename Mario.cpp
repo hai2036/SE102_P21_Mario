@@ -5,6 +5,7 @@
 #include "Game.h"
 
 #include "Goomba.h"
+#include "Paragoomba.h"
 #include "Coin.h"
 #include "Portal.h"
 #include "Border.h"
@@ -83,7 +84,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vx = 0;
 	}
 
-	if (dynamic_cast<CGoomba*>(e->obj))
+	if (dynamic_cast<CParagoomba*>(e->obj))
+		OnCollisionWithParagoomba(e);
+	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
@@ -97,6 +100,47 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithSuperMushroom(e);
 	else if (dynamic_cast<CSuperLeaf*>(e->obj))
 		OnCollisionWithSuperLeaf(e);
+}
+
+void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
+{
+	CParagoomba* goomba = dynamic_cast<CParagoomba*>(e->obj);
+
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (goomba->GetState() != PARAGOOMBA_STATE_DIE)
+		{
+			if (goomba->GetState() == PARAGOOMBA_STATE_WING)
+			{
+				goomba->SetState(PARAGOOMBA_STATE_FOOT);
+			}
+			else
+			{
+				goomba->SetState(PARAGOOMBA_STATE_DIE);
+			}
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+	}
+	else // hit by Goomba
+	{
+		if (untouchable == 0)
+		{
+			if (goomba->GetState() != PARAGOOMBA_STATE_DIE)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level -= 1;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)

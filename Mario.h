@@ -155,6 +155,7 @@ class CMario : public CGameObject
 	int coin;
 	LPGAMEOBJECT tailHitBox;
 
+	void OnCollisionWithParagoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
