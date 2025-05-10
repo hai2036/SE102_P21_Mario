@@ -4,14 +4,15 @@
 
 CParagoomba::CParagoomba(float x, float y) :CGoomba(x, y)
 {
-	SetState(PARAGOOMBA_STATE_WING);
-
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
-	die_start = -1;
-
+	
+	isHostile = true;
 	isOnPlatform = false;
 	bounceCount = 0;
+
+	die_start = -1;
+	SetState(PARAGOOMBA_STATE_WING);
 }
 
 void CParagoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -61,7 +62,12 @@ void CParagoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	ULONGLONG tick = GetTickCount64();
 
-	if ((state == PARAGOOMBA_STATE_WING) && (isOnPlatform)) // Automatically bounce & fly
+	if ((!isHostile) && (tick - unhostile_start >= PARAGOOMBA_UNHOSTILE_COOLDOWN))
+	{
+		isHostile = true;
+	}
+
+	if ((isOnPlatform) && (state == PARAGOOMBA_STATE_WING)) // Automatically bounce & fly
 	{
 		if (tick - walk_start >= PARAGOOMBA_FLY_COOLDOWN) {
 			if (bounceCount >= PARAGOOMBA_BOUNCE_THRESHOLD) {
@@ -76,6 +82,7 @@ void CParagoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
+
 	if ((state == PARAGOOMBA_STATE_DIE) && (tick - die_start > GOOMBA_DIE_TIMEOUT))
 	{
 		isDeleted = true;
@@ -89,7 +96,8 @@ void CParagoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CParagoomba::Render()
 {
-	int aniId = ID_ANI_PARAGOOMBA_WING_FLY;
+	int aniId = ID_ANI_PARAGOOMBA_WING_WALK;
+	float oy = PARAGOOMBA_SPRITE_OFFSET_WING_WALK_Y;
 	if (state == PARAGOOMBA_STATE_DIE)
 	{
 		aniId = ID_ANI_PARAGOOMBA_DIE;
@@ -97,29 +105,43 @@ void CParagoomba::Render()
 	else if (state == PARAGOOMBA_STATE_FOOT)
 	{
 		aniId = ID_ANI_PARAGOOMBA_FOOT_WALK;
+		oy = 0;
 	}
-	else if (isOnPlatform)
+	else if (!isOnPlatform)
 	{
-		aniId = ID_ANI_PARAGOOMBA_WING_WALK;
+		aniId = ID_ANI_PARAGOOMBA_WING_FLY;
+		oy = PARAGOOMBA_SPRITE_OFFSET_WING_FLY_Y;
 	}
 
-	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	CAnimations::GetInstance()->Get(aniId)->Render(x, y - oy);
+	//RenderBoundingBox();
 }
 
 void CParagoomba::SetState(int state)
 {
+	ULONGLONG tick = GetTickCount64();
+
 	CGameObject::SetState(state);
 	switch (state)
 	{
 	case PARAGOOMBA_STATE_DIE:
-		die_start = GetTickCount64();
+		die_start = tick;
 		y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
 		ay = 0;
 		break;
-	default:
+	case PARAGOOMBA_STATE_FOOT:
+		if (!isOnPlatform)
+		{
+			vy += PARAGOOMBA_FLY_SPEED / 2;
+		}
+		isHostile = false;
+		unhostile_start = tick;
 		vx = -GOOMBA_WALKING_SPEED;
+		break;
+	case PARAGOOMBA_STATE_WING:
+		vx = -GOOMBA_WALKING_SPEED;
+		break;
 	}
 }
