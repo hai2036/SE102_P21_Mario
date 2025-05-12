@@ -56,7 +56,7 @@ void CPrizeBlock::SetState(int state) {
 		}
 		case OBJECT_TYPE_SUPER_LEAF:
 		{
-			this->prize = new CSuperLeaf(x, y - UNIT_SIZE);
+			this->prize = new CSuperLeaf(x, y);
 			break;
 		}
 		default:

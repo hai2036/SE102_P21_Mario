@@ -1,7 +1,10 @@
 #include "SuperLeaf.h"
 CSuperLeaf::CSuperLeaf(float x, float y) :CGameObject(x, y)
 {
-	this->state = SUPER_LEAF_STATE_ALIVE;
+	this->state = SUPER_LEAF_STATE_RISE_UP;
+	this->old_y = y;
+	this->old_x = x;
+	this->vy = SUPER_LEAF_RISE_UP_SPEED;
 }
 
 void CSuperLeaf::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -19,21 +22,25 @@ void CSuperLeaf::OnNoCollision(DWORD dt)
 
 void CSuperLeaf::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CSuperLeaf*>(e->obj)) return;
 
-	if (e->ny != 0)
-	{
-		vy = 0;
-	}
-	else if (e->nx != 0)
-	{
-		vx = -vx;
-	}
 }
 
 void CSuperLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (abs(old_x - x) >= UNIT_SIZE * 3 && this->state == SUPER_LEAF_STATE_FALL_DOWN)
+	{
+		vx = -vx;
+		old_x = x;
+	}
+
+	y += vy * dt;
+	x += vx * dt;
+	
+	
+	if (old_y - y >= UNIT_SIZE*2 && this->state == SUPER_LEAF_STATE_RISE_UP)
+	{
+		SetState(SUPER_LEAF_STATE_FALL_DOWN);
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -52,6 +59,12 @@ void CSuperLeaf::SetState(int state)
 	case SUPER_LEAF_STATE_DIE:
 		this->Delete();
 		break;
+	case SUPER_LEAF_STATE_FALL_DOWN:
+	{
+		this->vx = SUPER_LEAF_FALL_DOWN_X_SPEED;
+		this->vy = SUPER_LEAF_FALL_DOWN_Y_SPEED;
+		break;
+	}
 	default:
 		break;
 	}
