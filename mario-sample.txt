@@ -18,3 +18,4 @@ height	240
 30	textures\tiles.png
 40	textures\misc_v2.png
 50	textures\tiles_v2.png
+60	textures\enemies_v2.png
