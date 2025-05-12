@@ -30,11 +30,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (this->nx >0)
 		{
-			tailHitBox->SetPosition(x + MARIO_BIG_BBOX_WIDTH +3, y);
+			tailHitBox->SetPosition(x + MARIO_BIG_BBOX_WIDTH/2 + UNIT_SIZE/2, y);
 		}
 		else
 		{
-			tailHitBox->SetPosition(x - MARIO_BIG_BBOX_WIDTH-3, y);
+			tailHitBox->SetPosition(x - (MARIO_BIG_BBOX_WIDTH/2 + UNIT_SIZE/2), y);
 		}
 	}
 	

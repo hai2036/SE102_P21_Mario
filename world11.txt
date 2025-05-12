@@ -21,8 +21,8 @@ koopa.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 #MARIO
-#0	4	22
-0	29	21
+0	4	22
+
 #BACKGROUND BUSHES
 101	10	25	3
 101	42	24	6
@@ -42,7 +42,7 @@ koopa.txt
 #BORDERS
 -1	0	0	1	26	0
 -1	171	0	1	26	0
--1	0	27	172	1	1
+-1	0	30	172	1	1
 
 #GROUND
 # Type	X	Y	Length	Height
@@ -129,7 +129,7 @@ koopa.txt
 2	14	25
 2	33	25
 2	52	24
-2	55	25
+2	55	24
 #KOOPAS
 
 3	36	21	1
