@@ -37,12 +37,13 @@ void CPrizeBlock::SetState(int state) {
 		case OBJECT_TYPE_COIN:
 			this->prize = new CPrizeCoin(x, y);
 			break;
-		case OBJECT_TYPE_SUPER_MUSHROOM:
+		case OBEJECT_TYPE_LEVEL_UP:
 		{
 			int dx = 0;
 			float mario_X = 0;
 			float mario_Y = 0; 
 			mario->GetPosition(mario_X, mario_Y);
+			
 			if (mario_X > x + UNIT_SIZE/2)
 			{
 				dx = -1;
@@ -51,12 +52,15 @@ void CPrizeBlock::SetState(int state) {
 			{
 				dx = 1;
 			}
-			this->prize = new CSuperMushroom(x, y, dx);
-			break;
-		}
-		case OBJECT_TYPE_SUPER_LEAF:
-		{
-			this->prize = new CSuperLeaf(x, y);
+
+			if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+			{
+				this->prize = new CSuperMushroom(x, y, dx);
+			}
+			else
+			{
+				this->prize = new CSuperLeaf(x, y);
+			}
 			break;
 		}
 		default:

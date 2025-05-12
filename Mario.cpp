@@ -254,14 +254,14 @@ void CMario::OnCollisionWithSuperMushroom(LPCOLLISIONEVENT e)
 {
 	CSuperMushroom* superMushroom = (CSuperMushroom*)e->obj;
 	superMushroom->SetState(SUPER_MUSHROOM_STATE_DIE);
-	SetLevel(MARIO_LEVEL_BIG);
+	SetLevel(this->level+1);
 }
 
 void CMario::OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e)
 {
 	CSuperLeaf* superLeaf = (CSuperLeaf*)e->obj;
 	superLeaf->SetState(SUPER_LEAF_STATE_DIE);
-	SetLevel(MARIO_LEVEL_RACOON);
+	SetLevel(this->level + 1);
 }
 
 //
