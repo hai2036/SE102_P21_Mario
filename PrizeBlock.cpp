@@ -2,6 +2,7 @@
 #include "Mario.h"
 #include "SuperMushroom.h"
 #include "SuperLeaf.h"
+#include "PrizeCoin.h"
 #include "Game.h"
 
 void CPrizeBlock::Render()
@@ -34,7 +35,7 @@ void CPrizeBlock::SetState(int state) {
 		switch (this->prizeID)
 		{
 		case OBJECT_TYPE_COIN:
-			mario->AddCoin(1);
+			this->prize = new CPrizeCoin(x, y);
 			break;
 		case OBJECT_TYPE_SUPER_MUSHROOM:
 		{
