@@ -51,7 +51,7 @@ void CPrizeBlock::SetState(int state) {
 			{
 				dx = 1;
 			}
-			this->prize = new CSuperMushroom(x, y - UNIT_SIZE, dx);
+			this->prize = new CSuperMushroom(x, y, dx);
 			break;
 		}
 		case OBJECT_TYPE_SUPER_LEAF:

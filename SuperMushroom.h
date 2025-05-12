@@ -5,8 +5,11 @@
 #define SUPER_MUSHROOM_GRAVITY 0.002f
 #define SUPER_MUSHROOM_WALKING_SPEED 0.05f
 
-#define SUPER_MUSHROOM_STATE_ALIVE 1
+#define SUPER_MUSHROOM_STATE_RISE_UP 2
+#define SUPER_MUSHROOM_STATE_WALKING 1
 #define SUPER_MUSHROOM_STATE_DIE 0
+
+#define SUPER_MUSHROOM_RISE_UP_SPEED -0.02f
 
 class CSuperMushroom : public CGameObject
 {
@@ -14,6 +17,7 @@ protected:
 	int dx;
 	float ax;
 	float ay;
+	float old_y;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
