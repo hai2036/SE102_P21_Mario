@@ -13,6 +13,7 @@
 #include "SuperMushroom.h"
 #include "SuperLeaf.h"
 #include "Collision.h"
+#include "PiranhaPlant.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -100,6 +101,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithSuperMushroom(e);
 	else if (dynamic_cast<CSuperLeaf*>(e->obj))
 		OnCollisionWithSuperLeaf(e);
+	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
+		OnCollisionWithPiranhaPlant(e);
 }
 
 void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
@@ -221,6 +224,25 @@ void CMario::OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e)
 	CSuperLeaf* superLeaf = (CSuperLeaf*)e->obj;
 	superLeaf->SetState(SUPER_LEAF_STATE_DIE);
 	SetLevel(MARIO_LEVEL_RACOON);
+}
+
+void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
+{
+	CPiranhaPlant* piranhaPlant = dynamic_cast<CPiranhaPlant*>(e->obj);
+
+	if (untouchable == 0 && piranhaPlant->GetIsHostile() == true)
+	{
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level -= 1;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
+	}
 }
 
 //

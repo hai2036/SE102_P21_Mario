@@ -6,6 +6,7 @@ CPiranhaPlant::CPiranhaPlant(float x, float y) :CGameObject(x, y)
 	y0 = y;
 	y1 = y - PIRANHAPLANT_BBOX_HEIGHT;
 	
+	isHostile = false;
 	isRising = false;
 	isOutside = false;
 	rise_start = -1;
@@ -31,15 +32,6 @@ void CPiranhaPlant::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CPiranhaPlant*>(e->obj)) return;
-
-	if (e->ny != 0)
-	{
-		vy = 0;
-	}
-	else if (e->nx != 0)
-	{
-		vx = -vx;
-	}
 }
 
 void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -50,6 +42,7 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (tick - cooldown_start >= PIRANHAPLANT_RISE_COOLDOWN) {
 			rise_start = tick;
 			isRising = true;
+			isHostile = true;
 		}
 	}
 	else
@@ -72,6 +65,7 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			y = isOutside ? y0 : y1;
 			isOutside = !isOutside;
+			isHostile = isOutside ? true : false;
 			cooldown_start = tick;
 			isRising = false;
 		}

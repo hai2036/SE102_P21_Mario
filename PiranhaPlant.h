@@ -13,6 +13,7 @@ class CPiranhaPlant : public CGameObject
 protected:
 	float y0, y1;
 
+	bool isHostile;
 	bool isRising;
 	bool isOutside;
 	ULONGLONG rise_start;
@@ -23,12 +24,13 @@ protected:
 	virtual void Render();
 
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { return 1; }
+	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
 	CPiranhaPlant(float x, float y);
+	bool GetIsHostile() { return isHostile; }
 	virtual void Damage();
 };
