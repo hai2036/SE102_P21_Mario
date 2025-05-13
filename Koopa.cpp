@@ -9,6 +9,8 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 	die_start = -1;
 	hide_start = -1;
 	wake_up_start = -1;
+	tail_hit_start = -1;
+	isUpSideDown = false;
 	SetState(KOOPA_STATE_WALKING);
 }
 
@@ -107,7 +109,13 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		// Adjust position to avoid falling off platform
 
 		this->y -= ((KOOPA_BBOX_HEIGHT - UNIT_SIZE) / 2)+2;
+		this->isUpSideDown = false;
 		SetState(KOOPA_STATE_WALKING);
+	}
+
+	if ((state == KOOPA_STATE_TAIL_HIT) && (GetTickCount64() - hide_start > KOOPA_TAIL_HIT_TIMEOUT))
+	{
+		SetState(KOOPA_STATE_HIDE);
 	}
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -116,50 +124,19 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopa::Render()
 {
-	int aniId = ID_ANI_KOOPA_WALKING_LEFT;
-	switch (state)
+	int aniId = -1;
+	aniId = GetAniID();
+	if (aniId == -1)
 	{
-	case KOOPA_STATE_DIE:
-	{
-		aniId = ID_ANI_KOOPA_DIE;
-		break;
+		return;
 	}
-	case KOOPA_STATE_WALKING:
-	{
-		aniId = (this->vx > 0) ? ID_ANI_KOOPA_WALKING_RIGHT : ID_ANI_KOOPA_WALKING_LEFT;
-		break;
-	}
-	case KOOPA_STATE_HIDE:
-	{
-		aniId = ID_ANI_KOOPA_HIDE;
-		break;
-	}
-	case KOOPA_STATE_WAKE_UP:
-	{
-		aniId = ID_ANI_KOOPA_WAKE_UP;
-		break;
-	}
-	case KOOPA_STATE_KICKED:
-	{
-		aniId = ID_ANI_KOOPA_HIDE;
-		break;
-	}
-	case KOOPA_STATE_HOLDED:
-	{
-		aniId = ID_ANI_KOOPA_HIDE;
-		break;
-	}
-	default:
-		break;
-	}
-
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
 }
 
 void CKoopa::SetState(int state)
 {
-	
+	CGameObject::SetState(state);
 	switch (state)
 	{
 	case KOOPA_STATE_DIE:
@@ -180,10 +157,14 @@ void CKoopa::SetState(int state)
 		hide_start = GetTickCount64();
 		break;
 	case KOOPA_STATE_WAKE_UP:
+	{
 		vx = 0;
 		vy = 0;
 		ay = KOOPA_GRAVITY;
 		wake_up_start = GetTickCount64();
+		break;
+	}
+		
 	case KOOPA_STATE_KICKED:
 	{
 		vx = KOOPA_SPINNING_SPEED;
@@ -197,8 +178,17 @@ void CKoopa::SetState(int state)
 		ay = 0;
 		break;
 	}
+	case KOOPA_STATE_TAIL_HIT:
+	{
+		vx = TAIL_HIT_SPEED_X;
+		vy = TAIL_HIT_SPEED_Y;
+		ax = 0;
+		ay = KOOPA_GRAVITY;
+		isUpSideDown = true;
+		tail_hit_start = GetTickCount64();
+		break;
+	}
 	default:
 		break;
 	}
-	CGameObject::SetState(state);
 }

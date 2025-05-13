@@ -171,6 +171,12 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		{
 			koopa->SetState(KOOPA_STATE_HIDE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			if (koopa->GetState() == KOOPA_STATE_KICKED)
+			{
+				isKicking = true;
+				kicking_start = GetTickCount64();
+			}
+			
 			return;
 		}
 	}

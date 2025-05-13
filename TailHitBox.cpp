@@ -4,6 +4,7 @@
 
 #include "Goomba.h"
 #include "PrizeBlock.h"
+#include "Koopa.h"
 
 #include "debug.h"
 #include "Collision.h"
@@ -42,6 +43,8 @@ void CTailHitBox::OnCollisionWith(LPCOLLISIONEVENT e) {
 				OnCollisionWithGoomba(e);
 			else if (dynamic_cast<CPrizeBlock*>(e->obj))
 				OnCollisionWithPrizeBlock(e);
+			else if (dynamic_cast<CKoopa*>(e->obj))
+				OnCollisionWithKoopa(e);
 		}
 	}
 }
@@ -63,4 +66,14 @@ void CTailHitBox::OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e)
 	prizeblock->SetState(STATE_HIT);
 
 	
+}
+
+void CTailHitBox::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+
+	if (koopa->GetState() != KOOPA_STATE_DIE)
+	{
+		koopa->SetState(KOOPA_STATE_TAIL_HIT);
+	}
 }

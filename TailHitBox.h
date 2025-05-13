@@ -7,6 +7,7 @@ class CTailHitBox : public CGameObject
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 
 public:
 	CTailHitBox(float x, float y) :CGameObject(x, y) { this->vx = TAIL_SPEED; };

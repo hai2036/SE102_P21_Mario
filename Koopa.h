@@ -4,6 +4,8 @@
 #define KOOPA_GRAVITY 0.002f
 #define KOOPA_WALKING_SPEED 0.05f
 #define KOOPA_SPINNING_SPEED 0.2f
+#define TAIL_HIT_SPEED_X 0.1f
+#define TAIL_HIT_SPEED_Y -0.4f
 
 #define KOOPA_BBOX_WIDTH 16
 #define KOOPA_BBOX_HEIGHT 27
@@ -11,7 +13,8 @@
 
 #define KOOPA_DIE_TIMEOUT 500
 #define KOOPA_HIDE_TIMEOUT 5000
-#define KOOPA_WAKE_UP_TIMEOUT 200
+#define KOOPA_WAKE_UP_TIMEOUT 2000
+#define KOOPA_TAIL_HIT_TIMEOUT 500
 
 #define KOOPA_STATE_WALKING 100
 #define KOOPA_STATE_DIE 200
@@ -19,25 +22,25 @@
 #define KOOPA_STATE_WAKE_UP 400
 #define KOOPA_STATE_KICKED 500
 #define KOOPA_STATE_HOLDED 600
+#define KOOPA_STATE_TAIL_HIT	700
 
-#define ID_ANI_KOOPA_WALKING_LEFT 6000
-#define ID_ANI_KOOPA_WALKING_RIGHT 6001
-#define ID_ANI_KOOPA_DIE 6002
-#define ID_ANI_KOOPA_HIDE 6003
-#define ID_ANI_KOOPA_WAKE_UP 6003
+
+
 
 
 class CKoopa : public CGameObject
 {
-
-	
 protected:
 	float ax;
 	float ay;
+	BOOLEAN isUpSideDown;
 
 	ULONGLONG die_start;
 	ULONGLONG hide_start;
 	ULONGLONG wake_up_start;
+	ULONGLONG tail_hit_start;
+
+	virtual int GetAniID() { return -1; };
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
