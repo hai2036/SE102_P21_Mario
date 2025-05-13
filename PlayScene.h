@@ -19,6 +19,7 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "Paragoomba.h"
+#include "PiranhaPlant.h"
 //#include "Koopas.h"
 
 
