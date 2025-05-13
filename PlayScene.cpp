@@ -123,7 +123,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CParagoomba(x, y); break;
-	case OBJECT_TYPE_PIRANHAPLANT: obj = new CPiranhaPlant(x, y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN:
 	{
@@ -213,6 +212,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int length = atoi(tokens[3].c_str());
 		obj = new CBackgroundCloud(x, y, length);
 		break;
+	}
+	case OBJECT_TYPE_PIRANHAPLANT:
+	{
+		obj = new CPiranhaPlant(x, y);
+		obj->SetPosition(x + UNIT_SIZE / 2, y + UNIT_SIZE / 2);
+		objects.push_back(obj);
+		return;
 	}
 
 	break;

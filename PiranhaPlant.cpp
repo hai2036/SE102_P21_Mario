@@ -1,8 +1,8 @@
+#include "debug.h"
 #include "PiranhaPlant.h"
 
 CPiranhaPlant::CPiranhaPlant(float x, float y) :CGameObject(x, y)
 {
-	
 }
 
 void CPiranhaPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)

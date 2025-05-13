@@ -22,7 +22,6 @@
 #include "PiranhaPlant.h"
 //#include "Koopas.h"
 
-
 class CPlayScene: public CScene
 {
 protected: 
