@@ -80,7 +80,7 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (marioX > x + UNIT_SIZE / 2)
 	{
-		if (marioY > y + UNIT_SIZE / 2)
+		if (marioY > y)
 		{
 			lookDirection = PIRANHAPLANT_LOOK_DIRECTION_DOWN_RIGHT;
 		}
@@ -91,7 +91,7 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		if (marioY > y + UNIT_SIZE / 2)
+		if (marioY > y)
 		{
 			lookDirection = PIRANHAPLANT_LOOK_DIRECTION_DOWN_LEFT;
 		}
