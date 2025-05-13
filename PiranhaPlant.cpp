@@ -1,6 +1,9 @@
 #include "debug.h"
 #include "PiranhaPlant.h"
 
+#include "Game.h"
+#include "Mario.h"
+
 CPiranhaPlant::CPiranhaPlant(float x, float y) :CGameObject(x, y)
 {
 	y0 = y;
@@ -36,10 +39,14 @@ void CPiranhaPlant::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetCurrentScene()->GetPlayer());
+	float marioX, marioY;
+	mario->GetPosition(marioX, marioY);
 	ULONGLONG tick = GetTickCount64();
 	if (!isRising)
 	{
-		if (tick - cooldown_start >= PIRANHAPLANT_RISE_COOLDOWN) {
+		if (tick - cooldown_start >= PIRANHAPLANT_RISE_COOLDOWN)
+		{
 			rise_start = tick;
 			isRising = true;
 			isHostile = true;
@@ -71,6 +78,29 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+	if (marioX > x + UNIT_SIZE / 2)
+	{
+		if (marioY > y + UNIT_SIZE / 2)
+		{
+			lookDirection = PIRANHAPLANT_LOOK_DIRECTION_DOWN_RIGHT;
+		}
+		else
+		{
+			lookDirection = PIRANHAPLANT_LOOK_DIRECTION_UP_RIGHT;
+		}
+	}
+	else
+	{
+		if (marioY > y + UNIT_SIZE / 2)
+		{
+			lookDirection = PIRANHAPLANT_LOOK_DIRECTION_DOWN_LEFT;
+		}
+		else
+		{
+			lookDirection = PIRANHAPLANT_LOOK_DIRECTION_UP_LEFT;
+		}
+	}
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -78,9 +108,50 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CPiranhaPlant::Render()
 {
-	int aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_DOWN_LEFT;
+	if (isRising)
+	{
+		int aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_DOWN_LEFT;
+		if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_DOWN_LEFT)
+		{
+			aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_DOWN_LEFT;
+		}
+		else if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_DOWN_RIGHT)
+		{
+			aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_DOWN_RIGHT;
+		}
+		else if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_UP_LEFT)
+		{
+			aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_UP_LEFT;
+		}
+		else
+		{
+			aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_UP_RIGHT;
+		}
 
-	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	}
+	else
+	{
+		int spriteId = ID_SPRITE_PIRANHAPLANT_RED_CLOSE_DOWN_LEFT;
+		if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_DOWN_LEFT)
+		{
+			spriteId = ID_SPRITE_PIRANHAPLANT_RED_CLOSE_DOWN_LEFT;
+		}
+		else if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_DOWN_RIGHT)
+		{
+			spriteId = ID_SPRITE_PIRANHAPLANT_RED_CLOSE_DOWN_RIGHT;
+		}
+		else if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_UP_LEFT)
+		{
+			spriteId = ID_SPRITE_PIRANHAPLANT_RED_CLOSE_UP_LEFT;
+		}
+		else
+		{
+			spriteId = ID_SPRITE_PIRANHAPLANT_RED_CLOSE_UP_RIGHT;
+		}
+
+		CSprites::GetInstance()->Get(spriteId)->Draw(x, y);
+	}
 	RenderBoundingBox();
 }
 
