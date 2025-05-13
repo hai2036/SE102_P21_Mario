@@ -3,6 +3,13 @@
 
 CPiranhaPlant::CPiranhaPlant(float x, float y) :CGameObject(x, y)
 {
+	y0 = y;
+	y1 = y - PIRANHAPLANT_BBOX_HEIGHT;
+	
+	isRising = false;
+	isOutside = false;
+	rise_start = -1;
+	cooldown_start = -1;
 }
 
 void CPiranhaPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -37,7 +44,38 @@ void CPiranhaPlant::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	
+	ULONGLONG tick = GetTickCount64();
+	if (!isRising)
+	{
+		if (tick - cooldown_start >= PIRANHAPLANT_RISE_COOLDOWN) {
+			rise_start = tick;
+			isRising = true;
+		}
+	}
+	else
+	{
+		ULONGLONG timetaken = tick - rise_start;
+		if (timetaken < PIRANHAPLANT_RISE_TIME)
+		{
+			// Su dung cong thuc Lerp (1 - t) * a + t * b
+			float t = (float) timetaken / PIRANHAPLANT_RISE_TIME;
+			if (isOutside)
+			{
+				y = (1 - t) * y1 + t * y0;
+			}
+			else
+			{
+				y = (1 - t) * y0 + t * y1;
+			}
+		}
+		else
+		{
+			y = isOutside ? y0 : y1;
+			isOutside = !isOutside;
+			cooldown_start = tick;
+			isRising = false;
+		}
+	}
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);

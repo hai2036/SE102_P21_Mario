@@ -215,8 +215,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_PIRANHAPLANT:
 	{
+		x += UNIT_SIZE / 2;
+		y += UNIT_SIZE / 2;
 		obj = new CPiranhaPlant(x, y);
-		obj->SetPosition(x + UNIT_SIZE / 2, y + UNIT_SIZE / 2);
+		obj->SetPosition(x, y);
 		objects.push_back(obj);
 		return;
 	}

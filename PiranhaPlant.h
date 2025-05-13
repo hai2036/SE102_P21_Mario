@@ -2,7 +2,8 @@
 #include "AssetIDs.h"
 #include "GameObject.h"
 
-#define PIRANHAPLANT_RISE_TIME 1000
+#define PIRANHAPLANT_RISE_TIME 500
+#define PIRANHAPLANT_RISE_COOLDOWN 3000
 
 #define PIRANHAPLANT_BBOX_WIDTH UNIT_SIZE
 #define PIRANHAPLANT_BBOX_HEIGHT UNIT_SIZE * 2
@@ -10,6 +11,13 @@
 class CPiranhaPlant : public CGameObject
 {
 protected:
+	float y0, y1;
+
+	bool isRising;
+	bool isOutside;
+	ULONGLONG rise_start;
+	ULONGLONG cooldown_start;
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
