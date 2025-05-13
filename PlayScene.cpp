@@ -95,8 +95,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (tokens.size() < 2) return;
 
 	int object_type = atoi(tokens[0].c_str());
-	float x = (float)atof(tokens[1].c_str()) * 16;
-	float y = (float)atof(tokens[2].c_str()) * 16;
+	float x = (float)atof(tokens[1].c_str()) * UNIT_SIZE;
+	float y = (float)atof(tokens[2].c_str()) * UNIT_SIZE;
 
 	CGameObject *obj = NULL;
 
