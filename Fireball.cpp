@@ -1,12 +1,12 @@
 #include "Fireball.h"
 
-CFireball::CFireball(float x, float y) :CGameObject(x, y)
+CFireball::CFireball(float x, float y, float dx, float dy, bool isHostile) :CGameObject(x, y)
 {
-	vx = FIREBALL_SPEED;
-	vy = FIREBALL_SPEED;
+	vx = FIREBALL_SPEED * dx;
+	vy = FIREBALL_SPEED * dy;
 
-	isHostile = false;
-	delete_start = GetTickCount64();
+	this->isHostile = isHostile;
+	this->delete_start = GetTickCount64();
 }
 
 void CFireball::GetBoundingBox(float& left, float& top, float& right, float& bottom)

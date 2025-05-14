@@ -103,8 +103,26 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (tick - shoot_start >= PIRANHAPLANT_SHOOT_TIME)
 		{
-			DebugOut(L"Shoot!\n");
-			LPGAMEOBJECT fireball = new CFireball(x, y - UNIT_SIZE / 2);
+			float dx = 0.0f;
+			float dy = 0.0f;
+
+			switch (lookDirection)
+			{
+			case PiranhaPlantLookDirection::UP_LEFT:
+				dx = -1.0f; dy = -1.0f;
+				break;
+			case PiranhaPlantLookDirection::UP_RIGHT:
+				dx = 1.0f; dy = -1.0f;
+				break;
+			case PiranhaPlantLookDirection::DOWN_LEFT:
+				dx = -1.0f; dy = 1.0f;
+				break;
+			case PiranhaPlantLookDirection::DOWN_RIGHT:
+				dx = 1.0f; dy = 1.0f;
+				break;
+			}
+
+			LPGAMEOBJECT fireball = new CFireball(x, y - UNIT_SIZE / 2, dx, dy, true);
 			CGame::GetInstance()->GetCurrentScene()->AddObject(fireball);
 			canShoot = false;
 		}
