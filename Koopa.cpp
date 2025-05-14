@@ -1,6 +1,8 @@
 #include "Koopa.h"
 #include "Goomba.h"
 #include "PrizeBlock.h"
+#include "Mario.h"
+#include "Game.h"
 #include "debug.h"
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
@@ -136,6 +138,7 @@ void CKoopa::Render()
 
 void CKoopa::SetState(int state)
 {
+	CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetCurrentScene()->GetPlayer());
 	CGameObject::SetState(state);
 	switch (state)
 	{
@@ -167,7 +170,15 @@ void CKoopa::SetState(int state)
 		
 	case KOOPA_STATE_KICKED:
 	{
-		vx = KOOPA_SPINNING_SPEED;
+		if (mario->Getnx() == 1)
+		{
+			vx = KOOPA_SPINNING_SPEED;
+		}
+		else
+		{
+			vx = -KOOPA_SPINNING_SPEED;
+
+		}
 		ay = KOOPA_GRAVITY;
 		break;
 	}
@@ -180,7 +191,15 @@ void CKoopa::SetState(int state)
 	}
 	case KOOPA_STATE_TAIL_HIT:
 	{
-		vx = TAIL_HIT_SPEED_X;
+		if (mario->Getnx() == 1)
+		{
+			vx = TAIL_HIT_SPEED_X;
+
+		}
+		else
+		{
+			vx = -TAIL_HIT_SPEED_X;
+		}
 		vy = TAIL_HIT_SPEED_Y;
 		ax = 0;
 		ay = KOOPA_GRAVITY;
