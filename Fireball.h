@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 #define FIREBALL_BBOX_SIZE 8
-#define FIREBALL_SPEED 0.06f
+#define FIREBALL_SPEED 0.05f
 #define FIREBALL_DELETE_TIME 3000
 
 class CFireball : public CGameObject

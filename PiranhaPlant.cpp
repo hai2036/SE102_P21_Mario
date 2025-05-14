@@ -12,11 +12,11 @@ const int chompAniIds[4] = {
 	ID_ANI_PIRANHAPLANT_CHOMP_RED_DOWN_RIGHT
 };
 
-const int closeSpriteIds[4] = {
-	ID_SPRITE_PIRANHAPLANT_RED_CLOSE_UP_LEFT,
-	ID_SPRITE_PIRANHAPLANT_RED_CLOSE_UP_RIGHT,
-	ID_SPRITE_PIRANHAPLANT_RED_CLOSE_DOWN_LEFT,
-	ID_SPRITE_PIRANHAPLANT_RED_CLOSE_DOWN_RIGHT
+const int openSpriteIds[4] = {
+	ID_SPRITE_PIRANHAPLANT_RED_OPEN_UP_LEFT,
+	ID_SPRITE_PIRANHAPLANT_RED_OPEN_UP_RIGHT,
+	ID_SPRITE_PIRANHAPLANT_RED_OPEN_DOWN_LEFT,
+	ID_SPRITE_PIRANHAPLANT_RED_OPEN_DOWN_RIGHT
 };
 
 CPiranhaPlant::CPiranhaPlant(float x, float y) :CGameObject(x, y)
@@ -145,7 +145,7 @@ void CPiranhaPlant::Render()
 	}
 	else
 	{
-		CSprites::GetInstance()->Get(closeSpriteIds[lookDirection])->Draw(x, y);
+		CSprites::GetInstance()->Get(openSpriteIds[lookDirection])->Draw(x, y);
 	}
 	RenderBoundingBox();
 }
