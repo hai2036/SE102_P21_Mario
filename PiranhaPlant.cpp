@@ -3,6 +3,7 @@
 
 #include "Game.h"
 #include "Mario.h"
+#include "Fireball.h"
 
 const int chompAniIds[4] = {
 	ID_ANI_PIRANHAPLANT_CHOMP_RED_UP_LEFT,
@@ -26,8 +27,10 @@ CPiranhaPlant::CPiranhaPlant(float x, float y) :CGameObject(x, y)
 	isHostile = false;
 	isRising = false;
 	isOutside = false;
+	canShoot = false;
 	rise_start = -1;
 	cooldown_start = -1;
+	shoot_start = -1;
 
 	lookDirection = UP_LEFT;
 }
@@ -90,7 +93,20 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isOutside = !isOutside;
 			isHostile = isOutside ? true : false;
 			cooldown_start = tick;
+			shoot_start = isOutside ? tick : -1;
+			canShoot = true;
 			isRising = false;
+		}
+	}
+
+	if ((isOutside) && (canShoot))
+	{
+		if (tick - shoot_start >= PIRANHAPLANT_SHOOT_TIME)
+		{
+			DebugOut(L"Shoot!\n");
+			LPGAMEOBJECT fireball = new CFireball(x, y - UNIT_SIZE / 2);
+			CGame::GetInstance()->GetCurrentScene()->AddObject(fireball);
+			canShoot = false;
 		}
 	}
 

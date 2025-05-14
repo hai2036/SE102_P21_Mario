@@ -15,6 +15,7 @@ prizeBlock.txt
 superMushroom.txt
 superLeaf.txt
 piranhaPlant.txt
+fireball.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

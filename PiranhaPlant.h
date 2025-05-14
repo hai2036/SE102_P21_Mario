@@ -4,6 +4,7 @@
 
 #define PIRANHAPLANT_RISE_TIME 1000
 #define PIRANHAPLANT_RISE_COOLDOWN 3000
+#define PIRANHAPLANT_SHOOT_TIME 500
 
 #define PIRANHAPLANT_BBOX_WIDTH UNIT_SIZE
 #define PIRANHAPLANT_BBOX_HEIGHT UNIT_SIZE * 2
@@ -23,8 +24,10 @@ protected:
 	bool isHostile;
 	bool isRising;
 	bool isOutside;
+	bool canShoot;
 	ULONGLONG rise_start;
 	ULONGLONG cooldown_start;
+	ULONGLONG shoot_start;
 
 	PiranhaPlantLookDirection lookDirection;
 

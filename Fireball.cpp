@@ -32,6 +32,13 @@ void CFireball::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	ULONGLONG tick = GetTickCount64();
+
+	if (tick - delete_start >= FIREBALL_DELETE_TIME)
+	{
+		Delete();
+	}
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
