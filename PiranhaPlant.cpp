@@ -4,6 +4,20 @@
 #include "Game.h"
 #include "Mario.h"
 
+const int chompAniIds[4] = {
+	ID_ANI_PIRANHAPLANT_CHOMP_RED_UP_LEFT,
+	ID_ANI_PIRANHAPLANT_CHOMP_RED_UP_RIGHT,
+	ID_ANI_PIRANHAPLANT_CHOMP_RED_DOWN_LEFT,
+	ID_ANI_PIRANHAPLANT_CHOMP_RED_DOWN_RIGHT
+};
+
+const int closeSpriteIds[4] = {
+	ID_SPRITE_PIRANHAPLANT_RED_CLOSE_UP_LEFT,
+	ID_SPRITE_PIRANHAPLANT_RED_CLOSE_UP_RIGHT,
+	ID_SPRITE_PIRANHAPLANT_RED_CLOSE_DOWN_LEFT,
+	ID_SPRITE_PIRANHAPLANT_RED_CLOSE_DOWN_RIGHT
+};
+
 CPiranhaPlant::CPiranhaPlant(float x, float y) :CGameObject(x, y)
 {
 	y0 = y;
@@ -14,6 +28,8 @@ CPiranhaPlant::CPiranhaPlant(float x, float y) :CGameObject(x, y)
 	isOutside = false;
 	rise_start = -1;
 	cooldown_start = -1;
+
+	lookDirection = UP_LEFT;
 }
 
 void CPiranhaPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -78,28 +94,9 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-	if (marioX > x + UNIT_SIZE / 2)
-	{
-		if (marioY > y)
-		{
-			lookDirection = PIRANHAPLANT_LOOK_DIRECTION_DOWN_RIGHT;
-		}
-		else
-		{
-			lookDirection = PIRANHAPLANT_LOOK_DIRECTION_UP_RIGHT;
-		}
-	}
-	else
-	{
-		if (marioY > y)
-		{
-			lookDirection = PIRANHAPLANT_LOOK_DIRECTION_DOWN_LEFT;
-		}
-		else
-		{
-			lookDirection = PIRANHAPLANT_LOOK_DIRECTION_UP_LEFT;
-		}
-	}
+	lookDirection = static_cast<PiranhaPlantLookDirection>(
+		(marioY > y ? DOWN_LEFT : UP_LEFT) + (marioX > x + UNIT_SIZE / 2 ? 1 : 0)
+	);
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -110,47 +107,11 @@ void CPiranhaPlant::Render()
 {
 	if (isRising)
 	{
-		int aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_DOWN_LEFT;
-		if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_DOWN_LEFT)
-		{
-			aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_DOWN_LEFT;
-		}
-		else if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_DOWN_RIGHT)
-		{
-			aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_DOWN_RIGHT;
-		}
-		else if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_UP_LEFT)
-		{
-			aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_UP_LEFT;
-		}
-		else
-		{
-			aniId = ID_ANI_PIRANHAPLANT_CHOMP_RED_UP_RIGHT;
-		}
-
-		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+		CAnimations::GetInstance()->Get(chompAniIds[lookDirection])->Render(x, y);
 	}
 	else
 	{
-		int spriteId = ID_SPRITE_PIRANHAPLANT_RED_CLOSE_DOWN_LEFT;
-		if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_DOWN_LEFT)
-		{
-			spriteId = ID_SPRITE_PIRANHAPLANT_RED_CLOSE_DOWN_LEFT;
-		}
-		else if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_DOWN_RIGHT)
-		{
-			spriteId = ID_SPRITE_PIRANHAPLANT_RED_CLOSE_DOWN_RIGHT;
-		}
-		else if (lookDirection == PIRANHAPLANT_LOOK_DIRECTION_UP_LEFT)
-		{
-			spriteId = ID_SPRITE_PIRANHAPLANT_RED_CLOSE_UP_LEFT;
-		}
-		else
-		{
-			spriteId = ID_SPRITE_PIRANHAPLANT_RED_CLOSE_UP_RIGHT;
-		}
-
-		CSprites::GetInstance()->Get(spriteId)->Draw(x, y);
+		CSprites::GetInstance()->Get(closeSpriteIds[lookDirection])->Draw(x, y);
 	}
 	RenderBoundingBox();
 }

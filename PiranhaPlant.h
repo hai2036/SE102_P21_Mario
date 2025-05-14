@@ -8,10 +8,12 @@
 #define PIRANHAPLANT_BBOX_WIDTH UNIT_SIZE
 #define PIRANHAPLANT_BBOX_HEIGHT UNIT_SIZE * 2
 
-#define PIRANHAPLANT_LOOK_DIRECTION_UP_LEFT 1
-#define PIRANHAPLANT_LOOK_DIRECTION_UP_RIGHT 2
-#define PIRANHAPLANT_LOOK_DIRECTION_DOWN_LEFT 3
-#define PIRANHAPLANT_LOOK_DIRECTION_DOWN_RIGHT 4
+enum PiranhaPlantLookDirection {
+	UP_LEFT = 0,
+	UP_RIGHT = 1,
+	DOWN_LEFT = 2,
+	DOWN_RIGHT = 3
+};
 
 class CPiranhaPlant : public CGameObject
 {
@@ -24,7 +26,7 @@ protected:
 	ULONGLONG rise_start;
 	ULONGLONG cooldown_start;
 
-	int lookDirection;
+	PiranhaPlantLookDirection lookDirection;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
