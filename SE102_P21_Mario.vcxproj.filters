@@ -34,6 +34,7 @@
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Paragoomba.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
+    <ClCompile Include="Fireball.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -72,6 +73,7 @@
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Paragoomba.h" />
     <ClInclude Include="PiranhaPlant.h" />
+    <ClInclude Include="Fireball.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
