@@ -92,6 +92,11 @@ void CRedKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	if (this->state == KOOPA_STATE_WALKING)
 	{
+		if (this->ghostBlock == nullptr)
+		{
+			this->ghostBlock = new CGhostBlock(x + UNIT_SIZE, y);
+			CGame::GetInstance()->GetCurrentScene()->AddObject(this->ghostBlock);
+		}
 		CGhostBlock* ghostblock = dynamic_cast<CGhostBlock*>(this->ghostBlock);
 		float temp_x, temp_y;
 		ghostblock->GetPosition(temp_x, temp_y);
@@ -109,6 +114,14 @@ void CRedKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		else
 		{
 			ghostblock->SetPosition(x - (KOOPA_BBOX_WIDTH / 2 + GHOST_BLOCK_WIDTH / 2), temp_y);
+		}
+	}
+	else
+	{
+		if (this->ghostBlock != nullptr)
+		{
+			this->ghostBlock->Delete();
+			this->ghostBlock = nullptr;
 		}
 	}
 	CKoopa::Update(dt, coObjects);
