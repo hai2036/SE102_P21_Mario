@@ -15,6 +15,7 @@
 #include "Blocks.h"
 #include "BackgroundBush.h"
 #include "BackgroundCloud.h"
+#include "BackgroundHill.h"
 #include "PrizeBlock.h"
 #include "Brick.h"
 #include "Goomba.h"

@@ -213,6 +213,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBackgroundCloud(x, y, length);
 		break;
 	}
+	case OBJECT_TYPE_BACKGROUND_HILL:
+	{
+		int type = atoi(tokens[3].c_str());
+		obj = new CBackgroundHill(x, y, type);
+		break;
+	}
 	case OBJECT_TYPE_PIRANHAPLANT:
 	{
 		x += UNIT_SIZE / 2;

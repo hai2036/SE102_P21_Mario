@@ -132,6 +132,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BackgroundBush.cpp" />
     <ClCompile Include="BackgroundCloud.cpp" />
+    <ClCompile Include="BackgroundHill.cpp" />
     <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="BoxPlatform.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="BackgroundBush.h" />
     <ClInclude Include="BackgroundCloud.h" />
+    <ClInclude Include="BackgroundHill.h" />
     <ClInclude Include="Blocks.h" />
     <ClInclude Include="Border.h" />
     <ClInclude Include="BoxPlatform.h" />
