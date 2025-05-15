@@ -43,7 +43,7 @@ void CMobSpawner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
             mob = new CRedKoopa(x, y);
             break;
         case SPAWNER_PIRANHAPLANT_RED:
-            mob = new CPiranhaPlant(x + UNIT_SIZE / 2, y + UNIT_SIZE / 2);
+            mob = new CPiranhaPlant(x, y);
             break;
         }
 

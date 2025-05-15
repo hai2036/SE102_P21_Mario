@@ -143,14 +143,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CMobSpawner(x, y, SPAWNER_GOOMBA); break;
-	case OBJECT_TYPE_PARAGOOMBA: obj = new CParagoomba(x, y); break;
+	case OBJECT_TYPE_PARAGOOMBA: obj = new CMobSpawner(x, y, SPAWNER_PARAGOOMBA); break;
+	case OBJECT_TYPE_PIRANHAPLANT:
+	{
+		x += UNIT_SIZE / 2;
+		y += UNIT_SIZE / 2;
+		obj = new CMobSpawner(x, y, SPAWNER_PIRANHAPLANT_RED);
+		obj->SetPosition(x, y);
+		objects.push_back(obj);
+		break;
+	}
 	case OBJECT_TYPE_KOOPAS:
-	{ 
+	{
 		int koopas_type = atoi(tokens[3].c_str());
 		switch (koopas_type)
 		{
 		case KOOPA_TYPE_RED:
-			obj = new CRedKoopa(x, y);
+			obj = new CMobSpawner(x, y, SPAWNER_KOOPA_RED);
 		default:
 			break;
 		}
@@ -254,15 +263,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		bool rightOutline = atoi(tokens[5].c_str());
 		obj = new CBackgroundHill(x, y, height, leftOutline, rightOutline);
 		break;
-	}
-	case OBJECT_TYPE_PIRANHAPLANT:
-	{
-		x += UNIT_SIZE / 2;
-		y += UNIT_SIZE / 2;
-		obj = new CPiranhaPlant(x, y);
-		obj->SetPosition(x, y);
-		objects.push_back(obj);
-		return;
 	}
 
 	break;
