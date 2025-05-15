@@ -2,16 +2,22 @@
 #include "AssetIDs.h"
 #include "GameObject.h"
 
+const 
+
 class CBackgroundHill : public CGameObject
 {
 protected:
-	int type;
+	int height;
+	bool leftOutline;
+	bool rightOutline;
 
 	virtual void Render();
 	void GetBoundingBox(float& l, float& t, float& r, float& b) {};
 public:
-	CBackgroundHill(float x, float y, int type) : CGameObject(x, y)
+	CBackgroundHill(float x, float y, int height, bool leftOutline, bool rightOutline) : CGameObject(x, y)
 	{
-		this->type = type;
+		this->height = height;
+		this->leftOutline = leftOutline;
+		this->rightOutline = rightOutline;
 	}
 };

@@ -215,8 +215,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_BACKGROUND_HILL:
 	{
-		int type = atoi(tokens[3].c_str());
-		obj = new CBackgroundHill(x, y, type);
+		int height = atoi(tokens[3].c_str());
+		bool leftOutline = atoi(tokens[4].c_str());
+		bool rightOutline = atoi(tokens[5].c_str());
+		obj = new CBackgroundHill(x, y, height, leftOutline, rightOutline);
 		break;
 	}
 	case OBJECT_TYPE_PIRANHAPLANT:
