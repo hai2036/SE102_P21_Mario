@@ -17,7 +17,7 @@ CParagoomba::CParagoomba(float x, float y) :CGoomba(x, y)
 
 void CParagoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == PARAGOOMBA_STATE_DIE)
+	if (state == GOOMBA_STATE_DIE)
 	{
 		left = x - GOOMBA_BBOX_WIDTH / 2;
 		top = y - GOOMBA_BBOX_HEIGHT_DIE / 2;
@@ -83,7 +83,7 @@ void CParagoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-	if ((state == PARAGOOMBA_STATE_DIE) && (tick - die_start > GOOMBA_DIE_TIMEOUT))
+	if ((state == GOOMBA_STATE_DIE) && (tick - die_start > GOOMBA_DIE_TIMEOUT))
 	{
 		isDeleted = true;
 		return;
@@ -98,11 +98,11 @@ void CParagoomba::Render()
 {
 	int aniId = ID_ANI_PARAGOOMBA_WING_WALK;
 	float oy = PARAGOOMBA_SPRITE_OFFSET_WING_WALK_Y;
-	if (state == PARAGOOMBA_STATE_DIE)
+	if (state == GOOMBA_STATE_DIE)
 	{
 		aniId = ID_ANI_PARAGOOMBA_DIE;
 	}
-	else if (state == PARAGOOMBA_STATE_FOOT)
+	else if (state == GOOMBA_STATE_FOOT)
 	{
 		aniId = ID_ANI_PARAGOOMBA_FOOT_WALK;
 		oy = 0;
@@ -124,14 +124,14 @@ void CParagoomba::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case PARAGOOMBA_STATE_DIE:
+	case GOOMBA_STATE_DIE:
 		die_start = tick;
 		y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
 		ay = 0;
 		break;
-	case PARAGOOMBA_STATE_FOOT:
+	case GOOMBA_STATE_FOOT:
 		isHostile = false;
 		unhostile_start = tick;
 		vx = -GOOMBA_WALKING_SPEED;

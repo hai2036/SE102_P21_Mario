@@ -5,7 +5,7 @@ CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
 	die_start = -1;
-	SetState(GOOMBA_STATE_WALKING);
+	SetState(GOOMBA_STATE_FOOT);
 }
 
 void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -87,7 +87,7 @@ void CGoomba::SetState(int state)
 			vy = 0;
 			ay = 0; 
 			break;
-		case GOOMBA_STATE_WALKING: 
+		case GOOMBA_STATE_FOOT: 
 			vx = -GOOMBA_WALKING_SPEED;
 			break;
 	}
