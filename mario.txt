@@ -163,7 +163,7 @@
 
 #KICKING LEFT & RIGHT
 13801	2	754	23	781	0
-13802	422	274	443	300	0
+13802	422	754	443	781	0
 
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
