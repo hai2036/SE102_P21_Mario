@@ -155,6 +155,7 @@ class CMario : public CGameObject
 	int coin;
 	LPGAMEOBJECT tailHitBox;
 
+	void OnCollisionWithParagoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
@@ -162,8 +163,8 @@ class CMario : public CGameObject
 	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithSuperMushroom(LPCOLLISIONEVENT e);
 	void OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e);
-
-
+	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
+	void OnCollisionWithFireball(LPCOLLISIONEVENT e);
 
 
 	int GetAniIdRacoon();

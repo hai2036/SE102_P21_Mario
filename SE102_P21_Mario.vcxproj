@@ -132,10 +132,12 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BackgroundBush.cpp" />
     <ClCompile Include="BackgroundCloud.cpp" />
+    <ClCompile Include="BackgroundHill.cpp" />
     <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="BoxPlatform.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="debug.cpp" />
@@ -145,7 +147,9 @@
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
+    <ClCompile Include="Paragoomba.cpp" />
     <ClCompile Include="Pipe.cpp" />
+    <ClCompile Include="PiranhaPlant.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
@@ -170,10 +174,12 @@
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="BackgroundBush.h" />
     <ClInclude Include="BackgroundCloud.h" />
+    <ClInclude Include="BackgroundHill.h" />
     <ClInclude Include="Blocks.h" />
     <ClInclude Include="Border.h" />
     <ClInclude Include="BoxPlatform.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="Fireball.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="debug.h" />
@@ -183,7 +189,9 @@
     <ClInclude Include="Ground.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Mario.h" />
+    <ClInclude Include="Paragoomba.h" />
     <ClInclude Include="Pipe.h" />
+    <ClInclude Include="PiranhaPlant.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
