@@ -108,8 +108,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (tokens.size() < 2) return;
 
 	int object_type = atoi(tokens[0].c_str());
-	float x = (float)atof(tokens[1].c_str()) * 16;
-	float y = (float)atof(tokens[2].c_str()) * 16;
+	float x = (float)atof(tokens[1].c_str()) * UNIT_SIZE;
+	float y = (float)atof(tokens[2].c_str()) * UNIT_SIZE;
 
 	CGameObject *obj = NULL;
 
@@ -135,6 +135,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
+	case OBJECT_TYPE_PARAGOOMBA: obj = new CParagoomba(x, y); break;
 	case OBJECT_TYPE_KOOPAS:
 	{ 
 		int koopas_type = atoi(tokens[3].c_str());
@@ -237,6 +238,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int length = atoi(tokens[3].c_str());
 		obj = new CBackgroundCloud(x, y, length);
 		break;
+	}
+	case OBJECT_TYPE_BACKGROUND_HILL:
+	{
+		int height = atoi(tokens[3].c_str());
+		bool leftOutline = atoi(tokens[4].c_str());
+		bool rightOutline = atoi(tokens[5].c_str());
+		obj = new CBackgroundHill(x, y, height, leftOutline, rightOutline);
+		break;
+	}
+	case OBJECT_TYPE_PIRANHAPLANT:
+	{
+		x += UNIT_SIZE / 2;
+		y += UNIT_SIZE / 2;
+		obj = new CPiranhaPlant(x, y);
+		obj->SetPosition(x, y);
+		objects.push_back(obj);
+		return;
 	}
 
 	break;

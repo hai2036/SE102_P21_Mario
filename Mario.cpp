@@ -5,12 +5,15 @@
 #include "Game.h"
 
 #include "Goomba.h"
+#include "Paragoomba.h"
 #include "Coin.h"
 #include "Portal.h"
 #include "Border.h"
 #include "PrizeBlock.h"
 #include "SuperMushroom.h"
 #include "SuperLeaf.h"
+#include "PiranhaPlant.h"
+#include "Fireball.h"
 #include "Collision.h"
 #include "Koopa.h"
 
@@ -102,7 +105,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vx = 0;
 	}
 
-	if (dynamic_cast<CGoomba*>(e->obj))
+	if (dynamic_cast<CParagoomba*>(e->obj))
+		OnCollisionWithParagoomba(e);
+	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
@@ -116,8 +121,52 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithSuperMushroom(e);
 	else if (dynamic_cast<CSuperLeaf*>(e->obj))
 		OnCollisionWithSuperLeaf(e);
+	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
+		OnCollisionWithPiranhaPlant(e);
+	else if (dynamic_cast<CFireball*>(e->obj))
+		OnCollisionWithFireball(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
+}
+
+void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
+{
+	CParagoomba* goomba = dynamic_cast<CParagoomba*>(e->obj);
+
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (goomba->GetState() != PARAGOOMBA_STATE_DIE)
+		{
+			y -= 16;
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			if (goomba->GetState() == PARAGOOMBA_STATE_WING)
+			{
+				goomba->SetState(PARAGOOMBA_STATE_FOOT);
+				return;
+			}
+			goomba->SetState(PARAGOOMBA_STATE_DIE);
+		}
+	}
+	else // hit by Goomba
+	{
+		if (untouchable == 0 && goomba->GetIsHostile() == true)
+		{
+			if (goomba->GetState() != PARAGOOMBA_STATE_DIE)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level -= 1;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
 }
 
 void CMario::GetHitByEnemy() {
@@ -270,6 +319,44 @@ void CMario::OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e)
 	CSuperLeaf* superLeaf = (CSuperLeaf*)e->obj;
 	superLeaf->SetState(SUPER_LEAF_STATE_DIE);
 	SetLevel(this->level + 1);
+}
+
+void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
+{
+	CPiranhaPlant* piranhaPlant = dynamic_cast<CPiranhaPlant*>(e->obj);
+
+	if (untouchable == 0 && piranhaPlant->GetIsHostile() == true)
+	{
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level -= 1;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
+	}
+}
+
+void CMario::OnCollisionWithFireball(LPCOLLISIONEVENT e)
+{
+	CFireball* fireball = dynamic_cast<CFireball*>(e->obj);
+
+	if (untouchable == 0 && fireball->GetIsHostile() == true)
+	{
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level -= 1;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
+	}
 }
 
 //
