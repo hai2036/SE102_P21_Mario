@@ -3,6 +3,7 @@
 #include "PrizeBlock.h"
 #include "Mario.h"
 #include "Game.h"
+#include "PiranhaPlant.h"
 #include "debug.h"
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
@@ -63,8 +64,12 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithKoopa(e);
 		else if (dynamic_cast<CPrizeBlock*>(e->obj))
 			OnCollisionWithPrizeBlock(e);
+		else if (dynamic_cast<CPiranhaPlant*>(e->obj))
+			OnCollisionWithPiranhaPlant(e);
 	}
 }
+
+
 
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
@@ -87,6 +92,13 @@ void CKoopa::OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e) {
 	CPrizeBlock* prizeBlock = dynamic_cast<CPrizeBlock*>(e->obj);
 
 	prizeBlock->SetState(STATE_HIT);
+}
+
+void CKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
+	CPiranhaPlant* PiranhaPlant = dynamic_cast<CPiranhaPlant*>(e->obj);
+	
+	PiranhaPlant->Damage();
+	
 }
 
 
