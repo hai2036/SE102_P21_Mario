@@ -1,12 +1,13 @@
 #include "SuperMushroom.h"
+#include "debug.h"
 CSuperMushroom::CSuperMushroom(float x, float y, int dx) :CGameObject(x, y)
 {
 	this->ax = 0;
-	this->ay = SUPER_MUSHROOM_GRAVITY;
-	this->state = SUPER_MUSHROOM_STATE_ALIVE;
-	this->dx = dx;
-	this->vx = SUPER_MUSHROOM_WALKING_SPEED* this->dx;
-	
+	this->ay = 0;
+	this->state = SUPER_MUSHROOM_STATE_RISE_UP;
+	this->dx = dx;	
+	this->vy = SUPER_MUSHROOM_RISE_UP_SPEED;
+	this->old_y = y;
 }
 
 void CSuperMushroom::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -40,10 +41,23 @@ void CSuperMushroom::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CSuperMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy += ay * dt;
-	vx += ax * dt;
+	
 
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	if (this->state == SUPER_MUSHROOM_STATE_RISE_UP)
+	{
+		y += vy * dt;
+	}
+	else
+	{
+		vy += ay * dt;
+		vx += ax * dt;
+		CCollision::GetInstance()->Process(this, dt, coObjects);
+	}
+
+	if (old_y - y >= UNIT_SIZE && this->state == SUPER_MUSHROOM_STATE_RISE_UP)
+	{
+		SetState(SUPER_MUSHROOM_STATE_WALKING);
+	}
 }
 
 
@@ -59,8 +73,21 @@ void CSuperMushroom::SetState(int state)
 	switch (this->state)
 	{
 	case SUPER_MUSHROOM_STATE_DIE:
+	{
+		vx = 0;
+		vy = 0;
 		this->Delete();
 		break;
+	}
+		
+	case SUPER_MUSHROOM_STATE_WALKING:
+	{
+		this->ay = SUPER_MUSHROOM_GRAVITY;
+		this->dx = dx;
+		this->vx = SUPER_MUSHROOM_WALKING_SPEED * this->dx;
+		break;
+	}
+	
 	default:
 		break;
 	}

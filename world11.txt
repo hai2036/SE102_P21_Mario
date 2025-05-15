@@ -15,6 +15,7 @@ paragoomba.txt
 prizeBlock.txt
 superMushroom.txt
 superLeaf.txt
+koopa.txt
 piranhaPlant.txt
 fireball.txt
 #
@@ -78,7 +79,7 @@ fireball.txt
 #BORDERS
 -1	0	0	1	26	0
 -1	171	0	1	26	0
--1	0	27	172	1	1
+-1	0	30	172	1	1
 
 #GROUND
 # Type	X	Y	Length	Height
@@ -149,11 +150,18 @@ fireball.txt
 
 10	26	20	4
 
-10	41	24	21
+10	41	24	20
 
 10	44	22	4
 
 #GOOMBAS
+2	14	25
+2	33	25
+2	52	24
+2	55	24
+#KOOPAS
+
+3	36	21	1
 2	14	25
 2	33	25
 2	52	24

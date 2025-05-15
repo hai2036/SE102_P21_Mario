@@ -39,16 +39,27 @@
 
 #define MARIO_STATE_TAIL_ATTACKING	700
 
+#define MARIO_STATE_RELEASE_HOLD	800
+#define MARIO_STATE_HOLDING_RUNNING_RIGHT	801
+#define MARIO_STATE_HOLDING_RUNNING_LEFT	802
+
 #pragma region ANIMATION_ID
 
 #define ID_ANI_MARIO_IDLE_RIGHT 400
 #define ID_ANI_MARIO_IDLE_LEFT 401
+#define ID_ANI_MARIO_IDLE_HOLD_RIGHT 402
+#define ID_ANI_MARIO_IDLE_HOLD_LEFT 403
+
+#define ID_ANI_MARIO_KICKING_RIGHT	411
+#define ID_ANI_MARIO_KICKING_LEFT	412
 
 #define ID_ANI_MARIO_WALKING_RIGHT 500
 #define ID_ANI_MARIO_WALKING_LEFT 501
 
 #define ID_ANI_MARIO_RUNNING_RIGHT 600
 #define ID_ANI_MARIO_RUNNING_LEFT 601
+#define ID_ANI_MARIO_RUNNING_HOLD_RIGHT 602
+#define ID_ANI_MARIO_RUNNING_HOLD_LEFT 603
 
 #define ID_ANI_MARIO_JUMP_WALK_RIGHT 700
 #define ID_ANI_MARIO_JUMP_WALK_LEFT 701
@@ -67,12 +78,19 @@
 // SMALL MARIO
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT 1100
 #define ID_ANI_MARIO_SMALL_IDLE_LEFT 1102
+#define ID_ANI_MARIO_SMALL_IDLE_HOLD_RIGHT 1103
+#define ID_ANI_MARIO_SMALL_IDLE_HOLD_LEFT 1104
+
+#define ID_ANI_MARIO_SMALL_KICKING_RIGHT 1105
+#define ID_ANI_MARIO_SMALL_KICKING_LEFT 1106
 
 #define ID_ANI_MARIO_SMALL_WALKING_RIGHT 1200
 #define ID_ANI_MARIO_SMALL_WALKING_LEFT 1201
 
 #define ID_ANI_MARIO_SMALL_RUNNING_RIGHT 1300
 #define ID_ANI_MARIO_SMALL_RUNNING_LEFT 1301
+#define ID_ANI_MARIO_SMALL_RUNNING_HOLD_RIGHT 1302
+#define ID_ANI_MARIO_SMALL_RUNNING_HOLD_LEFT 1303
 
 #define ID_ANI_MARIO_SMALL_BRACE_RIGHT 1400
 #define ID_ANI_MARIO_SMALL_BRACE_LEFT 1401
@@ -86,12 +104,19 @@
 // RACCOON MARIO
 #define ID_ANI_MARIO_RACCOON_IDLE_RIGHT 1700
 #define ID_ANI_MARIO_RACCOON_IDLE_LEFT 1701
+#define ID_ANI_MARIO_RACCOON_IDLE_HOLD_RIGHT 1702
+#define ID_ANI_MARIO_RACCOON_IDLE_HOLD_LEFT 1703
+
+#define ID_ANI_MARIO_RACCOON_KICKING_RIGHT 1704
+#define ID_ANI_MARIO_RACCOON_KICKING_LEFT 1705
 
 #define ID_ANI_MARIO_RACCOON_WALKING_RIGHT 1800
 #define ID_ANI_MARIO_RACCOON_WALKING_LEFT 1801
 
 #define ID_ANI_MARIO_RACCOON_RUNNING_RIGHT 1900
 #define ID_ANI_MARIO_RACCOON_RUNNING_LEFT 1901
+#define ID_ANI_MARIO_RACCOON_RUNNING_HOLD_RIGHT 1902
+#define ID_ANI_MARIO_RACCOON_RUNNING_HOLD_LEFT 1903
 
 #define ID_ANI_MARIO_RACCOON_JUMP_WALK_RIGHT 2000
 #define ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT 2001
@@ -135,7 +160,8 @@
 
 
 #define MARIO_UNTOUCHABLE_TIME 2500
-#define MARIO_TAIL_ATTACKING_TIME	400
+#define MARIO_TAIL_ATTACKING_TIME	200
+#define MARIO_KICKING_TIME 200
 
 class CMario : public CGameObject
 {
@@ -143,6 +169,8 @@ class CMario : public CGameObject
 	BOOLEAN isFlying;
 	BOOLEAN isTailAttacking;
 	BOOLEAN isWagging;
+	BOOLEAN isKicking;
+	BOOLEAN isHolding;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -151,9 +179,12 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	ULONGLONG tail_attacking_start;
+	ULONGLONG kicking_start;
+
 	BOOLEAN isOnPlatform;
 	int coin;
 	LPGAMEOBJECT tailHitBox;
+	LPGAMEOBJECT holdingObject;
 
 	void OnCollisionWithParagoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -165,13 +196,15 @@ class CMario : public CGameObject
 	void OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e);
 	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 	void OnCollisionWithFireball(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
+
 
 
 	int GetAniIdRacoon();
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	
-
+	void GetHitByEnemy();
 public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
@@ -179,6 +212,8 @@ public:
 		isFlying = false;
 		isTailAttacking = false;
 		isWagging = false;
+		isKicking = false;
+		isHolding = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
@@ -187,9 +222,11 @@ public:
 		untouchable = 0;
 		untouchable_start = -1;
 		tail_attacking_start = -1;
+		kicking_start = -1;
 		isOnPlatform = false;
 		coin = 0;
 		tailHitBox = nullptr;
+		holdingObject = nullptr;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -212,4 +249,6 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void AddCoin(int Coin) { this->coin += Coin; };
 	BOOLEAN IsTailAttacking() { return this->isTailAttacking; };
+	BOOLEAN IsHolding() { return this->isHolding; };
+	int Getnx() { return this->nx; };
 };

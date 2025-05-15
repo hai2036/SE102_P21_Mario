@@ -6,6 +6,19 @@
 #include "Utils.h"
 #include "Textures.h"
 #include "Sprites.h"
+#include "Portal.h"
+#include "Coin.h"
+#include "Platform.h"
+#include "Border.h"
+#include "Ground.h"
+#include "BoxPlatform.h"
+#include "Pipe.h"
+#include "Blocks.h"
+#include "BackgroundBush.h"
+#include "BackgroundCloud.h"
+#include "PrizeBlock.h"
+#include "Koopa.h"
+#include "RedKoopa.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -123,6 +136,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CParagoomba(x, y); break;
+	case OBJECT_TYPE_KOOPAS:
+	{ 
+		int koopas_type = atoi(tokens[3].c_str());
+		switch (koopas_type)
+		{
+		case KOOPA_TYPE_RED:
+			obj = new CRedKoopa(x, y);
+		default:
+			break;
+		}
+		 
+		break; 
+	}
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN:
 	{
