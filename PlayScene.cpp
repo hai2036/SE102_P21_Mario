@@ -151,7 +151,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CMobSpawner(x, y, SPAWNER_PIRANHAPLANT_RED);
 		obj->SetPosition(x, y);
 		objects.push_back(obj);
-		break;
+		return;
 	}
 	case OBJECT_TYPE_KOOPAS:
 	{
