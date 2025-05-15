@@ -2,7 +2,7 @@
 #include "AssetIDs.h"
 #include "GameObject.h"
 
-#define PIRANHAPLANT_RISE_TIME 1000
+#define PIRANHAPLANT_RISE_TIME 500
 #define PIRANHAPLANT_RISE_COOLDOWN 3000
 #define PIRANHAPLANT_SHOOT_TIME 500
 
