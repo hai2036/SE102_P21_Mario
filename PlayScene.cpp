@@ -6,6 +6,8 @@
 #include "Utils.h"
 #include "Textures.h"
 #include "Sprites.h"
+
+#include "Mario.h"
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
@@ -16,7 +18,12 @@
 #include "Blocks.h"
 #include "BackgroundBush.h"
 #include "BackgroundCloud.h"
+#include "BackgroundHill.h"
 #include "PrizeBlock.h"
+#include "Brick.h"
+#include "Goomba.h"
+#include "Paragoomba.h"
+#include "PiranhaPlant.h"
 #include "Koopa.h"
 #include "RedKoopa.h"
 
