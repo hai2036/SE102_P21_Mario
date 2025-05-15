@@ -71,6 +71,7 @@
     <ClCompile Include="RedKoopa.cpp" />
     <ClCompile Include="GhostBlock.cpp" />
     <ClCompile Include="PrizeCoin.cpp" />
+    <ClCompile Include="MobSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="RedKoopa.h" />
     <ClInclude Include="GhostBlock.h" />
     <ClInclude Include="PrizeCoin.h" />
+    <ClInclude Include="MobSpawner.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
