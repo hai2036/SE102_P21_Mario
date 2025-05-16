@@ -4,6 +4,7 @@
 #include "Mario.h"
 #include "Game.h"
 #include "PiranhaPlant.h"
+#include "Border.h"
 #include "debug.h"
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
@@ -54,6 +55,13 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		}
 	}
 
+	if (dynamic_cast<CBorder*>(e->obj)) {
+		CBorder* b = (CBorder*)e->obj;
+		if (b->GetType() == 1)
+		{
+			SetState(KOOPA_STATE_DIE);
+		}
+	}
 	
 
 	if (state== KOOPA_STATE_KICKED)

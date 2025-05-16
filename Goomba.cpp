@@ -1,5 +1,5 @@
 #include "Goomba.h"
-
+#include "Border.h"
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
 	this->ax = 0;
@@ -36,6 +36,15 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return; 
 	if (dynamic_cast<CGoomba*>(e->obj)) return; 
+	
+	if (dynamic_cast<CBorder*>(e->obj)) {
+		CBorder* b = (CBorder*)e->obj;
+		if (b->GetType() == 1)
+		{
+			SetState(GOOMBA_STATE_DIE);
+			return;
+		}
+	}
 
 	if (e->ny != 0 )
 	{

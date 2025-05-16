@@ -774,7 +774,7 @@ void CMario::SetState(int state)
 		if (tailHitBox == nullptr)
 		{
 			tailHitBox = new CTailHitBox(x + MARIO_BIG_BBOX_WIDTH+3, y);
-			CGame::GetInstance()->GetCurrentScene()->AddObject(tailHitBox);
+			CGame::GetInstance()->GetCurrentScene()->AddObject(tailHitBox,1);
 		}
 		isTailAttacking = true;
 		tail_attacking_start = GetTickCount64();

@@ -43,6 +43,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
+#define SCENE_SECTION_LAYERS	3
 
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
@@ -84,6 +85,22 @@ void CPlayScene::_ParseSection_ASSETS(string line)
 	LoadAssets(path.c_str());
 }
 
+void CPlayScene::_ParseSection_LAYERS(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 1) return;
+
+	this->numberOfLayers = atoi(tokens[0].c_str());
+
+	for (int i = 0; i < this->numberOfLayers; i++)
+	{
+		vector<LPGAMEOBJECT> layers;
+		objects.push_back(layers);
+	}
+
+}
+
 void CPlayScene::_ParseSection_ANIMATIONS(string line)
 {
 	vector<string> tokens = split(line);
@@ -112,12 +129,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
 
-	// skip invalid lines - an object set must have at least id, x, y
-	if (tokens.size() < 2) return;
+	// skip invalid lines - an object set must have at least id, x, y, z
+	if (tokens.size() < 3) return;
 
 	int object_type = atoi(tokens[0].c_str());
 	float x = (float)atof(tokens[1].c_str()) * UNIT_SIZE;
 	float y = (float)atof(tokens[2].c_str()) * UNIT_SIZE;
+	int z = atoi(tokens[3].c_str());
+
 
 	CGameObject *obj = NULL;
 
@@ -125,9 +144,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 	case OBJECT_TYPE_BORDER:
 	{
-		int width = atoi(tokens[3].c_str());
-		int height = atoi(tokens[4].c_str());
-		int type = atoi(tokens[5].c_str());
+		int width = atoi(tokens[4].c_str());
+		int height = atoi(tokens[5].c_str());
+		int type = atoi(tokens[6].c_str());
 		obj = new CBorder(x, y, width, height, type);
 		break;
 	}
@@ -150,12 +169,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		y += UNIT_SIZE / 2;
 		obj = new CMobSpawner(x, y, SPAWNER_PIRANHAPLANT_RED);
 		obj->SetPosition(x, y);
-		objects.push_back(obj);
+		objects[z].push_back(obj);
 		return;
 	}
 	case OBJECT_TYPE_KOOPAS:
 	{
-		int koopas_type = atoi(tokens[3].c_str());
+		int koopas_type = atoi(tokens[4].c_str());
 		switch (koopas_type)
 		{
 		case KOOPA_TYPE_RED:
@@ -169,8 +188,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN:
 	{
-		int columns = atoi(tokens[3].c_str());
-		int rows = atoi(tokens[4].c_str());
+		int columns = atoi(tokens[4].c_str());
+		int rows = atoi(tokens[5].c_str());
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
@@ -178,7 +197,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 				int yy = y + UNIT_SIZE * i;
 				obj = new CCoin(xx, yy);
 				obj->SetPosition(xx, yy);
-				objects.push_back(obj);
+				objects[z].push_back(obj);
 			}
 		}
 		return;
@@ -188,12 +207,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PLATFORM:
 	{
 
-		float cell_width = (float)atof(tokens[3].c_str());
-		float cell_height = (float)atof(tokens[4].c_str());
-		int length = atoi(tokens[5].c_str());
-		int sprite_begin = atoi(tokens[6].c_str());
-		int sprite_middle = atoi(tokens[7].c_str());
-		int sprite_end = atoi(tokens[8].c_str());
+		float cell_width = (float)atof(tokens[4].c_str());
+		float cell_height = (float)atof(tokens[5].c_str());
+		int length = atoi(tokens[6].c_str());
+		int sprite_begin = atoi(tokens[7].c_str());
+		int sprite_middle = atoi(tokens[8].c_str());
+		int sprite_end = atoi(tokens[9].c_str());
 
 		obj = new CPlatform(
 			x, y,
@@ -205,62 +224,62 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_GROUND:
 	{
-		int ground_width = atoi(tokens[3].c_str());
-		int ground_height = atoi(tokens[4].c_str());
+		int ground_width = atoi(tokens[4].c_str());
+		int ground_height = atoi(tokens[5].c_str());
 		obj = new CGround(x, y, ground_width, ground_height);
 		break;
 	}
 	case OBJECT_TYPE_BOX_PLATFORM:
 	{
-		int box_width = atoi(tokens[3].c_str());
-		int box_height = atoi(tokens[4].c_str());
-		int color = atoi(tokens[5].c_str());
+		int box_width = atoi(tokens[4].c_str());
+		int box_height = atoi(tokens[5].c_str());
+		int color = atoi(tokens[6].c_str());
 		obj = new CBoxPlatform(x, y, box_width, box_height, color);
 		break;
 	}
 	case OBJECT_TYPE_PIPE:
 	{
-		int height = atoi(tokens[3].c_str());
+		int height = atoi(tokens[4].c_str());
 		obj = new CPipe(x, y, height);
 		break;
 	}
 	case OBJECT_TYPE_BLOCKS:
 	{
-		int length = atoi(tokens[3].c_str());
-		int sprite_id = atoi(tokens[4].c_str());
+		int length = atoi(tokens[4].c_str());
+		int sprite_id = atoi(tokens[5].c_str());
 		obj = new CBlocks(x, y, length, sprite_id);
 		break;
 	}
 	case OBJECT_TYPE_PRIZE_BLOCK:
 	{
-		int prizeID = atoi(tokens[3].c_str());
+		int prizeID = atoi(tokens[4].c_str());
 		obj = new CPrizeBlock(x, y, prizeID);
 		break;
 	}
 	case OBJECT_TYPE_PORTAL:
 	{
-		float r = (float)atof(tokens[3].c_str());
-		float b = (float)atof(tokens[4].c_str());
-		int scene_id = atoi(tokens[5].c_str());
+		float r = (float)atof(tokens[4].c_str());
+		float b = (float)atof(tokens[5].c_str());
+		int scene_id = atoi(tokens[6].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
 	case OBJECT_TYPE_BACKGROUND_BUSH:
 	{
-		int length = atoi(tokens[3].c_str());
+		int length = atoi(tokens[4].c_str());
 		obj = new CBackgroundBush(x, y, length);
 		break;
 	}
 	case OBJECT_TYPE_BACKGROUND_CLOUD:
 	{
-		int length = atoi(tokens[3].c_str());
+		int length = atoi(tokens[4].c_str());
 		obj = new CBackgroundCloud(x, y, length);
 		break;
 	}
 	case OBJECT_TYPE_BACKGROUND_HILL:
 	{
-		int height = atoi(tokens[3].c_str());
-		bool leftOutline = atoi(tokens[4].c_str());
-		bool rightOutline = atoi(tokens[5].c_str());
+		int height = atoi(tokens[4].c_str());
+		bool leftOutline = atoi(tokens[5].c_str());
+		bool rightOutline = atoi(tokens[6].c_str());
 		obj = new CBackgroundHill(x, y, height, leftOutline, rightOutline);
 		break;
 	}
@@ -275,7 +294,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	obj->SetPosition(x, y);
 
 
-	objects.push_back(obj);
+	objects[z].push_back(obj);
 }
 
 void CPlayScene::LoadAssets(LPCWSTR assetFile)
@@ -330,6 +349,7 @@ void CPlayScene::Load()
 
 		if (line[0] == '#') continue;	// skip comment lines	
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
+		if (line == "[LAYERS]") { section = SCENE_SECTION_LAYERS; continue; };
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
 
@@ -339,6 +359,7 @@ void CPlayScene::Load()
 		switch (section)
 		{ 
 			case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
+			case SCENE_SECTION_LAYERS: _ParseSection_LAYERS(line); break;
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
@@ -352,17 +373,23 @@ void CPlayScene::Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 0; i < objects.size(); i++)
+	for (int i = 0; i < this->numberOfLayers; i++)
 	{
-		coObjects.push_back(objects[i]);
+		for (size_t k = 0; k < objects[i].size(); k++)
+		{
+			coObjects.push_back(objects[i][k]);
+		}
 	}
-
-	for (size_t i = 0; i < objects.size(); i++)
+	
+	for (int i = 0; i < this->numberOfLayers; i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		for (size_t k = 0; k < objects[i].size(); k++)
+		{
+			objects[i][k]->Update(dt, &coObjects);
+		}
 	}
+	
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
@@ -385,9 +412,12 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	for (int i = 1; i < objects.size(); i++)
-		objects[i]->Render();
-	objects[0]->Render();
+	for (int i = 0; i < this->numberOfLayers; i++)
+	{
+		for (int k = 0; k < objects[i].size(); k++)
+			objects[i][k]->Render();
+	}
+
 }
 
 /*
@@ -395,10 +425,14 @@ void CPlayScene::Render()
 */
 void CPlayScene::Clear()
 {
-	vector<LPGAMEOBJECT>::iterator it;
-	for (it = objects.begin(); it != objects.end(); it++)
+	for (int i = 0; i < this->numberOfLayers; i++)
 	{
-		delete (*it);
+		vector<LPGAMEOBJECT>::iterator it;
+		for (it = objects[i].begin(); it != objects[i].end(); it++)
+		{
+			delete (*it);
+		}
+		objects[i].clear();
 	}
 	objects.clear();
 }
@@ -411,9 +445,13 @@ void CPlayScene::Clear()
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
+	for (int i = 0; i < this->numberOfLayers; i++)
+	{
+		for (int k = 0; k < objects.size(); k++)
+			delete objects[i][k];
 
+		objects[i].clear();
+	}
 	objects.clear();
 	player = NULL;
 
@@ -424,24 +462,30 @@ bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT& o) { return o == NULL; 
 
 void CPlayScene::PurgeDeletedObjects()
 {
-	vector<LPGAMEOBJECT>::iterator it;
-	for (it = objects.begin(); it != objects.end(); it++)
-	{
-		LPGAMEOBJECT o = *it;
-		if (o->IsDeleted())
-		{
-			delete o;
-			*it = NULL;
-		}
-	}
 
-	// NOTE: remove_if will swap all deleted items to the end of the vector
-	// then simply trim the vector, this is much more efficient than deleting individual items
-	objects.erase(
-		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
-		objects.end());
+	for (int i = 0; i < this->numberOfLayers; i++)
+	{
+		vector<LPGAMEOBJECT>::iterator it;
+		for (it = objects[i].begin(); it != objects[i].end(); it++)
+		{
+			LPGAMEOBJECT o = *it;
+			if (o->IsDeleted())
+			{
+				delete o;
+				*it = NULL;
+			}
+		}
+
+		// NOTE: remove_if will swap all deleted items to the end of the vector
+		// then simply trim the vector, this is much more efficient than deleting individual items
+		objects[i].erase(
+			std::remove_if(objects[i].begin(), objects[i].end(), CPlayScene::IsGameObjectDeleted),
+			objects[i].end());
+	}
+	
 }
 
-void CPlayScene::AddObject(LPGAMEOBJECT obj) {
-	objects.push_back(obj);
+void CPlayScene::AddObject(LPGAMEOBJECT obj, int layer) {
+
+	objects[layer].push_back(obj);
 }
