@@ -5,7 +5,7 @@
 CRedKoopa::CRedKoopa(float x, float y) :CKoopa(x, y)
 {
 	this->ghostBlock = new CGhostBlock(x + UNIT_SIZE, y);
-	CGame::GetInstance()->GetCurrentScene()->AddObject(this->ghostBlock);
+	CGame::GetInstance()->GetCurrentScene()->AddObject(this->ghostBlock, 1);
 }
 
 int CRedKoopa::GetAniID()
@@ -95,7 +95,7 @@ void CRedKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		if (this->ghostBlock == nullptr)
 		{
 			this->ghostBlock = new CGhostBlock(x + UNIT_SIZE, y);
-			CGame::GetInstance()->GetCurrentScene()->AddObject(this->ghostBlock);
+			CGame::GetInstance()->GetCurrentScene()->AddObject(this->ghostBlock, 1);
 		}
 		CGhostBlock* ghostblock = dynamic_cast<CGhostBlock*>(this->ghostBlock);
 		float temp_x, temp_y;

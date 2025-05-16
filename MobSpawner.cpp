@@ -50,7 +50,7 @@ void CMobSpawner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
         if (mob) {
             CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
             mob->SetPosition(x, y);
-            scene->AddObject(mob);
+            scene->AddObject(mob, 1);
 
             isRespawnable = false;
         }

@@ -11,12 +11,14 @@ protected:
 	// A play scene has to have player, right? 
 	LPGAMEOBJECT player;					
 
-	vector<LPGAMEOBJECT> objects;
+	vector<vector<LPGAMEOBJECT>> objects;
+	int numberOfLayers;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 
 	void _ParseSection_ASSETS(string line);
+	void _ParseSection_LAYERS(string line);
 	void _ParseSection_OBJECTS(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
@@ -31,7 +33,7 @@ public:
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 
-	void AddObject(LPGAMEOBJECT obj);
+	void AddObject(LPGAMEOBJECT obj, int layer);
 	void Clear();
 	void PurgeDeletedObjects();
 

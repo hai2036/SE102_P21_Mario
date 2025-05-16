@@ -69,7 +69,7 @@ void CPrizeBlock::SetState(int state) {
 		this->state = STATE_EMPTY;
 		if (this->prize != nullptr)
 		{
-			CGame::GetInstance()->GetCurrentScene()->AddObject(this->prize);
+			CGame::GetInstance()->GetCurrentScene()->AddObject(this->prize, 1);
 		}
 	}
 }

@@ -123,7 +123,7 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 			LPGAMEOBJECT fireball = new CFireball(x, y - UNIT_SIZE / 2, dx, dy, true);
-			CGame::GetInstance()->GetCurrentScene()->AddObject(fireball);
+			CGame::GetInstance()->GetCurrentScene()->AddObject(fireball, 1);
 			canShoot = false;
 		}
 	}
