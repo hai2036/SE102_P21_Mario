@@ -3,7 +3,7 @@
 #include "Koopa.h"
 
 #define GHOST_BLOCK_WIDTH 4
-#define GHOST_BLOCK_HEIGHT 16
+#define GHOST_BLOCK_HEIGHT 8
 
 class CGhostBlock : public CGameObject
 {

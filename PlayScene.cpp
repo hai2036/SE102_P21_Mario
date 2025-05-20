@@ -197,8 +197,22 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK:
 	{
 		int prizeID = atoi(tokens[4].c_str());
-		obj = new CBrick(x, y, prizeID);
-		break; 
+		if (tokens.size() > 5) {
+			int	length = atoi(tokens[5].c_str());
+			for (int i = 0; i < length; i++)
+			{
+				int xx = x + UNIT_SIZE * i;
+				obj = new CBrick(x, y, prizeID);
+				obj->SetPosition(xx, y);
+				objects[z].push_back(obj);
+			}
+			return;
+		}
+		else
+		{
+			obj = new CBrick(x, y, prizeID);
+		}
+		break;
 	}
 
 	case OBJECT_TYPE_COIN:
