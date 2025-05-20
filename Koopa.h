@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define KOOPA_GRAVITY 0.002f
+#define KOOPA_GRAVITY 0.001f
 #define KOOPA_WALKING_SPEED 0.05f
 #define KOOPA_SPINNING_SPEED 0.2f
 #define TAIL_HIT_SPEED_X 0.1f
