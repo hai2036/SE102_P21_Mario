@@ -16,6 +16,7 @@
 #include "Fireball.h"
 #include "Collision.h"
 #include "Koopa.h"
+#include "GreenKoopa.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -223,9 +224,21 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				isKicking = true;
 				kicking_start = GetTickCount64();
 			}
+
+			if (dynamic_cast<CGreenKoopa*>(koopa))
+			{
+				CGreenKoopa* greenKoopa = dynamic_cast<CGreenKoopa*>(koopa);
+				if (greenKoopa->IsWing())
+				{
+					greenKoopa->Damage();
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+					StartUntouchable();
+					return;
+				}
+
+			}
 			koopa->SetState(KOOPA_STATE_HIDE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			
 			
 			return;
 		}
@@ -267,6 +280,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			if (koopa->GetState() != KOOPA_STATE_DIE)
 			{
 				GetHitByEnemy();
+
 			}
 		}
 	}

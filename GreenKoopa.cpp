@@ -5,6 +5,7 @@
 CGreenKoopa::CGreenKoopa(float x, float y, BOOLEAN wing) : CKoopa(x, y)
 {
 	this->wing = wing;
+
 	if (wing)
 	{
 		vy = GREEN_KOOPA_WING_JUMP_SPEED;
@@ -102,7 +103,7 @@ int CGreenKoopa::GetAniID()
 }
 
 void CGreenKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-	if (this->vy == 0)
+	if (this->vy == 0 && wing && KOOPA_STATE_WALKING)
 	{
 		vy = GREEN_KOOPA_WING_JUMP_SPEED;
 
@@ -110,3 +111,10 @@ void CGreenKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	CKoopa::Update(dt, coObjects);
 }
 
+void CGreenKoopa::Damage() {
+	if (this->wing)
+	{
+		this->wing = false;
+		this->vy = 0;
+	}
+}

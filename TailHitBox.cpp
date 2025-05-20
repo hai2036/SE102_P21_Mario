@@ -6,6 +6,7 @@
 #include "PrizeBlock.h"
 #include "Koopa.h"
 #include "PiranhaPlant.h"
+#include "GreenKoopa.h"
 
 #include "debug.h"
 #include "Collision.h"
@@ -78,6 +79,15 @@ void CTailHitBox::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 	if (koopa->GetState() != KOOPA_STATE_DIE)
 	{
+		if (dynamic_cast<CGreenKoopa*>(koopa))
+		{
+			CGreenKoopa* greenKoopa = dynamic_cast<CGreenKoopa*>(koopa);
+			if (greenKoopa->IsWing())
+			{
+				greenKoopa->Damage();
+			}
+
+		}
 		koopa->SetState(KOOPA_STATE_TAIL_HIT);
 	}
 }
