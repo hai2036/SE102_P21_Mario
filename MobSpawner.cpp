@@ -5,13 +5,23 @@
 #include "Paragoomba.h"
 #include "RedKoopa.h"
 #include "PiranhaPlant.h"
+#include "GreenKoopa.h"
 #include "PlayScene.h"
+
+CMobSpawner::CMobSpawner(float x, float y, SpawnerType type, int option) {
+    this->x = x;
+    this->y = y;
+    this->type = type;
+    this->option = option;
+    mob = nullptr;
+    isRespawnable = true;
+}
 
 CMobSpawner::CMobSpawner(float x, float y, SpawnerType type) {
     this->x = x;
     this->y = y;
     this->type = type;
-
+    this->option = 0;
     mob = nullptr;
     isRespawnable = true;
 }
@@ -41,6 +51,9 @@ void CMobSpawner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
             break;
         case SPAWNER_KOOPA_RED:
             mob = new CRedKoopa(x, y);
+            break;
+        case SPAWNER_KOOPA_GREEN:
+            mob = new CGreenKoopa(x, y, this->option);
             break;
         case SPAWNER_PIRANHAPLANT_RED:
             mob = new CPiranhaPlant(x, y);

@@ -145,6 +145,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GhostBlock.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="GreenKoopa.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="main.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GhostBlock.h" />
     <ClInclude Include="Goomba.h" />
+    <ClInclude Include="GreenKoopa.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Koopa.h" />
