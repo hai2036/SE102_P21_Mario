@@ -18,6 +18,7 @@ superLeaf.txt
 koopa.txt
 piranhaPlant.txt
 fireball.txt
+brick.txt
 #
 [LAYERS]
 4
@@ -156,6 +157,8 @@ fireball.txt
 
 10	44	22	3	4
 
+10	92	23	3	20
+
 #GOOMBAS
 2	14	25	1
 2	33	25	1
@@ -185,3 +188,7 @@ fireball.txt
 3	86	18	1	2	1
 3	89	18	1	2	1
 3	92	24	1	2	0
+
+#BRICK
+1	90	8	3	23
+	

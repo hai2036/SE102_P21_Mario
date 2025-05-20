@@ -17,6 +17,8 @@
 #include "Collision.h"
 #include "Koopa.h"
 #include "GreenKoopa.h"
+#include "LifeMushroom.h"
+#include "Brick.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -112,6 +114,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
+	else if (dynamic_cast<CBrick*>(e->obj))
+		OnCollisionWithBrick(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CBorder*>(e->obj))
@@ -120,6 +124,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPrizeBlock(e);
 	else if (dynamic_cast<CSuperMushroom*>(e->obj))
 		OnCollisionWithSuperMushroom(e);
+	else if (dynamic_cast<CLifeMushroom*>(e->obj))
+		OnCollisionWithLifeMushroom(e);
 	else if (dynamic_cast<CSuperLeaf*>(e->obj))
 		OnCollisionWithSuperLeaf(e);
 	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
@@ -333,6 +339,24 @@ void CMario::OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e)
 	CSuperLeaf* superLeaf = (CSuperLeaf*)e->obj;
 	superLeaf->SetState(SUPER_LEAF_STATE_DIE);
 	SetLevel(this->level + 1);
+}
+
+void CMario::OnCollisionWithLifeMushroom(LPCOLLISIONEVENT e)
+{
+	CLifeMushroom* lifeMushroom = (CLifeMushroom*)e->obj;
+	lifeMushroom->SetState(SUPER_MUSHROOM_STATE_DIE);
+	this->lives += 1;
+}
+
+void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+
+	// hit the prize block from below
+	if (e->ny > 0)
+	{
+		brick->SetState(BRICK_STATE_HIT);
+	}
 }
 
 void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
@@ -715,7 +739,7 @@ void CMario::Render()
 
 	RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d | Level: %d", coin,level);
+	DebugOutTitle(L"Coins: %d | Lives: %d", coin,lives);
 }
 
 void CMario::SetState(int state)

@@ -35,6 +35,7 @@ using namespace std;
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
+	this->numberOfLayers = 0;
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
 }
@@ -193,7 +194,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		 
 		break; 
 	}
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
+	case OBJECT_TYPE_BRICK:
+	{
+		int prizeID = atoi(tokens[4].c_str());
+		obj = new CBrick(x, y, prizeID);
+		break; 
+	}
+
 	case OBJECT_TYPE_COIN:
 	{
 		int columns = atoi(tokens[4].c_str());

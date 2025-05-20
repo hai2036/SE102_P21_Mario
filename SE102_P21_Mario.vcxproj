@@ -148,6 +148,7 @@
     <ClCompile Include="GreenKoopa.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Koopa.cpp" />
+    <ClCompile Include="LifeMushroom.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MobSpawner.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Ground.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Koopa.h" />
+    <ClInclude Include="LifeMushroom.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MobSpawner.h" />
     <ClInclude Include="Paragoomba.h" />
