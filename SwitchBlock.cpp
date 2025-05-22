@@ -55,11 +55,15 @@ void CSwitchBlock::SetState(int state)
 			if (dynamic_cast<CBrick*>(objects[lastLayer][i]))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(objects[lastLayer][i]);
-				float tempX, tempY;
-				brick->GetPosition(tempX, tempY);
-				brick->Delete();
-				CCoin* coin = new CCoin(tempX,tempY);
-				CGame::GetInstance()->GetCurrentScene()->AddObject(coin, 1);
+				if (brick->GetPrizeID() == -1)
+				{
+					float tempX, tempY;
+					brick->GetPosition(tempX, tempY);
+					brick->Delete();
+					CCoin* coin = new CCoin(tempX, tempY);
+					CGame::GetInstance()->GetCurrentScene()->AddObject(coin, 1);
+				}
+				
 			}
 		}
 	}

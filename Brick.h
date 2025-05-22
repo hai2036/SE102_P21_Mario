@@ -32,6 +32,7 @@ public:
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	int GetPrizeID() { return this->prizeID; };
 
 	void SetState(int state);
 };
