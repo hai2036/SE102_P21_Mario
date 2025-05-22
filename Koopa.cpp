@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "PiranhaPlant.h"
 #include "Border.h"
+#include "Brick.h"
 #include "debug.h"
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
@@ -70,6 +71,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithGoomba(e);			
 		else if (dynamic_cast<CKoopa*>(e->obj))
 			OnCollisionWithKoopa(e);
+		else if (dynamic_cast<CBrick*>(e->obj))
+			OnCollisionWithBrick(e);
 		else if (dynamic_cast<CPrizeBlock*>(e->obj))
 			OnCollisionWithPrizeBlock(e);
 		else if (dynamic_cast<CPiranhaPlant*>(e->obj))
@@ -100,6 +103,12 @@ void CKoopa::OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e) {
 	CPrizeBlock* prizeBlock = dynamic_cast<CPrizeBlock*>(e->obj);
 
 	prizeBlock->SetState(STATE_HIT);
+}
+
+void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+
+	brick->SetState(BRICK_STATE_HIT);
 }
 
 void CKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
