@@ -113,6 +113,9 @@
 
 #pragma endregion 
 
+//GROUND
+#define ID_SRITE_DIRT_GROUND 60000
+
 //BRICK
 
 #define ID_SPRITE_BRICK 20000

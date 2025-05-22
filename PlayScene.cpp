@@ -253,9 +253,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_GROUND:
 	{
+		// for object with 6 different sprite
 		int ground_width = atoi(tokens[4].c_str());
 		int ground_height = atoi(tokens[5].c_str());
-		obj = new CGround(x, y, ground_width, ground_height);
+		int ground_spriteID = atoi(tokens[6].c_str());
+		obj = new CGround(x, y, ground_width, ground_height, ground_spriteID);
 		break;
 	}
 	case OBJECT_TYPE_BOX_PLATFORM:
@@ -275,8 +277,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BLOCKS:
 	{
 		int length = atoi(tokens[4].c_str());
-		int sprite_id = atoi(tokens[5].c_str());
-		obj = new CBlocks(x, y, length, sprite_id);
+		int height = atoi(tokens[5].c_str());
+		int sprite_id = atoi(tokens[6].c_str());
+		obj = new CBlocks(x, y, length, height, sprite_id);
 		break;
 	}
 	case OBJECT_TYPE_PRIZE_BLOCK:

@@ -9,12 +9,14 @@ class CBlocks : public CGameObject
 {
 protected:
 	int length;				// Unit: cell 
+	int height;
 	int spriteId;
 
 public:
-	CBlocks(float x, float y, int length, int sprite_id) :CGameObject(x, y)
+	CBlocks(float x, float y, int length,int height, int sprite_id) :CGameObject(x, y)
 	{
 		this->length = length;
+		this->height = height;
 		this->spriteId = sprite_id;
 	}
 
