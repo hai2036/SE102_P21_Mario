@@ -1,0 +1,32 @@
+# list of object assets to load in this scene
+[ASSETS]
+
+ground.txt
+mario.txt
+
+#
+[LAYERS]
+4
+[OBJECTS]
+# type	x	y	z	extra_settings per object type
+# type: -1 = border, 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
+# See OBJECT_TYPE constants in AssetIDs.h
+
+#MARIO
+0	4	22	2
+
+#GROUND
+# Type	X	Y	Z	Length	Height
+6	0	26	0	39	1
+6	39	25	0	29	2
+6	72	26	0	22	1
+6	96	26	0	5	1
+6	104	26	0	36	1
+6	141	26	0	35	1
+
+
+
+
+
+
+

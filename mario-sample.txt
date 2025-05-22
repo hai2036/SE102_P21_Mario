@@ -8,6 +8,8 @@ height	240
 [SCENES]
 0	intro.txt
 1	world11.txt
+2	world11_bonus.txt
+3	world14.txt
 
 # id	file 
 [TEXTURES]
