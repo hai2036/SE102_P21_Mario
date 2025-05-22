@@ -5,18 +5,16 @@
 #include "Animations.h"
 #include "AssetIDs.h"
 
-
-#define	ID_SPRITE_PIPE1	80001
-#define	ID_SPRITE_PIPE2	80002
-#define	ID_SPRITE_PIPE3	80003
-#define	ID_SPRITE_PIPE4	80004
-
 class CPipe	: public CGameObject {
 	int height;
+	BOOLEAN isUpSideDown;
+	int spriteID;
 public:
-	CPipe(float x, float y, int height) : CGameObject(x, y) 
+	CPipe(float x, float y, int height, BOOLEAN isUpSideDown, int spriteID) : CGameObject(x, y)
 	{
 		this->height = height;
+		this->isUpSideDown = isUpSideDown;
+		this->spriteID = spriteID;
 	}
 	void Render();
 	void Update(DWORD dt) {}
