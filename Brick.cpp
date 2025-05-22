@@ -1,5 +1,5 @@
 #include "Brick.h"
-
+#include "SwitchBlock.h"
 void CBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -83,6 +83,11 @@ void CBrick::SetState(int state)
 			}
 			this->prize = new CLifeMushroom(x, y, dx);
 
+			break;
+		}
+		case OBJECT_TYPE_SWITCH_BLOCK:
+		{
+			this->prize = new CSwitchBlock(x, y-UNIT_SIZE);
 			break;
 		}
 		default:

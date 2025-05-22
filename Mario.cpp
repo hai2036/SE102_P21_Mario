@@ -19,6 +19,7 @@
 #include "GreenKoopa.h"
 #include "LifeMushroom.h"
 #include "Brick.h"
+#include "SwitchBlock.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -134,6 +135,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFireball(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
+	else if (dynamic_cast<CSwitchBlock*>(e->obj))
+		OnCollisionWithSwitchBlock(e);
 }
 
 void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
@@ -356,6 +359,17 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 	if (e->ny > 0)
 	{
 		brick->SetState(BRICK_STATE_HIT);
+	}
+}
+
+void CMario::OnCollisionWithSwitchBlock(LPCOLLISIONEVENT e)
+{
+	CSwitchBlock* switchBlock = dynamic_cast<CSwitchBlock*>(e->obj);
+
+	// hit the switch block from above
+	if (e->ny < 0)
+	{
+		switchBlock->SetState(SWITCH_BLOCK_STATE_PRESSED);
 	}
 }
 

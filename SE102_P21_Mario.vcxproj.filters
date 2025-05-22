@@ -74,6 +74,7 @@
     <ClCompile Include="MobSpawner.cpp" />
     <ClCompile Include="GreenKoopa.cpp" />
     <ClCompile Include="LifeMushroom.cpp" />
+    <ClCompile Include="SwitchBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="MobSpawner.h" />
     <ClInclude Include="GreenKoopa.h" />
     <ClInclude Include="LifeMushroom.h" />
+    <ClInclude Include="SwitchBlock.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

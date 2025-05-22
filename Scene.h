@@ -26,6 +26,7 @@ public:
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0; 
 	virtual void AddObject(LPGAMEOBJECT obj, int layer)=0;
+	virtual vector<vector<LPGAMEOBJECT>> GetObjects() = 0;
 	virtual LPGAMEOBJECT GetPlayer() = 0;
 };
 typedef CScene * LPSCENE;

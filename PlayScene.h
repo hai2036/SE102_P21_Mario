@@ -34,6 +34,7 @@ public:
 	LPGAMEOBJECT GetPlayer() { return player; }
 
 	void AddObject(LPGAMEOBJECT obj, int layer);
+	virtual vector<vector<LPGAMEOBJECT>> GetObjects() { return this->objects; };
 	void Clear();
 	void PurgeDeletedObjects();
 
