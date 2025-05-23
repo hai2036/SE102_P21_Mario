@@ -15,6 +15,7 @@
 #define BRICK_STATE_EMPTY	4
 
 #define BRICK_BREAKING_TIMEOUT	1000
+#define BRICK_MULTI_COIN_TIMEOUT	2000
 
 class CBrick : public CGameObject {
 	LPGAMEOBJECT prize;

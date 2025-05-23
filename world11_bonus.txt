@@ -28,6 +28,9 @@ pipe.txt
 8	8	15	3	2	1	81000
 8	22	15	3	2	1	81000
 
+#PORTAL
+50	22	17	0	25	18	1
+
 #GROUND
 # Type	X	Y	Z	Length	Height	SPRITE_ID
 9	0	15	0	8	12	91001
