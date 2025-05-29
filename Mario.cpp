@@ -20,6 +20,7 @@
 #include "LifeMushroom.h"
 #include "Brick.h"
 #include "SwitchBlock.h"
+#include "MovingPlatform.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -137,6 +138,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopa(e);
 	else if (dynamic_cast<CSwitchBlock*>(e->obj))
 		OnCollisionWithSwitchBlock(e);
+	else if (dynamic_cast<CMovingPlatform*>(e->obj))
+		OnCollisionWithMovingPlatform(e);
 }
 
 void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
@@ -370,6 +373,17 @@ void CMario::OnCollisionWithSwitchBlock(LPCOLLISIONEVENT e)
 	if (e->ny < 0)
 	{
 		switchBlock->SetState(SWITCH_BLOCK_STATE_PRESSED);
+	}
+}
+
+void CMario::OnCollisionWithMovingPlatform(LPCOLLISIONEVENT e)
+{
+	CMovingPlatform* movingPlatform = dynamic_cast<CMovingPlatform*>(e->obj);
+
+	// hit the movingPlatform from above
+	if (e->ny < 0)
+	{
+		movingPlatform->SetState(MOVING_PLATFORM_STATE_DROP);
 	}
 }
 

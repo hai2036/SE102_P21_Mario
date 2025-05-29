@@ -27,7 +27,7 @@
 #include "PiranhaPlant.h"
 #include "Koopa.h"
 #include "RedKoopa.h"
-
+#include "MovingPlatform.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -134,8 +134,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (tokens.size() < 3) return;
 
 	int object_type = atoi(tokens[0].c_str());
-	float x = (float)atof(tokens[1].c_str()) * UNIT_SIZE + 8;
-	float y = (float)atof(tokens[2].c_str()) * UNIT_SIZE + 8;
+	float x = (float)atof(tokens[1].c_str()) * UNIT_SIZE;
+	float y = (float)atof(tokens[2].c_str()) * UNIT_SIZE;
 	int z = atoi(tokens[3].c_str());
 
 
@@ -256,6 +256,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			sprite_begin, sprite_middle, sprite_end
 		);
 
+		break;
+	}
+	case OBJECT_TYPE_MOVING_PLATFORM:
+	{
+		obj = new CMobSpawner(x, y, SPAWNER_MOVING_PLATFORM);
 		break;
 	}
 	case OBJECT_TYPE_GROUND:

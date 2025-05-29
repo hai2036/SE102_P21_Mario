@@ -152,6 +152,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MobSpawner.cpp" />
+    <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="Paragoomba.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="LifeMushroom.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MobSpawner.h" />
+    <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="Paragoomba.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="PiranhaPlant.h" />

@@ -75,6 +75,7 @@
     <ClCompile Include="GreenKoopa.cpp" />
     <ClCompile Include="LifeMushroom.cpp" />
     <ClCompile Include="SwitchBlock.cpp" />
+    <ClCompile Include="MovingPlatform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="GreenKoopa.h" />
     <ClInclude Include="LifeMushroom.h" />
     <ClInclude Include="SwitchBlock.h" />
+    <ClInclude Include="MovingPlatform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -201,6 +201,7 @@ class CMario : public CGameObject
 	void OnCollisionWithFireball(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithSwitchBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithMovingPlatform(LPCOLLISIONEVENT e);
 
 
 
