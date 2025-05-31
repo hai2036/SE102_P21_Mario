@@ -34,10 +34,9 @@ void CMovingPlatform::OnCollisionWith(LPCOLLISIONEVENT e) {
 
 void CMovingPlatform::OnCollisionWithBorder(LPCOLLISIONEVENT e) {
 	CBorder* b = (CBorder*)e->obj;
-	if (b->GetType() == 1)
-	{
-		SetState(MOVING_PLATFORM_STATE_DIE);
-	}
+	
+	SetState(MOVING_PLATFORM_STATE_DIE);
+	
 }
 
 

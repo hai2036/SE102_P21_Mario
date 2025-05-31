@@ -19,13 +19,10 @@
 
 class CGreenKoopa : public CKoopa
 {
-	BOOLEAN wing;
 	virtual int GetAniID();
 
 public:
 	CGreenKoopa(float x, float y, BOOLEAN wing);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	BOOLEAN IsWing() { return this->wing; };
-	void Damage();
 };
 

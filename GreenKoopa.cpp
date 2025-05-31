@@ -111,10 +111,4 @@ void CGreenKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	CKoopa::Update(dt, coObjects);
 }
 
-void CGreenKoopa::Damage() {
-	if (this->wing)
-	{
-		this->wing = false;
-		this->vy = 0;
-	}
-}
+

@@ -237,18 +237,15 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				kicking_start = GetTickCount64();
 			}
 
-			if (dynamic_cast<CGreenKoopa*>(koopa))
+			if (koopa->IsWing())
 			{
-				CGreenKoopa* greenKoopa = dynamic_cast<CGreenKoopa*>(koopa);
-				if (greenKoopa->IsWing())
-				{
-					greenKoopa->Damage();
-					vy = -MARIO_JUMP_DEFLECT_SPEED;
-					StartUntouchable();
-					return;
-				}
-
+				koopa->Damage();
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				koopa->SetState(KOOPA_STATE_WALKING);
+				StartUntouchable();
+				return;
 			}
+
 			koopa->SetState(KOOPA_STATE_HIDE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			

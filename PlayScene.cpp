@@ -176,14 +176,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS:
 	{
 		int koopas_type = atoi(tokens[4].c_str());
+		int wing = atoi(tokens[5].c_str());
 		switch (koopas_type)
 		{
 		case KOOPA_TYPE_RED:
-			obj = new CMobSpawner(x, y, SPAWNER_KOOPA_RED);
+		{
+			obj = new CMobSpawner(x, y, SPAWNER_KOOPA_RED, wing);
 			break;
+		}
 		case KOOPA_TYPE_GREEN:
 		{
-			int wing = atoi(tokens[5].c_str());
 			obj = new CMobSpawner(x, y, SPAWNER_KOOPA_GREEN, wing);
 			break;
 		}

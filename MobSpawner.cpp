@@ -52,7 +52,7 @@ void CMobSpawner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
             mob = new CParagoomba(x, y);
             break;
         case SPAWNER_KOOPA_RED:
-            mob = new CRedKoopa(x, y);
+            mob = new CRedKoopa(x, y, this->option);
             break;
         case SPAWNER_KOOPA_GREEN:
             mob = new CGreenKoopa(x, y, this->option);

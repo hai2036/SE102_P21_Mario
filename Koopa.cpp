@@ -16,6 +16,7 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 	wake_up_start = -1;
 	tail_hit_start = -1;
 	isUpSideDown = false;
+	this->wing = false;
 	SetState(KOOPA_STATE_WALKING);
 }
 
@@ -163,6 +164,14 @@ void CKoopa::Render()
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
+}
+
+void CKoopa::Damage() {
+	if (this->wing)
+	{
+		this->wing = false;
+		this->vy = 0;
+	}
 }
 
 void CKoopa::SetState(int state)
