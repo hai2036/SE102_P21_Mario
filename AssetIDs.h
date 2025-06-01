@@ -9,7 +9,8 @@
 #define ID_TEX_MISC 20
 #define ID_TEX_TILES 30
 #define ID_TEX_MISC_V2 40
-#define ID_TEX_TILES_v2 50
+#define ID_TEX_TILES_V2 50
+#define ID_TEX_ENEMY_V2 60
 
 // LIVE OBJECTS
 
