@@ -60,6 +60,8 @@ class CGame
 	// Game need a player
 	LPGAMEOBJECT player;
 
+	BOOLEAN isRestart;
+
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
 
@@ -114,6 +116,8 @@ public:
 	void Load(LPCWSTR gameFile);
 	void SwitchScene();
 	void InitiateSwitchScene(int scene_id);
+	void InitiateRestartScene();
+	void RestartScene();
 
 	void _ParseSection_TEXTURES(string line);
 

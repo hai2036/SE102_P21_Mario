@@ -258,4 +258,5 @@ public:
 	BOOLEAN IsTailAttacking() { return this->isTailAttacking; };
 	BOOLEAN IsHolding() { return this->isHolding; };
 	int Getnx() { return this->nx; };
+	void Restart();
 };

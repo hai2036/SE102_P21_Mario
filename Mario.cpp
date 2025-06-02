@@ -22,6 +22,30 @@
 #include "SwitchBlock.h"
 #include "MovingPlatform.h"
 
+void CMario::Restart() {
+	this->x = -UNIT_SIZE;
+	this->y = -UNIT_SIZE;
+
+	isSitting = false;
+	isFlying = false;
+	isTailAttacking = false;
+	isWagging = false;
+	isKicking = false;
+	isHolding = false;
+	maxVx = 0.0f;
+	ax = 0.0f;
+	ay = MARIO_GRAVITY;
+
+	level = MARIO_LEVEL_SMALL;
+	untouchable = 0;
+	untouchable_start = -1;
+	tail_attacking_start = -1;
+	kicking_start = -1;
+	isOnPlatform = false;
+	tailHitBox = nullptr;
+	holdingObject = nullptr;
+}
+
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	if (this->isFlying)
@@ -772,7 +796,7 @@ void CMario::Render()
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return; 
+	if (this->state == MARIO_STATE_DIE && this->lives <0) return; 
 
 	switch (state)
 	{
@@ -899,10 +923,18 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_DIE:
+	{
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 		vx = 0;
 		ax = 0;
+		this->lives -= 1;
+		if (this->lives >= 0)
+		{
+			CGame::GetInstance()->InitiateRestartScene();
+		}
 		break;
+	}
+		
 	}
 
 	CGameObject::SetState(state);
@@ -910,7 +942,7 @@ void CMario::SetState(int state)
 
 void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-	if (level==MARIO_LEVEL_BIG || level == MARIO_LEVEL_RACOON)
+	if (level == MARIO_LEVEL_BIG || level == MARIO_LEVEL_RACOON)
 	{
 		if (isSitting)
 		{
@@ -919,7 +951,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
-		else 
+		else
 		{
 			left = x - MARIO_BIG_BBOX_WIDTH / 2;
 			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
@@ -929,8 +961,8 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else
 	{
-		left = x - MARIO_SMALL_BBOX_WIDTH/2;
-		top = y - MARIO_SMALL_BBOX_HEIGHT/2;
+		left = x - MARIO_SMALL_BBOX_WIDTH / 2;
+		top = y - MARIO_SMALL_BBOX_HEIGHT / 2;
 		right = left + MARIO_SMALL_BBOX_WIDTH;
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
 	}

@@ -18,6 +18,7 @@ CGame * CGame::__instance = NULL;
 */
 void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 {
+	this->isRestart = false;
 	this->player = new CMario(-UNIT_SIZE,-UNIT_SIZE);
 	this->hWnd = hWnd;
 	this->hInstance = hInstance;
@@ -526,9 +527,33 @@ void CGame::SwitchScene()
 	s->Load();
 }
 
+void CGame::RestartScene()
+{
+	if (this->isRestart)
+	{
+		this->isRestart = false;
+		DebugOut(L"[INFO] Switching to scene %d\n", next_scene);
+		if (scenes[current_scene] != NULL)
+			scenes[current_scene]->Unload();
+
+		dynamic_cast<CMario*>(this->player)->Restart();
+
+		CSprites::GetInstance()->Clear();
+		CAnimations::GetInstance()->Clear();
+		LPSCENE s = scenes[current_scene];
+		this->SetKeyHandler(s->GetKeyEventHandler());
+		s->Load();
+	}
+}
+
 void CGame::InitiateSwitchScene(int scene_id)
 {
 	next_scene = scene_id;
+}
+
+void CGame::InitiateRestartScene()
+{
+	this->isRestart = true;
 }
 
 
