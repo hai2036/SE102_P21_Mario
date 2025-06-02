@@ -8,9 +8,6 @@
 class CPlayScene: public CScene
 {
 protected: 
-	// A play scene has to have player, right? 
-	LPGAMEOBJECT player;					
-
 	vector<vector<LPGAMEOBJECT>> objects;
 	int numberOfLayers;
 
@@ -31,7 +28,11 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	LPGAMEOBJECT GetPlayer() { return player; }
+	LPGAMEOBJECT GetPlayer() 
+	{
+		LPGAMEOBJECT player = CGame::GetInstance()->GetPlayer();
+		return player; 
+	}
 
 	void AddObject(LPGAMEOBJECT obj, int layer);
 	virtual vector<vector<LPGAMEOBJECT>> GetObjects() { return this->objects; };

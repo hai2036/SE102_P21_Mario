@@ -306,6 +306,8 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
+	p->GetTelePosition(this->x,this->y);
+
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
 
