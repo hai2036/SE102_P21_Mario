@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define KOOPA_GRAVITY 0.002f
+#define KOOPA_GRAVITY 0.001f
 #define KOOPA_WALKING_SPEED 0.05f
 #define KOOPA_SPINNING_SPEED 0.2f
 #define TAIL_HIT_SPEED_X 0.1f
@@ -34,6 +34,7 @@ protected:
 	float ax;
 	float ay;
 	BOOLEAN isUpSideDown;
+	BOOLEAN wing;
 
 	ULONGLONG die_start;
 	ULONGLONG hide_start;
@@ -44,6 +45,7 @@ protected:
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 
@@ -60,4 +62,6 @@ protected:
 public:
 	CKoopa(float x, float y);
 	virtual void SetState(int state);
+	BOOLEAN IsWing() { return this->wing; };
+	void Damage();
 };

@@ -1,0 +1,28 @@
+#pragma once
+#include "Koopa.h"
+
+#define ID_ANI_GREEN_KOOPA_WALKING_LEFT 7000
+#define ID_ANI_GREEN_KOOPA_WALKING_RIGHT 7001
+#define ID_ANI_GREEN_KOOPA_WING_WALKING_LEFT 7100
+#define ID_ANI_GREEN_KOOPA_WING_WALKING_RIGHT 7101
+#define ID_ANI_GREEN_KOOPA_DIE 7002
+
+#define ID_ANI_GREEN_KOOPA_HIDE 7003
+#define ID_ANI_GREEN_KOOPA_WAKE_UP 7004
+#define ID_ANI_GREEN_KOOPA_SPINNING 7005
+
+#define ID_ANI_GREEN_KOOPA_UPSIDE_DOWN_HIDE 7013
+#define ID_ANI_GREEN_KOOPA_UPSIDE_DOWN_WAKE_UP 7014
+#define ID_ANI_GREEN_KOOPA_UPSIDE_DOWN_SPINNING 7015
+
+#define GREEN_KOOPA_WING_JUMP_SPEED -0.3f
+
+class CGreenKoopa : public CKoopa
+{
+	virtual int GetAniID();
+
+public:
+	CGreenKoopa(float x, float y, BOOLEAN wing);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+};
+

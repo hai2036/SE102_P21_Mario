@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "PiranhaPlant.h"
 #include "Border.h"
+#include "Brick.h"
 #include "debug.h"
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
@@ -15,6 +16,7 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 	wake_up_start = -1;
 	tail_hit_start = -1;
 	isUpSideDown = false;
+	this->wing = false;
 	SetState(KOOPA_STATE_WALKING);
 }
 
@@ -70,6 +72,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithGoomba(e);			
 		else if (dynamic_cast<CKoopa*>(e->obj))
 			OnCollisionWithKoopa(e);
+		else if (dynamic_cast<CBrick*>(e->obj))
+			OnCollisionWithBrick(e);
 		else if (dynamic_cast<CPrizeBlock*>(e->obj))
 			OnCollisionWithPrizeBlock(e);
 		else if (dynamic_cast<CPiranhaPlant*>(e->obj))
@@ -100,6 +104,12 @@ void CKoopa::OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e) {
 	CPrizeBlock* prizeBlock = dynamic_cast<CPrizeBlock*>(e->obj);
 
 	prizeBlock->SetState(STATE_HIT);
+}
+
+void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+
+	brick->SetState(BRICK_STATE_HIT);
 }
 
 void CKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
@@ -154,6 +164,14 @@ void CKoopa::Render()
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
+}
+
+void CKoopa::Damage() {
+	if (this->wing)
+	{
+		this->wing = false;
+		this->vy = 0;
+	}
 }
 
 void CKoopa::SetState(int state)

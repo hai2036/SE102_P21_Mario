@@ -3,18 +3,37 @@
 void CPipe::Render()
 {
 	CSprites* sprites = CSprites::GetInstance();
-	float yy = y;
-
-	sprites->Get(ID_SPRITE_PIPE_HEAD_LEFT)->Draw(x, yy);
-	sprites->Get(ID_SPRITE_PIPE_HEAD_RIGHT)->Draw(x + UNIT_SIZE, yy);
-
-	for (int i = 0; i < height - 1; i++)
+	
+	if (isUpSideDown)
 	{
-		yy += UNIT_SIZE;
-		sprites->Get(ID_SPRITE_PIPE_BODY_LEFT)->Draw(x, yy);
-		sprites->Get(ID_SPRITE_PIPE_BODY_RIGHT)->Draw(x + UNIT_SIZE, yy);
-	}
+		float yy = y;
 
+		for (int i = 0; i < height - 1; i++)
+		{
+			sprites->Get(this->spriteID +3)->Draw(x, yy);
+			sprites->Get(this->spriteID + 4)->Draw(x + UNIT_SIZE, yy);
+			yy += UNIT_SIZE;
+		}
+
+		sprites->Get(this->spriteID + 1)->Draw(x, yy);
+		sprites->Get(this->spriteID + 2)->Draw(x + UNIT_SIZE, yy);
+
+		
+	}
+	else
+	{
+		float yy = y;
+
+		sprites->Get(this->spriteID + 1)->Draw(x, yy);
+		sprites->Get(this->spriteID + 2)->Draw(x + UNIT_SIZE, yy);
+
+		for (int i = 0; i < height - 1; i++)
+		{
+			yy += UNIT_SIZE;
+			sprites->Get(this->spriteID + 3)->Draw(x, yy);
+			sprites->Get(this->spriteID + 4)->Draw(x + UNIT_SIZE, yy);
+		}
+	}
 	//RenderBoundingBox();
 }
 

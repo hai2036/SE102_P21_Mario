@@ -2,10 +2,15 @@
 #include "Game.h"
 #include "debug.h"
 
-CRedKoopa::CRedKoopa(float x, float y) :CKoopa(x, y)
+CRedKoopa::CRedKoopa(float x, float y, BOOLEAN wing) :CKoopa(x, y)
 {
-	this->ghostBlock = new CGhostBlock(x + UNIT_SIZE, y);
-	CGame::GetInstance()->GetCurrentScene()->AddObject(this->ghostBlock, 1);
+	this->wing = wing;
+	if (this->wing)
+	{
+		this->ay = 0;
+		this->vx = 0;
+		this->vy = RED_KOOPA_WING_FLY_SPEED;
+	}
 }
 
 int CRedKoopa::GetAniID()
@@ -22,12 +27,15 @@ int CRedKoopa::GetAniID()
 		else
 		{
 			aniId = ID_ANI_RED_KOOPA_WALKING_LEFT;
+			if (this->wing)
+			{
+				aniId = ID_ANI_RED_KOOPA_WING_WALKING_LEFT;
+			}
 		}
 		break;
 	}
 	case KOOPA_STATE_DIE:
 	{
-		
 		aniId = ID_ANI_RED_KOOPA_DIE;
 		break;
 	}
@@ -88,32 +96,47 @@ int CRedKoopa::GetAniID()
 	return aniId;
 }
 
-void CRedKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+void CRedKoopa::OnNoCollision(DWORD dt)
+{
+	x += vx * dt;
+	y += vy * dt;
+};
 
+void CRedKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	if (this->state == KOOPA_STATE_WALKING)
 	{
-		if (this->ghostBlock == nullptr)
+		if (this->wing)
 		{
-			this->ghostBlock = new CGhostBlock(x + UNIT_SIZE, y);
-			CGame::GetInstance()->GetCurrentScene()->AddObject(this->ghostBlock, 1);
-		}
-		CGhostBlock* ghostblock = dynamic_cast<CGhostBlock*>(this->ghostBlock);
-		float temp_x, temp_y;
-		ghostblock->GetPosition(temp_x, temp_y);
-		if (ghostblock->IsOnPlatform() == false)
-		{
-			vx = -vx;
-			temp_y = y;
-		}
-
-		if (vx > 0)
-		{
-			ghostblock->SetPosition(x + KOOPA_BBOX_WIDTH / 2 + GHOST_BLOCK_WIDTH / 2, temp_y);
-
+			if (!(this->y >= UNIT_SIZE * 15 && this->y <= UNIT_SIZE * 26))
+			{
+				this->vy = -this->vy;
+			}
 		}
 		else
 		{
-			ghostblock->SetPosition(x - (KOOPA_BBOX_WIDTH / 2 + GHOST_BLOCK_WIDTH / 2), temp_y);
+			if (this->ghostBlock == nullptr)
+			{
+				this->ghostBlock = new CGhostBlock(x + UNIT_SIZE, y);
+				CGame::GetInstance()->GetCurrentScene()->AddObject(this->ghostBlock, 1);
+			}
+			CGhostBlock* ghostblock = dynamic_cast<CGhostBlock*>(this->ghostBlock);
+			float temp_x, temp_y;
+			ghostblock->GetPosition(temp_x, temp_y);
+			if (ghostblock->IsOnPlatform() == false && this->vy ==0)
+			{
+				vx = -vx;
+				temp_y = y;
+			}
+
+			if (vx > 0)
+			{
+				ghostblock->SetPosition(x + KOOPA_BBOX_WIDTH / 2 + GHOST_BLOCK_WIDTH / 2, temp_y);
+
+			}
+			else
+			{
+				ghostblock->SetPosition(x - (KOOPA_BBOX_WIDTH / 2 + GHOST_BLOCK_WIDTH / 2), temp_y);
+			}
 		}
 	}
 	else

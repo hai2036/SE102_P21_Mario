@@ -54,8 +54,13 @@ class CGame
 	ID3D10SamplerState* pPointSamplerState;
 
 	unordered_map<int, LPSCENE> scenes;
-	int current_scene;
+	int current_scene = -1;
 	int next_scene = -1;
+
+	// Game need a player
+	LPGAMEOBJECT player;
+
+	BOOLEAN isRestart;
 
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
@@ -106,11 +111,13 @@ public:
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
-
+	LPGAMEOBJECT GetPlayer(){ return player; }
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void Load(LPCWSTR gameFile);
 	void SwitchScene();
 	void InitiateSwitchScene(int scene_id);
+	void InitiateRestartScene();
+	void RestartScene();
 
 	void _ParseSection_TEXTURES(string line);
 

@@ -28,7 +28,7 @@
 #include "PiranhaPlant.h"
 #include "Koopa.h"
 #include "RedKoopa.h"
-
+#include "MovingPlatform.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -36,7 +36,7 @@ using namespace std;
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
-	player = NULL;
+	this->numberOfLayers = 0;
 	key_handler = new CSampleKeyHandler(this);
 }
 
@@ -152,16 +152,26 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 	case OBJECT_TYPE_MARIO:
-		if (player!=NULL) 
+	{
+		LPGAMEOBJECT player = GetPlayer();
+		float tempX, tempY;
+		if (player == nullptr) // If mario hasn't been created
 		{
-			DebugOut(L"[ERROR] MARIO object was created before!\n");
-			return;
+			player = new CMario(-1, -1);
+			DebugOut(L"[INFO] Player object has been created!\n");
+			
 		}
-		obj = new CMario(x, y); 
-		player = (CMario*)obj;  
+		player->GetPosition(tempX, tempY);
+		if (tempX == -UNIT_SIZE && tempY == -UNIT_SIZE)
+		{
+			player->SetPosition(x, y);
+		}
 
-		DebugOut(L"[INFO] Player object has been created!\n");
-		break;
+		objects[z].push_back(player);
+
+		return;
+	}
+		
 	case OBJECT_TYPE_GOOMBA: obj = new CMobSpawner(x, y, SPAWNER_GOOMBA); break;
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CMobSpawner(x, y, SPAWNER_PARAGOOMBA); break;
 	case OBJECT_TYPE_PIRANHAPLANT:
@@ -176,17 +186,54 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS:
 	{
 		int koopas_type = atoi(tokens[4].c_str());
+		int wing = atoi(tokens[5].c_str());
 		switch (koopas_type)
 		{
 		case KOOPA_TYPE_RED:
-			obj = new CMobSpawner(x, y, SPAWNER_KOOPA_RED);
+		{
+			obj = new CMobSpawner(x, y, SPAWNER_KOOPA_RED, wing);
+			break;
+		}
+		case KOOPA_TYPE_GREEN:
+		{
+			obj = new CMobSpawner(x, y, SPAWNER_KOOPA_GREEN, wing);
+			break;
+		}
+			
 		default:
 			break;
 		}
 		 
 		break; 
 	}
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
+	case OBJECT_TYPE_BRICK:
+	{
+		int prizeID = atoi(tokens[4].c_str());
+		if (tokens.size() > 6) {
+			int	length = atoi(tokens[5].c_str());
+			int	height = atoi(tokens[6].c_str());
+
+			for (int k = 0; k < height; k++)
+			{
+				int yy = y + UNIT_SIZE * k;
+				for (int i = 0; i < length; i++)
+				{
+					int xx = x + UNIT_SIZE * i;
+					obj = new CBrick(x, y, prizeID);
+					obj->SetPosition(xx, yy);
+					objects[z].push_back(obj);
+				}
+			}
+			
+			return;
+		}
+		else
+		{
+			obj = new CBrick(x, y, prizeID);
+		}
+		break;
+	}
+
 	case OBJECT_TYPE_COIN:
 	{
 		int columns = atoi(tokens[4].c_str());
@@ -223,11 +270,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
+	case OBJECT_TYPE_MOVING_PLATFORM:
+	{
+		obj = new CMobSpawner(x, y, SPAWNER_MOVING_PLATFORM);
+		break;
+	}
 	case OBJECT_TYPE_GROUND:
 	{
+		// for object with 6 different sprite
 		int ground_width = atoi(tokens[4].c_str());
 		int ground_height = atoi(tokens[5].c_str());
-		obj = new CGround(x, y, ground_width, ground_height);
+		int ground_spriteID = atoi(tokens[6].c_str());
+		obj = new CGround(x, y, ground_width, ground_height, ground_spriteID);
 		break;
 	}
 	case OBJECT_TYPE_BOX_PLATFORM:
@@ -241,14 +295,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIPE:
 	{
 		int height = atoi(tokens[4].c_str());
-		obj = new CPipe(x, y, height);
+		int isUpSideDown = atoi(tokens[5].c_str());
+		int spriteID = atoi(tokens[6].c_str());
+		obj = new CPipe(x, y, height, isUpSideDown, spriteID);
 		break;
 	}
 	case OBJECT_TYPE_BLOCKS:
 	{
 		int length = atoi(tokens[4].c_str());
-		int sprite_id = atoi(tokens[5].c_str());
-		obj = new CBlocks(x, y, length, sprite_id);
+		int height = atoi(tokens[5].c_str());
+		int sprite_id = atoi(tokens[6].c_str());
+		obj = new CBlocks(x, y, length, height, sprite_id);
 		break;
 	}
 	case OBJECT_TYPE_PRIZE_BLOCK:
@@ -259,10 +316,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_PORTAL:
 	{
-		float r = (float)atof(tokens[4].c_str());
-		float b = (float)atof(tokens[5].c_str());
+		float r = (float)atof(tokens[4].c_str())*UNIT_SIZE;
+		float b = (float)atof(tokens[5].c_str())* UNIT_SIZE;
 		int scene_id = atoi(tokens[6].c_str());
-		obj = new CPortal(x, y, r, b, scene_id);
+		float tele_x = (float)atof(tokens[7].c_str()) * UNIT_SIZE;
+		float tele_y = (float)atof(tokens[8].c_str()) * UNIT_SIZE;
+		obj = new CPortal(x, y, r, b, scene_id, tele_x, tele_y);
+		break;
 	}
 	case OBJECT_TYPE_BACKGROUND_BUSH:
 	{
@@ -396,6 +456,7 @@ void CPlayScene::Update(DWORD dt)
 	
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+	LPGAMEOBJECT player = GetPlayer();
 	if (player == NULL) return; 
 
 	// Update camera to follow mario
@@ -449,15 +510,24 @@ void CPlayScene::Clear()
 */
 void CPlayScene::Unload()
 {
+	
 	for (int i = 0; i < this->numberOfLayers; i++)
 	{
-		for (int k = 0; k < objects.size(); k++)
-			delete objects[i][k];
+		for (int k = 0; k < objects[i].size(); k++)
+		{
+			if (dynamic_cast<CMario*>(objects[i][k]))
+			{
+				continue;
+			}
+			else
+			{
+				delete objects[i][k];
+			}
 
+		}
 		objects[i].clear();
 	}
 	objects.clear();
-	player = NULL;
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }

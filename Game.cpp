@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "Animations.h"
 #include "PlayScene.h"
+#include "Mario.h"
 
 CGame * CGame::__instance = NULL;
 
@@ -17,6 +18,8 @@ CGame * CGame::__instance = NULL;
 */
 void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 {
+	this->isRestart = false;
+	this->player = new CMario(-UNIT_SIZE,-UNIT_SIZE);
 	this->hWnd = hWnd;
 	this->hInstance = hInstance;
 
@@ -513,21 +516,44 @@ void CGame::SwitchScene()
 	if (next_scene < 0 || next_scene == current_scene) return; 
 
 	DebugOut(L"[INFO] Switching to scene %d\n", next_scene);
-
-	scenes[current_scene]->Unload();
+	if (scenes[current_scene] != NULL)
+		scenes[current_scene]->Unload();
 
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();
-
 	current_scene = next_scene;
 	LPSCENE s = scenes[next_scene];
 	this->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
 }
 
+void CGame::RestartScene()
+{
+	if (this->isRestart)
+	{
+		this->isRestart = false;
+		DebugOut(L"[INFO] Switching to scene %d\n", next_scene);
+		if (scenes[current_scene] != NULL)
+			scenes[current_scene]->Unload();
+
+		dynamic_cast<CMario*>(this->player)->Restart();
+
+		CSprites::GetInstance()->Clear();
+		CAnimations::GetInstance()->Clear();
+		LPSCENE s = scenes[current_scene];
+		this->SetKeyHandler(s->GetKeyEventHandler());
+		s->Load();
+	}
+}
+
 void CGame::InitiateSwitchScene(int scene_id)
 {
 	next_scene = scene_id;
+}
+
+void CGame::InitiateRestartScene()
+{
+	this->isRestart = true;
 }
 
 

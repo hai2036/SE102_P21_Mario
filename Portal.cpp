@@ -2,13 +2,15 @@
 #include "Game.h"
 #include "Textures.h"
 
-CPortal::CPortal(float l, float t, float r, float b, int scene_id )
+CPortal::CPortal(float l, float t, float r, float b, int scene_id, float tele_x, float tele_y)
 {
 	this->scene_id = scene_id;
 	x = l; 
 	y = t;
 	width = r - l;
 	height = b - t;
+	this->tele_x = tele_x;
+	this->tele_y = tele_y;
 }
 
 void CPortal::RenderBoundingBox()
@@ -43,4 +45,11 @@ void CPortal::GetBoundingBox(float &l, float &t, float &r, float &b)
 	t = y - height/2;
 	r = x + width/2;
 	b = y + height/2;
+}
+
+
+void CPortal::GetTelePosition(float& tele_x, float& tele_y)
+{
+	tele_x = this->tele_x;
+	tele_y = this->tele_y;
 }

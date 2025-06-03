@@ -1,3 +1,6 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+#Super mushroom
 200001	300	189	315	204	20
+#Life up mushroom
+200002	318	189	333	204	20

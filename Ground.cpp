@@ -15,45 +15,30 @@ void CGround::Render()
 			{
 				if (k == 0)
 				{
-					sprites->Get(ID_SPRITE_GROUND1)->Draw(xx, yy);
+					sprites->Get(this->ground_spriteID +1)->Draw(xx, yy);
 				}
 				else if (k == this->ground_width - 1)
 				{
-					sprites->Get(ID_SPRITE_GROUND3)->Draw(xx, yy);
+					sprites->Get(this->ground_spriteID + 3)->Draw(xx, yy);
 				}
 				else
 				{
-					sprites->Get(ID_SPRITE_GROUND2)->Draw(xx, yy);
-				}
-			}
-			else if (i == this->ground_height - 1) 
-			{
-				if (k == 0)
-				{
-					sprites->Get(ID_SPRITE_GROUND7)->Draw(xx, yy);
-				}
-				else if (k == this->ground_width - 1)
-				{
-					sprites->Get(ID_SPRITE_GROUND9)->Draw(xx, yy);
-				}
-				else
-				{
-					sprites->Get(ID_SPRITE_GROUND8)->Draw(xx, yy);
+					sprites->Get(this->ground_spriteID + 2)->Draw(xx, yy);
 				}
 			}
 			else 
 			{
 				if (k == 0)
 				{
-					sprites->Get(ID_SPRITE_GROUND4)->Draw(xx, yy);
+					sprites->Get(this->ground_spriteID + 4)->Draw(xx, yy);
 				}
 				else if (k == this->ground_width - 1)
 				{
-					sprites->Get(ID_SPRITE_GROUND6)->Draw(xx, yy);
+					sprites->Get(this->ground_spriteID + 6)->Draw(xx, yy);
 				}
 				else
 				{
-					sprites->Get(ID_SPRITE_GROUND5)->Draw(xx, yy);
+					sprites->Get(this->ground_spriteID + 5)->Draw(xx, yy);
 				}
 			}
 		}

@@ -16,6 +16,35 @@
 #include "Fireball.h"
 #include "Collision.h"
 #include "Koopa.h"
+#include "GreenKoopa.h"
+#include "LifeMushroom.h"
+#include "Brick.h"
+#include "SwitchBlock.h"
+#include "MovingPlatform.h"
+
+void CMario::Restart() {
+	this->x = -UNIT_SIZE;
+	this->y = -UNIT_SIZE;
+
+	isSitting = false;
+	isFlying = false;
+	isTailAttacking = false;
+	isWagging = false;
+	isKicking = false;
+	isHolding = false;
+	maxVx = 0.0f;
+	ax = 0.0f;
+	ay = MARIO_GRAVITY;
+
+	level = MARIO_LEVEL_SMALL;
+	untouchable = 0;
+	untouchable_start = -1;
+	tail_attacking_start = -1;
+	kicking_start = -1;
+	isOnPlatform = false;
+	tailHitBox = nullptr;
+	holdingObject = nullptr;
+}
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -111,6 +140,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
+	else if (dynamic_cast<CBrick*>(e->obj))
+		OnCollisionWithBrick(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CBorder*>(e->obj))
@@ -119,6 +150,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPrizeBlock(e);
 	else if (dynamic_cast<CSuperMushroom*>(e->obj))
 		OnCollisionWithSuperMushroom(e);
+	else if (dynamic_cast<CLifeMushroom*>(e->obj))
+		OnCollisionWithLifeMushroom(e);
 	else if (dynamic_cast<CSuperLeaf*>(e->obj))
 		OnCollisionWithSuperLeaf(e);
 	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
@@ -127,6 +160,10 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFireball(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
+	else if (dynamic_cast<CSwitchBlock*>(e->obj))
+		OnCollisionWithSwitchBlock(e);
+	else if (dynamic_cast<CMovingPlatform*>(e->obj))
+		OnCollisionWithMovingPlatform(e);
 }
 
 void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
@@ -223,9 +260,18 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				isKicking = true;
 				kicking_start = GetTickCount64();
 			}
+
+			if (koopa->IsWing())
+			{
+				koopa->Damage();
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				koopa->SetState(KOOPA_STATE_WALKING);
+				StartUntouchable();
+				return;
+			}
+
 			koopa->SetState(KOOPA_STATE_HIDE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			
 			
 			return;
 		}
@@ -267,6 +313,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			if (koopa->GetState() != KOOPA_STATE_DIE)
 			{
 				GetHitByEnemy();
+
 			}
 		}
 	}
@@ -283,6 +330,8 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
+	p->GetTelePosition(this->x,this->y);
+
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
 
@@ -319,6 +368,46 @@ void CMario::OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e)
 	CSuperLeaf* superLeaf = (CSuperLeaf*)e->obj;
 	superLeaf->SetState(SUPER_LEAF_STATE_DIE);
 	SetLevel(this->level + 1);
+}
+
+void CMario::OnCollisionWithLifeMushroom(LPCOLLISIONEVENT e)
+{
+	CLifeMushroom* lifeMushroom = (CLifeMushroom*)e->obj;
+	lifeMushroom->SetState(SUPER_MUSHROOM_STATE_DIE);
+	this->lives += 1;
+}
+
+void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+
+	// hit the prize block from below
+	if (e->ny > 0)
+	{
+		brick->SetState(BRICK_STATE_HIT);
+	}
+}
+
+void CMario::OnCollisionWithSwitchBlock(LPCOLLISIONEVENT e)
+{
+	CSwitchBlock* switchBlock = dynamic_cast<CSwitchBlock*>(e->obj);
+
+	// hit the switch block from above
+	if (e->ny < 0)
+	{
+		switchBlock->SetState(SWITCH_BLOCK_STATE_PRESSED);
+	}
+}
+
+void CMario::OnCollisionWithMovingPlatform(LPCOLLISIONEVENT e)
+{
+	CMovingPlatform* movingPlatform = dynamic_cast<CMovingPlatform*>(e->obj);
+
+	// hit the movingPlatform from above
+	if (e->ny < 0)
+	{
+		movingPlatform->SetState(MOVING_PLATFORM_STATE_DROP);
+	}
 }
 
 void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
@@ -701,13 +790,13 @@ void CMario::Render()
 
 	RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d | Level: %d", coin,level);
+	DebugOutTitle(L"Coins: %d | Lives: %d", coin,lives);
 }
 
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return; 
+	if (this->state == MARIO_STATE_DIE && this->lives <0) return; 
 
 	switch (state)
 	{
@@ -834,10 +923,18 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_DIE:
+	{
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 		vx = 0;
 		ax = 0;
+		this->lives -= 1;
+		if (this->lives >= 0)
+		{
+			CGame::GetInstance()->InitiateRestartScene();
+		}
 		break;
+	}
+		
 	}
 
 	CGameObject::SetState(state);
@@ -845,7 +942,7 @@ void CMario::SetState(int state)
 
 void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-	if (level==MARIO_LEVEL_BIG || level == MARIO_LEVEL_RACOON)
+	if (level == MARIO_LEVEL_BIG || level == MARIO_LEVEL_RACOON)
 	{
 		if (isSitting)
 		{
@@ -854,7 +951,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
-		else 
+		else
 		{
 			left = x - MARIO_BIG_BBOX_WIDTH / 2;
 			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
@@ -864,8 +961,8 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else
 	{
-		left = x - MARIO_SMALL_BBOX_WIDTH/2;
-		top = y - MARIO_SMALL_BBOX_HEIGHT/2;
+		left = x - MARIO_SMALL_BBOX_WIDTH / 2;
+		top = y - MARIO_SMALL_BBOX_HEIGHT / 2;
 		right = left + MARIO_SMALL_BBOX_WIDTH;
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
 	}
