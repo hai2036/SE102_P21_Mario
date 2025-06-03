@@ -76,6 +76,7 @@
     <ClCompile Include="LifeMushroom.cpp" />
     <ClCompile Include="SwitchBlock.cpp" />
     <ClCompile Include="MovingPlatform.cpp" />
+    <ClCompile Include="HUD.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="LifeMushroom.h" />
     <ClInclude Include="SwitchBlock.h" />
     <ClInclude Include="MovingPlatform.h" />
+    <ClInclude Include="HUD.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
