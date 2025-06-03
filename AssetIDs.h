@@ -9,7 +9,9 @@
 #define ID_TEX_MISC 20
 #define ID_TEX_TILES 30
 #define ID_TEX_MISC_V2 40
-#define ID_TEX_TILES_v2 50
+#define ID_TEX_TILES_V2 50
+#define ID_TEX_ENEMY_V2 60
+#define ID_TEX_GAMEUI 100
 
 // LIVE OBJECTS
 
@@ -49,6 +51,20 @@
 #define OBJECT_TYPE_SUPER_LEAF 22
 // PORTAL
 #define OBJECT_TYPE_PORTAL	50
+
+#pragma region HUD
+
+#define ID_SPRITE_HUD 1000000
+
+#define ID_SPRITE_HUD_BASE (ID_SPRITE_HUD + 1000)
+#define ID_SPRITE_HUD_NUMBER (ID_SPRITE_HUD + 2000)
+#define ID_SPRITE_HUD_LETTER (ID_SPRITE_HUD + 3000)
+#define ID_SPRITE_HUD_SPEED (ID_SPRITE_HUD + 4000)
+#define ID_SPRITE_HUD_PSIGN (ID_SPRITE_HUD + 5000)
+
+#define ID_ANI_HUD_PSIGN 99106000
+
+#pragma endregion
 
 #pragma region MARIO 
 
