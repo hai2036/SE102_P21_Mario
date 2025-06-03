@@ -7,6 +7,7 @@
 #include "Textures.h"
 #include "Sprites.h"
 
+#include "HUD.h"
 #include "Mario.h"
 #include "MobSpawner.h"
 #include "Portal.h"
@@ -366,6 +367,9 @@ void CPlayScene::Load()
 
 	f.close();
 
+	CGameObject* hud = new HUD(0, 0);
+	objects[1].push_back(hud);
+
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
@@ -405,7 +409,7 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < 0) cx = 0;
 	if (cy > 224) cy = 224;
 
-	CGame::GetInstance()->SetCamPos(cx, cy);
+	CGame::GetInstance()->SetCamPos(cx, cy + HUD_HEIGHT);
 
 	PurgeDeletedObjects();
 }
