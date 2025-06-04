@@ -13,6 +13,7 @@
 #include "SuperMushroom.h"
 #include "SuperLeaf.h"
 #include "PiranhaPlant.h"
+#include "PiranhaClamp.h"
 #include "Fireball.h"
 #include "Collision.h"
 #include "Koopa.h"
@@ -156,6 +157,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithSuperLeaf(e);
 	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
 		OnCollisionWithPiranhaPlant(e);
+	else if (dynamic_cast<CPiranhaClamp*>(e->obj))
+		OnCollisionWithPiranhaClamp(e);
 	else if (dynamic_cast<CFireball*>(e->obj))
 		OnCollisionWithFireball(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
@@ -415,6 +418,25 @@ void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 	CPiranhaPlant* piranhaPlant = dynamic_cast<CPiranhaPlant*>(e->obj);
 
 	if (untouchable == 0 && piranhaPlant->GetIsHostile() == true)
+	{
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level -= 1;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
+	}
+}
+
+void CMario::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e)
+{
+	CPiranhaClamp* piranhaClamp = dynamic_cast<CPiranhaClamp*>(e->obj);
+
+	if (untouchable == 0 && piranhaClamp->GetIsHostile() == true)
 	{
 		if (level > MARIO_LEVEL_SMALL)
 		{

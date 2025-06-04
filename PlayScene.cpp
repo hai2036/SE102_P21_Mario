@@ -187,7 +187,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIRANHACLAMP:
 	{
 		x += UNIT_SIZE / 2;
-		y += UNIT_SIZE / 2;
+		y += UNIT_SIZE / 3;
 		obj = new CMobSpawner(x, y, SPAWNER_PIRANHACLAMP);
 		obj->SetPosition(x, y);
 		objects[z].push_back(obj);
