@@ -164,7 +164,7 @@ switchBlock.txt
 11	59	24	1
 
 #PIRANHA PLANTS
-12	22	23	1
+14	22	23	1
 
 #PIPES
 8	22	23	3	3	0	80000

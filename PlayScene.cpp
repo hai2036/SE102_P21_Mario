@@ -26,6 +26,7 @@
 #include "Goomba.h"
 #include "Paragoomba.h"
 #include "PiranhaPlant.h"
+#include "PiranhaClamp.h"
 #include "Koopa.h"
 #include "RedKoopa.h"
 #include "MovingPlatform.h"
@@ -179,6 +180,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		x += UNIT_SIZE / 2;
 		y += UNIT_SIZE / 2;
 		obj = new CMobSpawner(x, y, SPAWNER_PIRANHAPLANT_RED);
+		obj->SetPosition(x, y);
+		objects[z].push_back(obj);
+		return;
+	}
+	case OBJECT_TYPE_PIRANHACLAMP:
+	{
+		x += UNIT_SIZE / 2;
+		y += UNIT_SIZE / 2;
+		obj = new CMobSpawner(x, y, SPAWNER_PIRANHACLAMP);
 		obj->SetPosition(x, y);
 		objects[z].push_back(obj);
 		return;

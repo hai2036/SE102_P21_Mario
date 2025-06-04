@@ -3,7 +3,6 @@
 
 #include "Game.h"
 #include "Mario.h"
-#include "Fireball.h"
 
 CPiranhaClamp::CPiranhaClamp(float x, float y) :CGameObject(x, y)
 {
