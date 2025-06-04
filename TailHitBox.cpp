@@ -6,6 +6,7 @@
 #include "PrizeBlock.h"
 #include "Koopa.h"
 #include "PiranhaPlant.h"
+#include "PiranhaClamp.h"
 #include "GreenKoopa.h"
 #include "Brick.h"
 
@@ -52,6 +53,8 @@ void CTailHitBox::OnCollisionWith(LPCOLLISIONEVENT e) {
 				OnCollisionWithKoopa(e);
 			else if (dynamic_cast<CPiranhaPlant*>(e->obj))
 				OnCollisionWithPiranhaPlant(e);
+			else if (dynamic_cast<CPiranhaClamp*>(e->obj))
+				OnCollisionWithPiranhaClamp(e);
 
 		}
 	}
@@ -108,5 +111,12 @@ void CTailHitBox::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 	CPiranhaPlant* PiranhaPlant = dynamic_cast<CPiranhaPlant*>(e->obj);
 
 	PiranhaPlant->Damage();
+
+}
+
+void CTailHitBox::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e) {
+	CPiranhaClamp* PiranhaClamp = dynamic_cast<CPiranhaClamp*>(e->obj);
+
+	PiranhaClamp->Damage();
 
 }
