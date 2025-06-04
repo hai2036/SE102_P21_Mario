@@ -79,6 +79,7 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="PiranhaClamp.cpp" />
     <ClCompile Include="BackgroundEndVoid.cpp" />
+    <ClCompile Include="BackgroundEndHill.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="PiranhaClamp.h" />
     <ClInclude Include="BackgroundEndVoid.h" />
+    <ClInclude Include="BackgroundEndHill.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

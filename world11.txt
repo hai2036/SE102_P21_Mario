@@ -5,6 +5,7 @@ backgroundBush.txt
 backgroundCloud.txt
 backgroundHill.txt
 backgroundEndVoid.txt
+backgroundEndHill.txt
 ground.txt
 boxplatform.txt
 pipe.txt
@@ -84,6 +85,15 @@ switchBlock.txt
 
 #BACKGROUND END VOID
 110	154	0	0	21	26
+
+#BACKGROUND END HILLS
+111	162	20	0	5	1	1
+111	163	22	0	3	0	1
+111	164	24	0	1	0	1
+111	161	25	0	0	0	0
+
+111	173	23	0	2	1	1
+111	172	25	0	0	0	0
 
 #BORDERS
 -1	0	0	0	1	26	0

@@ -22,6 +22,7 @@
 #include "BackgroundCloud.h"
 #include "BackgroundHill.h"
 #include "BackgroundEndVoid.h"
+#include "BackgroundEndHill.h"
 #include "PrizeBlock.h"
 #include "Brick.h"
 #include "Goomba.h"
@@ -362,6 +363,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int width = atoi(tokens[4].c_str());
 		int height = atoi(tokens[5].c_str());
 		obj = new CBackgroundEndVoid(x, y, width, height);
+		break;
+	}
+	case OBJECT_TYPE_BACKGROUND_END_HILL:
+	{
+		int height = atoi(tokens[4].c_str());
+		bool leftOutline = atoi(tokens[5].c_str());
+		bool rightOutline = atoi(tokens[6].c_str());
+		obj = new CBackgroundEndHill(x, y, height, leftOutline, rightOutline);
 		break;
 	}
 
