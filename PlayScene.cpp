@@ -179,7 +179,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		x += UNIT_SIZE / 2;
 		y += UNIT_SIZE / 2;
-		obj = new CMobSpawner(x, y, SPAWNER_PIRANHAPLANT_RED);
+
+		bool isGreen = atoi(tokens[3].c_str());
+		obj = new CMobSpawner(x, y, SPAWNER_PIRANHAPLANT, isGreen);
 		obj->SetPosition(x, y);
 		objects[z].push_back(obj);
 		return;

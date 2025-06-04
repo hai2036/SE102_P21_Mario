@@ -19,18 +19,19 @@ const int openSpriteIds[4] = {
 	ID_SPRITE_PIRANHAPLANT_RED_OPEN_DOWN_RIGHT
 };
 
-CPiranhaPlant::CPiranhaPlant(float x, float y) :CGameObject(x, y)
+CPiranhaPlant::CPiranhaPlant(float x, float y, bool isGreen) :CGameObject(x, y)
 {
-	y0 = y;
-	y1 = y - PIRANHAPLANT_BBOX_HEIGHT;
-	
 	isHostile = false;
 	isRising = false;
 	isOutside = false;
+	this->isGreen = isGreen;
 	canShoot = false;
 	rise_start = -1;
 	cooldown_start = -1;
 	shoot_start = -1;
+
+	y0 = y;
+	y1 = isGreen ? y0 - (PIRANHAPLANT_BBOX_HEIGHT - 8) : y0 - PIRANHAPLANT_BBOX_HEIGHT;
 
 	lookDirection = UP_LEFT;
 }
@@ -141,11 +142,13 @@ void CPiranhaPlant::Render()
 {
 	if (isRising)
 	{
-		CAnimations::GetInstance()->Get(chompAniIds[lookDirection])->Render(x, y);
+		int aniId = isGreen ? chompAniIds[lookDirection] + 1000 : chompAniIds[lookDirection];
+		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
 	else
 	{
-		CSprites::GetInstance()->Get(openSpriteIds[lookDirection])->Draw(x, y);
+		int spriteId = isGreen ? openSpriteIds[lookDirection] + 1000 : openSpriteIds[lookDirection];
+		CSprites::GetInstance()->Get(spriteId)->Draw(x, y);
 	}
 	RenderBoundingBox();
 }

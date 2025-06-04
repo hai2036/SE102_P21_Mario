@@ -2,7 +2,7 @@
 #include "AssetIDs.h"
 #include "GameObject.h"
 
-#define PIRANHAPLANT_RISE_TIME 500
+#define PIRANHAPLANT_RISE_TIME 600
 #define PIRANHAPLANT_RISE_COOLDOWN 3000
 #define PIRANHAPLANT_SHOOT_TIME 500
 
@@ -29,6 +29,8 @@ protected:
 	ULONGLONG cooldown_start;
 	ULONGLONG shoot_start;
 
+	bool isGreen;
+
 	PiranhaPlantLookDirection lookDirection;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -42,7 +44,7 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
-	CPiranhaPlant(float x, float y);
+	CPiranhaPlant(float x, float y, bool isGreen);
 	bool GetIsHostile() { return isHostile; }
 	virtual void Damage();
 };
