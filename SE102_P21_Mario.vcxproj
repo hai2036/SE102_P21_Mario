@@ -156,6 +156,7 @@
     <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="Paragoomba.cpp" />
     <ClCompile Include="Pipe.cpp" />
+    <ClCompile Include="PiranhaClamp.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="Paragoomba.h" />
     <ClInclude Include="Pipe.h" />
+    <ClInclude Include="PiranhaClamp.h" />
     <ClInclude Include="PiranhaPlant.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />

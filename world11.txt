@@ -17,6 +17,7 @@ superMushroom.txt
 superLeaf.txt
 koopa.txt
 piranhaPlant.txt
+piranhaClamp.txt
 fireball.txt
 brick.txt
 switchBlock.txt
