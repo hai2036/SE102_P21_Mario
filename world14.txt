@@ -1,5 +1,7 @@
 # list of object assets to load in this scene
 [ASSETS]
+backgroundBush.txt
+backgroundFishcake.txt
 coin.txt
 pipe.txt
 ground.txt
@@ -8,6 +10,7 @@ brick.txt
 superMushroom.txt
 superLeaf.txt
 koopa.txt
+hud.txt
 #
 [LAYERS]
 4
@@ -16,9 +19,13 @@ koopa.txt
 # type: -1 = border, 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
 # See OBJECT_TYPE constants in AssetIDs.h
 
+#BACKGROUND BUSH
+
+#BACKGROUND FISHCAKES
+104	1	18	0	0
+
 #MARIO
 0	4	20	2
-
 
 #BORDERS
 -1	0	0	0	1	26	0

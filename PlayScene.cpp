@@ -21,6 +21,7 @@
 #include "BackgroundBush.h"
 #include "BackgroundCloud.h"
 #include "BackgroundHill.h"
+#include "BackgroundFishcake.h"
 #include "BackgroundEndVoid.h"
 #include "BackgroundEndHill.h"
 #include "PrizeBlock.h"
@@ -358,6 +359,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBackgroundHill(x, y, height, leftOutline, rightOutline);
 		break;
 	}
+	case OBJECT_TYPE_BACKGROUND_FISHCAKE:
+	{
+		bool isBig = atoi(tokens[4].c_str());
+		obj = new CBackgroundFishcake(x, y, isBig);
+		break;
+	};
 	case OBJECT_TYPE_BACKGROUND_END_VOID:
 	{
 		int width = atoi(tokens[4].c_str());
