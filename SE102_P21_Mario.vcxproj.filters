@@ -78,6 +78,7 @@
     <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="PiranhaClamp.cpp" />
+    <ClCompile Include="BackgroundEndVoid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="PiranhaClamp.h" />
+    <ClInclude Include="BackgroundEndVoid.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
