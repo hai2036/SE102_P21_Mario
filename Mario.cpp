@@ -118,6 +118,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
+	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
