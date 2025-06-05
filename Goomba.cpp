@@ -1,8 +1,6 @@
 #include "Goomba.h"
 #include "Border.h"
 
-#include "Visuals.h"
-
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
 	this->ax = 0;
@@ -98,7 +96,6 @@ void CGoomba::SetState(int state)
 			vx = 0;
 			vy = 0;
 			ay = 0;
-			spawnDebris(x, y, ID_ANI_DEBRIS_BRICK);
 			break;
 		case GOOMBA_STATE_FOOT: 
 			vx = -GOOMBA_WALKING_SPEED;

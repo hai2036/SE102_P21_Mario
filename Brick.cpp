@@ -3,6 +3,9 @@
 #include "SuperMushroom.h"
 #include "SuperLeaf.h"
 #include "PrizeCoin.h"
+
+#include "Visuals.h"
+
 void CBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -157,6 +160,7 @@ void CBrick::SetState(int state)
 		{
 			this->state = BRICK_STATE_BREAK;
 			this->breaking_start = GetTickCount64();
+			spawnDebris(x, y, ID_ANI_DEBRIS_BRICK);
 		}
 	}
 }
