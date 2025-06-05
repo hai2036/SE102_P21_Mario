@@ -6,6 +6,7 @@ backgroundCloud.txt
 backgroundHill.txt
 backgroundEndVoid.txt
 backgroundEndHill.txt
+particle.txt
 ground.txt
 boxplatform.txt
 pipe.txt
@@ -32,7 +33,7 @@ switchBlock.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 #MARIO
-0	154	22	2
+0	4	22	2
 
 #BACKGROUND BUSHES
 101	10	25	0	3

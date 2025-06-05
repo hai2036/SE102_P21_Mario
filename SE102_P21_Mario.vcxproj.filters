@@ -81,6 +81,7 @@
     <ClCompile Include="BackgroundEndVoid.cpp" />
     <ClCompile Include="BackgroundEndHill.cpp" />
     <ClCompile Include="BackgroundFishcake.cpp" />
+    <ClCompile Include="Particle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="BackgroundEndVoid.h" />
     <ClInclude Include="BackgroundEndHill.h" />
     <ClInclude Include="BackgroundFishcake.h" />
+    <ClInclude Include="Particle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
