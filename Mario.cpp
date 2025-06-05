@@ -22,6 +22,7 @@
 #include "Brick.h"
 #include "SwitchBlock.h"
 #include "MovingPlatform.h"
+#include "HUD.h"
 
 #include "Visuals.h"
 
@@ -53,7 +54,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	if (this->isFlying)
 	{
-		ay = MARIO_FLYING_GRAVITY;
+		ay = 0;
 	}
 	else
 	{
@@ -77,9 +78,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx; 
 	// reset untouchable timer if untouchable time has passed
-	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
+	if (untouchable == 1 && GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchable = 0;
+	}
+
+	// reset untouchable timer if untouchable time has passed
+	if (isFlying && GetTickCount64() - flying_start > MARIO_FLYING_TIMEOUT)
+	{
+		isFlying = false;
 	}
 
 	// reset tail attacking timmer if tail attacking time has passed
@@ -113,6 +120,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
+	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -333,6 +341,7 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
 	coin++;
+	HUD::GetInstance()->AddCoin();
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -383,6 +392,8 @@ void CMario::OnCollisionWithLifeMushroom(LPCOLLISIONEVENT e)
 	CLifeMushroom* lifeMushroom = (CLifeMushroom*)e->obj;
 	lifeMushroom->SetState(SUPER_MUSHROOM_STATE_DIE);
 	this->lives += 1;
+	HUD::GetInstance()->AddLife();
+
 }
 
 void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
@@ -817,7 +828,7 @@ void CMario::Render()
 
 	RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d | Lives: %d", coin,lives);
+	//DebugOutTitle(L"Coins: %d | Lives: %d", coin,lives);
 }
 
 void CMario::SetState(int state)
@@ -866,6 +877,7 @@ void CMario::SetState(int state)
 			{
 				this->isFlying = true;
 				vy = -MARIO_FLY_SPEED_Y;
+				flying_start = GetTickCount64();
 			}
 			else
 			{
@@ -876,7 +888,7 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_RELEASE_JUMP:
-		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
+		if (vy < 0 && isFlying) vy += MARIO_JUMP_SPEED_Y / 2;
 		this->isFlying = false;
 		this->isWagging = false;
 		break;
@@ -955,6 +967,7 @@ void CMario::SetState(int state)
 		vx = 0;
 		ax = 0;
 		this->lives -= 1;
+		HUD::GetInstance()->DecreaseLife();
 		if (this->lives >= 0)
 		{
 			CGame::GetInstance()->InitiateRestartScene();

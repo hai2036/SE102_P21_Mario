@@ -7,7 +7,7 @@
 
 class CPipe	: public CGameObject {
 	int height;
-	BOOLEAN isUpSideDown;
+	bool isUpSideDown;
 	int spriteID;
 public:
 	CPipe(float x, float y, int height, BOOLEAN isUpSideDown, int spriteID) : CGameObject(x, y)

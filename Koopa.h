@@ -34,8 +34,8 @@ class CKoopa : public CGameObject
 protected:
 	float ax;
 	float ay;
-	BOOLEAN isUpSideDown;
-	BOOLEAN wing;
+	bool isUpSideDown;
+	bool wing;
 
 	ULONGLONG die_start;
 	ULONGLONG hide_start;
@@ -63,6 +63,6 @@ protected:
 public:
 	CKoopa(float x, float y);
 	virtual void SetState(int state);
-	BOOLEAN IsWing() { return this->wing; };
+	bool IsWing() { return this->wing; };
 	void Damage();
 };

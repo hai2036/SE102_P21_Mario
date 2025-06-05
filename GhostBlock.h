@@ -7,7 +7,7 @@
 
 class CGhostBlock : public CGameObject
 {
-	BOOLEAN isOnPlatform;
+	bool isOnPlatform;
 	float ay;
 public:
 	CGhostBlock(float x, float y) : CGameObject(x, y) 

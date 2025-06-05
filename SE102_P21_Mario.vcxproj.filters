@@ -77,6 +77,8 @@
     <ClCompile Include="SwitchBlock.cpp" />
     <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="HUDText.cpp" />
+    <ClCompile Include="SpeedBar.cpp" />
     <ClCompile Include="PiranhaClamp.cpp" />
     <ClCompile Include="BackgroundEndVoid.cpp" />
     <ClCompile Include="BackgroundEndHill.cpp" />
@@ -167,6 +169,8 @@
     <ClInclude Include="SwitchBlock.h" />
     <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="HUDText.h" />
+    <ClInclude Include="SpeedBar.h" />
     <ClInclude Include="PiranhaClamp.h" />
     <ClInclude Include="BackgroundEndVoid.h" />
     <ClInclude Include="BackgroundEndHill.h" />
