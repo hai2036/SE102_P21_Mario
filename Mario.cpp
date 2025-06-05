@@ -51,7 +51,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	if (this->isFlying)
 	{
-		ay = MARIO_FLYING_GRAVITY;
+		ay = 0;
 	}
 	else
 	{
@@ -76,9 +76,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx; 
 	// reset untouchable timer if untouchable time has passed
-	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
+	if (untouchable == 1 && GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchable = 0;
+	}
+
+	// reset untouchable timer if untouchable time has passed
+	if (isFlying && GetTickCount64() - flying_start > MARIO_FLYING_TIMEOUT)
+	{
+		isFlying = false;
 	}
 
 	// reset tail attacking timmer if tail attacking time has passed
@@ -843,6 +849,7 @@ void CMario::SetState(int state)
 			{
 				this->isFlying = true;
 				vy = -MARIO_FLY_SPEED_Y;
+				flying_start = GetTickCount64();
 			}
 			else
 			{
@@ -853,7 +860,7 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_RELEASE_JUMP:
-		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
+		if (vy < 0 && isFlying) vy += MARIO_JUMP_SPEED_Y / 2;
 		this->isFlying = false;
 		this->isWagging = false;
 		break;

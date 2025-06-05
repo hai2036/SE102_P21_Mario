@@ -11,7 +11,7 @@ class HUDText : public CGameObject
 {
 	int charCount;
 	vector<int> list;
-	BOOLEAN fillUp; // fill up empty with 0
+	bool fillUp; // fill up empty with 0
 public:
 	HUDText(float x, float y, int charCount, BOOLEAN fillup);
 	virtual int IsCollidable() { return 0; };

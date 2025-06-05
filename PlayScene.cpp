@@ -215,10 +215,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 			for (int k = 0; k < height; k++)
 			{
-				int yy = y + UNIT_SIZE * k;
+				float yy = y + UNIT_SIZE * k;
 				for (int i = 0; i < length; i++)
 				{
-					int xx = x + UNIT_SIZE * i;
+					float xx = x + UNIT_SIZE * i;
 					obj = new CBrick(x, y, prizeID);
 					obj->SetPosition(xx, yy);
 					objects[z].push_back(obj);
@@ -241,8 +241,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				int xx = x + UNIT_SIZE * j;
-				int yy = y + UNIT_SIZE * i;
+				float xx = x + UNIT_SIZE * j;
+				float yy = y + UNIT_SIZE * i;
 				obj = new CCoin(xx, yy);
 				obj->SetPosition(xx, yy);
 				objects[z].push_back(obj);
@@ -467,7 +467,7 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
-	if (cy > 112 && !(dynamic_cast<CMario*>(player)->IsFlying())) cy = 224;
+	if (cy > 224 && !(dynamic_cast<CMario*>(player)->IsFlying())) cy = 224;
 
 	HUD* hud = HUD::GetInstance();
 	hud->SetPosition(cx+HUD_WIDTH/2, cy +HUD_HEIGHT/2+ game->GetBackBufferHeight());

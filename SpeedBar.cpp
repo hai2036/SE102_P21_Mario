@@ -28,7 +28,7 @@ void SpeedBar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	mario->GetSpeed(vx,vy);
 	if (abs(vx) > MARIO_WALKING_SPEED)	// Linear interpolation
 	{
-		int temp = (((abs(vx) - MARIO_WALKING_SPEED) / (MARIO_RUNNING_SPEED - MARIO_WALKING_SPEED)) * SPEED_BAR_ARROW_COUNT);
+		int temp = int(((abs(vx) - MARIO_WALKING_SPEED) / (MARIO_RUNNING_SPEED - MARIO_WALKING_SPEED)) * SPEED_BAR_ARROW_COUNT);
 		if (temp < arrowFill)
 		{
 			DecreaseStart();

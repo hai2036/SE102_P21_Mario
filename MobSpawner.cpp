@@ -32,8 +32,8 @@ void CMobSpawner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
     float cx, cy;
     CGame::GetInstance()->GetCamPos(cx, cy);
     
-    float sw = CGame::GetInstance()->GetBackBufferWidth();
-    float sh = CGame::GetInstance()->GetBackBufferHeight();
+    int sw = CGame::GetInstance()->GetBackBufferWidth();
+    int sh = CGame::GetInstance()->GetBackBufferHeight();
 
     bool inSpawnzone = (x >= cx - UNIT_SIZE * 2 && x <= cx + sw + UNIT_SIZE * 2 &&
         y >= cy - UNIT_SIZE * 2 && y <= cy + sh + UNIT_SIZE * 2);

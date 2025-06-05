@@ -42,7 +42,7 @@ void HUD::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	speedBar->Update(dt, coObjects);
 	if (!stopTimer)
 	{
-		int timerNum = timeLimit - ((GetTickCount64() - timer) / 1000);
+		int timerNum = int(timeLimit - ((GetTickCount64() - timer) / 1000));
 		currentTime = timerNum;
 		if (currentTime <=0)
 		{

@@ -60,7 +60,7 @@ class CGame
 	// Game need a player
 	LPGAMEOBJECT player;
 
-	BOOLEAN isRestart;
+	bool isRestart;
 
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);

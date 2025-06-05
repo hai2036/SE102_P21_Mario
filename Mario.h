@@ -15,8 +15,8 @@
 
 #define MARIO_JUMP_SPEED_Y		0.5f
 #define MARIO_JUMP_RUN_SPEED_Y	0.6f
-#define MARIO_FLY_SPEED_Y		0.25f
-#define MARIO_WAGGING_FALL_SPEED_Y	0.01f
+#define MARIO_FLY_SPEED_Y		0.20f
+#define MARIO_WAGGING_FALL_SPEED_Y	0.1f
 
 #define MARIO_GRAVITY			0.002f
 #define MARIO_FLYING_GRAVITY	0.0002f
@@ -162,15 +162,16 @@
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_TAIL_ATTACKING_TIME	200
 #define MARIO_KICKING_TIME 200
+#define MARIO_FLYING_TIMEOUT 300
 
 class CMario : public CGameObject
 {
-	BOOLEAN isSitting;
-	BOOLEAN isFlying;
-	BOOLEAN isTailAttacking;
-	BOOLEAN isWagging;
-	BOOLEAN isKicking;
-	BOOLEAN isHolding;
+	bool isSitting;
+	bool isFlying;
+	bool isTailAttacking;
+	bool isWagging;
+	bool isKicking;
+	bool isHolding;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -181,8 +182,9 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	ULONGLONG tail_attacking_start;
 	ULONGLONG kicking_start;
+	ULONGLONG flying_start;
 
-	BOOLEAN isOnPlatform;
+	bool isOnPlatform;
 	int coin;
 	LPGAMEOBJECT tailHitBox;
 	LPGAMEOBJECT holdingObject;
@@ -230,6 +232,7 @@ public:
 		untouchable_start = -1;
 		tail_attacking_start = -1;
 		kicking_start = -1;
+		flying_start = -1;
 		isOnPlatform = false;
 		coin = 0;
 		tailHitBox = nullptr;
@@ -255,9 +258,9 @@ public:
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void AddCoin(int Coin) { this->coin += Coin; };
-	BOOLEAN IsTailAttacking() { return this->isTailAttacking; };
-	BOOLEAN IsHolding() { return this->isHolding; };
-	BOOLEAN IsFlying() { return this->isFlying; };
+	bool IsTailAttacking() { return this->isTailAttacking; };
+	bool IsHolding() { return this->isHolding; };
+	bool IsFlying() { return this->isFlying; };
 	int Getnx() { return this->nx; };
 	void Restart();
 };

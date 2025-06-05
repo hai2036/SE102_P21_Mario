@@ -36,7 +36,7 @@ class HUD : public CGameObject
 	int world;
 	
 	
-	BOOLEAN stopTimer;
+	bool stopTimer;
 	
 	HUDText* timerText;
 	HUDText* lifeText;
