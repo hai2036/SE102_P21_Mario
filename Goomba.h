@@ -1,4 +1,5 @@
 #pragma once
+#include "AssetIDs.h"
 #include "GameObject.h"
 
 #define GOOMBA_GRAVITY 0.0008f

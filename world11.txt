@@ -7,6 +7,7 @@ backgroundHill.txt
 backgroundEndVoid.txt
 backgroundEndHill.txt
 particle.txt
+debris.txt
 ground.txt
 boxplatform.txt
 pipe.txt
