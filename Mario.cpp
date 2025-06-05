@@ -23,8 +23,7 @@
 #include "SwitchBlock.h"
 #include "MovingPlatform.h"
 
-#include "PlayScene.h"
-#include "Particle.h"
+#include "Visuals.h"
 
 void CMario::Restart() {
 	this->x = -UNIT_SIZE;
@@ -182,6 +181,8 @@ void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
 		{
 			y -= 16;
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			spawnScoreParticle(x, y);
+
 			if (goomba->GetState() == PARAGOOMBA_STATE_WING)
 			{
 				goomba->SetState(GOOMBA_STATE_FOOT);
@@ -238,6 +239,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			spawnScoreParticle(x, y);
 		}
 	}
 	else // hit by Goomba
@@ -272,6 +274,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 				koopa->SetState(KOOPA_STATE_WALKING);
 				StartUntouchable();
+				spawnScoreParticle(x, y);
 				return;
 			}
 

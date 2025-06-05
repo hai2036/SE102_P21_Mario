@@ -1,5 +1,5 @@
 #include "debug.h"
-#include"Border.h"
+#include "Border.h"
 #include "Paragoomba.h"
 
 CParagoomba::CParagoomba(float x, float y) :CGoomba(x, y)

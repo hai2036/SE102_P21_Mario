@@ -69,6 +69,7 @@ void CTailHitBox::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		goomba->SetState(GOOMBA_STATE_DIE);
 
 		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
+		spawnScoreParticle(x, y);
 	}
 }
 
@@ -116,6 +117,7 @@ void CTailHitBox::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		koopa->SetState(KOOPA_STATE_TAIL_HIT);
 
 		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
+		spawnScoreParticle(x, y);
 	}
 }
 
@@ -125,6 +127,7 @@ void CTailHitBox::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 	PiranhaPlant->Damage();
 	
 	spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
+	spawnScoreParticle(x, y);
 }
 
 void CTailHitBox::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e) {
@@ -133,4 +136,5 @@ void CTailHitBox::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e) {
 	PiranhaClamp->Damage();
 
 	spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
+	spawnScoreParticle(x, y);
 }

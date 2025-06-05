@@ -41,7 +41,6 @@ int CGreenKoopa::GetAniID()
 	}
 	case KOOPA_STATE_DIE:
 	{
-
 		aniId = ID_ANI_GREEN_KOOPA_DIE;
 		break;
 	}
