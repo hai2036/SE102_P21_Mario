@@ -77,6 +77,8 @@
     <ClCompile Include="SwitchBlock.cpp" />
     <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="HUDText.cpp" />
+    <ClCompile Include="SpeedBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -161,6 +163,8 @@
     <ClInclude Include="SwitchBlock.h" />
     <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="HUDText.h" />
+    <ClInclude Include="SpeedBar.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

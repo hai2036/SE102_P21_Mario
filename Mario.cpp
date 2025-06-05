@@ -21,6 +21,7 @@
 #include "Brick.h"
 #include "SwitchBlock.h"
 #include "MovingPlatform.h"
+#include "HUD.h"
 
 void CMario::Restart() {
 	this->x = -UNIT_SIZE;
@@ -325,6 +326,7 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
 	coin++;
+	HUD::GetInstance()->AddCoin();
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -375,6 +377,8 @@ void CMario::OnCollisionWithLifeMushroom(LPCOLLISIONEVENT e)
 	CLifeMushroom* lifeMushroom = (CLifeMushroom*)e->obj;
 	lifeMushroom->SetState(SUPER_MUSHROOM_STATE_DIE);
 	this->lives += 1;
+	HUD::GetInstance()->AddLife();
+
 }
 
 void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
@@ -790,7 +794,7 @@ void CMario::Render()
 
 	RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d | Lives: %d", coin,lives);
+	//DebugOutTitle(L"Coins: %d | Lives: %d", coin,lives);
 }
 
 void CMario::SetState(int state)
@@ -928,6 +932,7 @@ void CMario::SetState(int state)
 		vx = 0;
 		ax = 0;
 		this->lives -= 1;
+		HUD::GetInstance()->DecreaseLife();
 		if (this->lives >= 0)
 		{
 			CGame::GetInstance()->InitiateRestartScene();

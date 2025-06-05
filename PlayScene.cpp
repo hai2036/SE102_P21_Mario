@@ -426,10 +426,9 @@ void CPlayScene::Load()
 	}
 
 	f.close();
-
-	CGameObject* hud = new HUD(0, 0);
-	objects[1].push_back(hud);
-
+	HUD* hud = HUD::GetInstance();
+	objects[numberOfLayers-1].push_back(LPGAMEOBJECT(hud));
+	hud->StartTimer();
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
@@ -468,8 +467,10 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
-	if (cy > 224) cy = 224;
+	if (cy > 112 && !(dynamic_cast<CMario*>(player)->IsFlying())) cy = 224;
 
+	HUD* hud = HUD::GetInstance();
+	hud->SetPosition(cx+HUD_WIDTH/2, cy +HUD_HEIGHT/2+ game->GetBackBufferHeight());
 	CGame::GetInstance()->SetCamPos(cx, cy + HUD_HEIGHT);
 
 	PurgeDeletedObjects();
@@ -515,7 +516,7 @@ void CPlayScene::Unload()
 	{
 		for (int k = 0; k < objects[i].size(); k++)
 		{
-			if (dynamic_cast<CMario*>(objects[i][k]))
+			if (dynamic_cast<CMario*>(objects[i][k]) || dynamic_cast<HUD*>(objects[i][k]))
 			{
 				continue;
 			}

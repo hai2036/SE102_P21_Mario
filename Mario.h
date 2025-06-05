@@ -257,6 +257,7 @@ public:
 	void AddCoin(int Coin) { this->coin += Coin; };
 	BOOLEAN IsTailAttacking() { return this->isTailAttacking; };
 	BOOLEAN IsHolding() { return this->isHolding; };
+	BOOLEAN IsFlying() { return this->isFlying; };
 	int Getnx() { return this->nx; };
 	void Restart();
 };
