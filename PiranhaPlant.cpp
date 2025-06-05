@@ -77,18 +77,18 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		ULONGLONG timetaken = tick - rise_start;
-		if (timetaken < PIRANHAPLANT_RISE_TIME)
+		ULONGLONG timeTaken = tick - rise_start;
+		if (timeTaken < PIRANHAPLANT_RISE_TIME)
 		{
 			// Su dung cong thuc Lerp (1 - t) * a + t * b
-			float t = (float) timetaken / PIRANHAPLANT_RISE_TIME;
+			float t = (float) timeTaken / PIRANHAPLANT_RISE_TIME;
 			if (isOutside)
 			{
-				y = (1 - t) * y1 + t * y0;
+				y = y1 + (y0 - y1) * t;
 			}
 			else
 			{
-				y = (1 - t) * y0 + t * y1;
+				y = y0 + (y1 - y0) * t;
 			}
 		}
 		else
