@@ -2,7 +2,8 @@
 #include "PiranhaClamp.h"
 
 #include "Game.h"
-#include "Mario.h"
+#include "PlayScene.h"
+#include "Particle.h"
 
 CPiranhaClamp::CPiranhaClamp(float x, float y) :CGameObject(x, y)
 {
@@ -88,5 +89,7 @@ void CPiranhaClamp::Render()
 
 void CPiranhaClamp::Damage()
 {
-	isDeleted = true;
+	this->Delete();
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	scene->AddObject(new CParticle(x, y, ID_ANI_PARTICLE), 3);
 }

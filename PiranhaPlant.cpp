@@ -2,6 +2,9 @@
 #include "PiranhaPlant.h"
 
 #include "Game.h"
+#include "PlayScene.h"
+#include "Particle.h"
+
 #include "Mario.h"
 #include "Fireball.h"
 
@@ -155,5 +158,7 @@ void CPiranhaPlant::Render()
 
 void CPiranhaPlant::Damage()
 {
-	isDeleted = true;
+	this->Delete();
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	scene->AddObject(new CParticle(x, y, ID_ANI_PARTICLE), 3);
 }

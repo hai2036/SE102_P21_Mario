@@ -1,9 +1,6 @@
 #include "Goomba.h"
 #include "Border.h"
 
-#include "PlayScene.h"
-#include "Particle.h"
-
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
 	this->ax = 0;
@@ -88,12 +85,6 @@ void CGoomba::Render()
 	RenderBoundingBox();
 }
 
-void spawnParticle(int x, int y)
-{
-	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
-	scene->AddObject(new CParticle(x, y, ID_ANI_PARTICLE), 3);
-}
-
 void CGoomba::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -105,7 +96,6 @@ void CGoomba::SetState(int state)
 			vx = 0;
 			vy = 0;
 			ay = 0;
-			spawnParticle(x, y);
 			break;
 		case GOOMBA_STATE_FOOT: 
 			vx = -GOOMBA_WALKING_SPEED;
