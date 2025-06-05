@@ -132,6 +132,9 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BackgroundBush.cpp" />
     <ClCompile Include="BackgroundCloud.cpp" />
+    <ClCompile Include="BackgroundEndHill.cpp" />
+    <ClCompile Include="BackgroundEndVoid.cpp" />
+    <ClCompile Include="BackgroundFishcake.cpp" />
     <ClCompile Include="BackgroundHill.cpp" />
     <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Border.cpp" />
@@ -155,7 +158,9 @@
     <ClCompile Include="MobSpawner.cpp" />
     <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="Paragoomba.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Pipe.cpp" />
+    <ClCompile Include="PiranhaClamp.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
@@ -173,6 +178,7 @@
     <ClCompile Include="TailHitBox.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Visuals.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -184,6 +190,9 @@
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="BackgroundBush.h" />
     <ClInclude Include="BackgroundCloud.h" />
+    <ClInclude Include="BackgroundEndHill.h" />
+    <ClInclude Include="BackgroundEndVoid.h" />
+    <ClInclude Include="BackgroundFishcake.h" />
     <ClInclude Include="BackgroundHill.h" />
     <ClInclude Include="Blocks.h" />
     <ClInclude Include="Border.h" />
@@ -207,7 +216,9 @@
     <ClInclude Include="MobSpawner.h" />
     <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="Paragoomba.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="Pipe.h" />
+    <ClInclude Include="PiranhaClamp.h" />
     <ClInclude Include="PiranhaPlant.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
@@ -226,6 +237,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Visuals.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

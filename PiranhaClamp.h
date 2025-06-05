@@ -2,21 +2,13 @@
 #include "AssetIDs.h"
 #include "GameObject.h"
 
-#define PIRANHAPLANT_RISE_TIME 600
-#define PIRANHAPLANT_RISE_COOLDOWN 3000
-#define PIRANHAPLANT_SHOOT_TIME 500
+#define PIRANHACLAMP_RISE_TIME 300
+#define PIRANHACLAMP_RISE_COOLDOWN 2000
 
-#define PIRANHAPLANT_BBOX_WIDTH UNIT_SIZE
-#define PIRANHAPLANT_BBOX_HEIGHT UNIT_SIZE * 2
+#define PIRANHACLAMP_BBOX_WIDTH UNIT_SIZE
+#define PIRANHACLAMP_BBOX_HEIGHT (UNIT_SIZE * 1.5)
 
-enum PiranhaPlantLookDirection {
-	UP_LEFT = 0,
-	UP_RIGHT = 1,
-	DOWN_LEFT = 2,
-	DOWN_RIGHT = 3
-};
-
-class CPiranhaPlant : public CGameObject
+class CPiranhaClamp : public CGameObject
 {
 protected:
 	float y0, y1;
@@ -24,14 +16,8 @@ protected:
 	bool isHostile;
 	bool isRising;
 	bool isOutside;
-	bool canShoot;
 	ULONGLONG rise_start;
 	ULONGLONG cooldown_start;
-	ULONGLONG shoot_start;
-
-	bool isGreen;
-
-	PiranhaPlantLookDirection lookDirection;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -44,7 +30,7 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
-	CPiranhaPlant(float x, float y, bool isGreen);
+	CPiranhaClamp(float x, float y);
 	bool GetIsHostile() { return isHostile; }
 	virtual void Damage();
 };

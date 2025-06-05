@@ -5,6 +5,7 @@
 #include "Paragoomba.h"
 #include "RedKoopa.h"
 #include "PiranhaPlant.h"
+#include "PiranhaClamp.h"
 #include "GreenKoopa.h"
 #include "MovingPlatform.h"
 #include "PlayScene.h"
@@ -57,8 +58,11 @@ void CMobSpawner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
         case SPAWNER_KOOPA_GREEN:
             mob = new CGreenKoopa(x, y, this->option);
             break;
-        case SPAWNER_PIRANHAPLANT_RED:
-            mob = new CPiranhaPlant(x, y);
+        case SPAWNER_PIRANHAPLANT:
+            mob = new CPiranhaPlant(x, y, this->option);
+            break;
+        case SPAWNER_PIRANHACLAMP:
+            mob = new CPiranhaClamp(x, y);
             break;
         case SPAWNER_MOVING_PLATFORM:
         {

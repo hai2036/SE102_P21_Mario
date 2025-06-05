@@ -13,6 +13,7 @@
 #include "SuperMushroom.h"
 #include "SuperLeaf.h"
 #include "PiranhaPlant.h"
+#include "PiranhaClamp.h"
 #include "Fireball.h"
 #include "Collision.h"
 #include "Koopa.h"
@@ -21,6 +22,8 @@
 #include "Brick.h"
 #include "SwitchBlock.h"
 #include "MovingPlatform.h"
+
+#include "Visuals.h"
 
 void CMario::Restart() {
 	this->x = -UNIT_SIZE;
@@ -56,7 +59,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		ay = MARIO_GRAVITY;
 	}
-
 
 	if (this->level == MARIO_LEVEL_RACOON && this->tailHitBox !=nullptr)
 	{
@@ -156,6 +158,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithSuperLeaf(e);
 	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
 		OnCollisionWithPiranhaPlant(e);
+	else if (dynamic_cast<CPiranhaClamp*>(e->obj))
+		OnCollisionWithPiranhaClamp(e);
 	else if (dynamic_cast<CFireball*>(e->obj))
 		OnCollisionWithFireball(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
@@ -177,6 +181,8 @@ void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
 		{
 			y -= 16;
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			spawnScoreParticle(x, y);
+
 			if (goomba->GetState() == PARAGOOMBA_STATE_WING)
 			{
 				goomba->SetState(GOOMBA_STATE_FOOT);
@@ -233,6 +239,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			spawnScoreParticle(x, y);
 		}
 	}
 	else // hit by Goomba
@@ -267,6 +274,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 				koopa->SetState(KOOPA_STATE_WALKING);
 				StartUntouchable();
+				spawnScoreParticle(x, y);
 				return;
 			}
 
@@ -415,6 +423,25 @@ void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 	CPiranhaPlant* piranhaPlant = dynamic_cast<CPiranhaPlant*>(e->obj);
 
 	if (untouchable == 0 && piranhaPlant->GetIsHostile() == true)
+	{
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level -= 1;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
+	}
+}
+
+void CMario::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e)
+{
+	CPiranhaClamp* piranhaClamp = dynamic_cast<CPiranhaClamp*>(e->obj);
+
+	if (untouchable == 0 && piranhaClamp->GetIsHostile() == true)
 	{
 		if (level > MARIO_LEVEL_SMALL)
 		{

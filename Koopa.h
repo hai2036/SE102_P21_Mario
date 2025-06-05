@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Visuals.h"
 
 #define KOOPA_GRAVITY 0.001f
 #define KOOPA_WALKING_SPEED 0.05f

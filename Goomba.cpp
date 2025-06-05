@@ -1,5 +1,6 @@
 #include "Goomba.h"
 #include "Border.h"
+
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
 	this->ax = 0;
@@ -63,7 +64,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if ( (state==GOOMBA_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT) )
 	{
-		isDeleted = true;
+		this->Delete();
 		return;
 	}
 
@@ -94,7 +95,7 @@ void CGoomba::SetState(int state)
 			y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE)/2;
 			vx = 0;
 			vy = 0;
-			ay = 0; 
+			ay = 0;
 			break;
 		case GOOMBA_STATE_FOOT: 
 			vx = -GOOMBA_WALKING_SPEED;

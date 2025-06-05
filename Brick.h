@@ -35,5 +35,6 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	int GetPrizeID() { return this->prizeID; };
 
+	int GetState() { return state; }
 	void SetState(int state);
 };
