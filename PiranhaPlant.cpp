@@ -1,7 +1,8 @@
 #include "debug.h"
 #include "PiranhaPlant.h"
 
-#include "Game.h"
+#include "Visuals.h"
+
 #include "Mario.h"
 #include "Fireball.h"
 
@@ -19,18 +20,19 @@ const int openSpriteIds[4] = {
 	ID_SPRITE_PIRANHAPLANT_RED_OPEN_DOWN_RIGHT
 };
 
-CPiranhaPlant::CPiranhaPlant(float x, float y) :CGameObject(x, y)
+CPiranhaPlant::CPiranhaPlant(float x, float y, bool isGreen) :CGameObject(x, y)
 {
-	y0 = y;
-	y1 = y - PIRANHAPLANT_BBOX_HEIGHT;
-	
 	isHostile = false;
 	isRising = false;
 	isOutside = false;
+	this->isGreen = isGreen;
 	canShoot = false;
 	rise_start = -1;
 	cooldown_start = -1;
 	shoot_start = -1;
+
+	y0 = y;
+	y1 = isGreen ? y0 - (PIRANHAPLANT_BBOX_HEIGHT - 8) : y0 - PIRANHAPLANT_BBOX_HEIGHT;
 
 	lookDirection = UP_LEFT;
 }
@@ -73,18 +75,17 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		ULONGLONG timetaken = tick - rise_start;
-		if (timetaken < PIRANHAPLANT_RISE_TIME)
+		ULONGLONG timeTaken = tick - rise_start;
+		if (timeTaken < PIRANHAPLANT_RISE_TIME)
 		{
-			// Su dung cong thuc Lerp (1 - t) * a + t * b
-			float t = (float) timetaken / PIRANHAPLANT_RISE_TIME;
+			float t = (float) timeTaken / PIRANHAPLANT_RISE_TIME;
 			if (isOutside)
 			{
-				y = (1 - t) * y1 + t * y0;
+				y = y1 + (y0 - y1) * t;
 			}
 			else
 			{
-				y = (1 - t) * y0 + t * y1;
+				y = y0 + (y1 - y0) * t;
 			}
 		}
 		else
@@ -123,7 +124,7 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 			LPGAMEOBJECT fireball = new CFireball(x, y - UNIT_SIZE / 2, dx, dy, true);
-			CGame::GetInstance()->GetCurrentScene()->AddObject(fireball, 1);
+			CGame::GetInstance()->GetCurrentScene()->AddObject(fireball, 3);
 			canShoot = false;
 		}
 	}
@@ -141,16 +142,19 @@ void CPiranhaPlant::Render()
 {
 	if (isRising)
 	{
-		CAnimations::GetInstance()->Get(chompAniIds[lookDirection])->Render(x, y);
+		int aniId = isGreen ? chompAniIds[lookDirection] + 1000 : chompAniIds[lookDirection];
+		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
 	else
 	{
-		CSprites::GetInstance()->Get(openSpriteIds[lookDirection])->Draw(x, y);
+		int spriteId = isGreen ? openSpriteIds[lookDirection] + 1000 : openSpriteIds[lookDirection];
+		CSprites::GetInstance()->Get(spriteId)->Draw(x, y);
 	}
 	RenderBoundingBox();
 }
 
 void CPiranhaPlant::Damage()
 {
-	isDeleted = true;
+	this->Delete();
+	spawnParticle(x, y, ID_ANI_PARTICLE_SMOKE);
 }

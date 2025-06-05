@@ -79,6 +79,12 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDText.cpp" />
     <ClCompile Include="SpeedBar.cpp" />
+    <ClCompile Include="PiranhaClamp.cpp" />
+    <ClCompile Include="BackgroundEndVoid.cpp" />
+    <ClCompile Include="BackgroundEndHill.cpp" />
+    <ClCompile Include="BackgroundFishcake.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="Visuals.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -165,6 +171,12 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDText.h" />
     <ClInclude Include="SpeedBar.h" />
+    <ClInclude Include="PiranhaClamp.h" />
+    <ClInclude Include="BackgroundEndVoid.h" />
+    <ClInclude Include="BackgroundEndHill.h" />
+    <ClInclude Include="BackgroundFishcake.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="Visuals.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

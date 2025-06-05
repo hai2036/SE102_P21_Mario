@@ -24,6 +24,7 @@ public:
 		this->prize = nullptr;
 		this->prizeID = prizeID;
 	}
+	int GetState() { return state; }
 	void SetState(int state);
 	void Render();
 	void GetBoundingBox(float& l, float& t, float& r, float& b);

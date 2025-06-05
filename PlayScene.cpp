@@ -21,11 +21,15 @@
 #include "BackgroundBush.h"
 #include "BackgroundCloud.h"
 #include "BackgroundHill.h"
+#include "BackgroundFishcake.h"
+#include "BackgroundEndVoid.h"
+#include "BackgroundEndHill.h"
 #include "PrizeBlock.h"
 #include "Brick.h"
 #include "Goomba.h"
 #include "Paragoomba.h"
 #include "PiranhaPlant.h"
+#include "PiranhaClamp.h"
 #include "Koopa.h"
 #include "RedKoopa.h"
 #include "MovingPlatform.h"
@@ -178,7 +182,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		x += UNIT_SIZE / 2;
 		y += UNIT_SIZE / 2;
-		obj = new CMobSpawner(x, y, SPAWNER_PIRANHAPLANT_RED);
+
+		bool isGreen = atoi(tokens[4].c_str());
+		obj = new CMobSpawner(x, y, SPAWNER_PIRANHAPLANT, isGreen);
+		obj->SetPosition(x, y);
+		objects[z].push_back(obj);
+		return;
+	}
+	case OBJECT_TYPE_PIRANHACLAMP:
+	{
+		x += UNIT_SIZE / 2;
+		y += UNIT_SIZE / 3;
+		obj = new CMobSpawner(x, y, SPAWNER_PIRANHACLAMP);
 		obj->SetPosition(x, y);
 		objects[z].push_back(obj);
 		return;
@@ -342,6 +357,27 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		bool leftOutline = atoi(tokens[5].c_str());
 		bool rightOutline = atoi(tokens[6].c_str());
 		obj = new CBackgroundHill(x, y, height, leftOutline, rightOutline);
+		break;
+	}
+	case OBJECT_TYPE_BACKGROUND_FISHCAKE:
+	{
+		bool isBig = atoi(tokens[4].c_str());
+		obj = new CBackgroundFishcake(x, y, isBig);
+		break;
+	};
+	case OBJECT_TYPE_BACKGROUND_END_VOID:
+	{
+		int width = atoi(tokens[4].c_str());
+		int height = atoi(tokens[5].c_str());
+		obj = new CBackgroundEndVoid(x, y, width, height);
+		break;
+	}
+	case OBJECT_TYPE_BACKGROUND_END_HILL:
+	{
+		int height = atoi(tokens[4].c_str());
+		bool leftOutline = atoi(tokens[5].c_str());
+		bool rightOutline = atoi(tokens[6].c_str());
+		obj = new CBackgroundEndHill(x, y, height, leftOutline, rightOutline);
 		break;
 	}
 
