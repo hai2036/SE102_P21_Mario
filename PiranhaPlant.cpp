@@ -160,5 +160,5 @@ void CPiranhaPlant::Damage()
 {
 	this->Delete();
 	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
-	scene->AddObject(new CParticle(x, y, ID_ANI_PARTICLE), 3);
+	scene->AddObject(new CParticle(x, y, ID_ANI_PARTICLE_SMOKE), 3);
 }
