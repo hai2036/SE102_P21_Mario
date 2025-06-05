@@ -82,6 +82,7 @@
     <ClCompile Include="BackgroundEndHill.cpp" />
     <ClCompile Include="BackgroundFishcake.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="Visuals.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="BackgroundEndHill.h" />
     <ClInclude Include="BackgroundFishcake.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="Visuals.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

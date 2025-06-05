@@ -10,9 +10,10 @@
 #include "GreenKoopa.h"
 #include "Brick.h"
 
+#include "Visuals.h"
+
 #include "debug.h"
 #include "Collision.h"
-
 
 void CTailHitBox::Render() {
 	RenderBoundingBox();
@@ -55,7 +56,6 @@ void CTailHitBox::OnCollisionWith(LPCOLLISIONEVENT e) {
 				OnCollisionWithPiranhaPlant(e);
 			else if (dynamic_cast<CPiranhaClamp*>(e->obj))
 				OnCollisionWithPiranhaClamp(e);
-
 		}
 	}
 }
@@ -67,6 +67,8 @@ void CTailHitBox::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	if (goomba->GetState() != GOOMBA_STATE_DIE)
 	{
 		goomba->SetState(GOOMBA_STATE_DIE);
+
+		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
 	}
 }
 
@@ -74,18 +76,26 @@ void CTailHitBox::OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e)
 {
 	CPrizeBlock* prizeblock = dynamic_cast<CPrizeBlock*>(e->obj);
 
-	prizeblock->SetState(STATE_HIT);
+	int state = prizeblock->GetState();
+	if (state != STATE_HIT && state != STATE_EMPTY)
+	{
+		prizeblock->SetState(STATE_HIT);
 
-	
+		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
+	}
 }
 
 void CTailHitBox::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 
-	brick->SetState(BRICK_STATE_HIT);
+	int state = brick->GetState();
+	if (state != BRICK_STATE_HIT && state != BRICK_STATE_EMPTY)
+	{
+		brick->SetState(BRICK_STATE_HIT);
 
-
+		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
+	}
 }
 
 void CTailHitBox::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
@@ -104,6 +114,8 @@ void CTailHitBox::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 		}
 		koopa->SetState(KOOPA_STATE_TAIL_HIT);
+
+		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
 	}
 }
 
@@ -111,7 +123,8 @@ void CTailHitBox::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 	CPiranhaPlant* PiranhaPlant = dynamic_cast<CPiranhaPlant*>(e->obj);
 
 	PiranhaPlant->Damage();
-
+	
+	spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
 }
 
 void CTailHitBox::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e) {
@@ -119,4 +132,5 @@ void CTailHitBox::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e) {
 
 	PiranhaClamp->Damage();
 
+	spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
 }

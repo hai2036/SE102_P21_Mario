@@ -1,9 +1,7 @@
 #include "debug.h"
 #include "PiranhaClamp.h"
 
-#include "Game.h"
-#include "PlayScene.h"
-#include "Particle.h"
+#include "Visuals.h"
 
 CPiranhaClamp::CPiranhaClamp(float x, float y) :CGameObject(x, y)
 {
@@ -90,6 +88,6 @@ void CPiranhaClamp::Render()
 void CPiranhaClamp::Damage()
 {
 	this->Delete();
-	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
-	scene->AddObject(new CParticle(x, y, ID_ANI_PARTICLE_SMOKE), 3);
+
+	spawnParticle(x, y, ID_ANI_PARTICLE_SMOKE);
 }

@@ -1,9 +1,7 @@
 #include "debug.h"
 #include "PiranhaPlant.h"
 
-#include "Game.h"
-#include "PlayScene.h"
-#include "Particle.h"
+#include "Visuals.h"
 
 #include "Mario.h"
 #include "Fireball.h"
@@ -80,7 +78,6 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		ULONGLONG timeTaken = tick - rise_start;
 		if (timeTaken < PIRANHAPLANT_RISE_TIME)
 		{
-			// Su dung cong thuc Lerp (1 - t) * a + t * b
 			float t = (float) timeTaken / PIRANHAPLANT_RISE_TIME;
 			if (isOutside)
 			{
@@ -159,6 +156,5 @@ void CPiranhaPlant::Render()
 void CPiranhaPlant::Damage()
 {
 	this->Delete();
-	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
-	scene->AddObject(new CParticle(x, y, ID_ANI_PARTICLE_SMOKE), 3);
+	spawnParticle(x, y, ID_ANI_PARTICLE_SMOKE);
 }

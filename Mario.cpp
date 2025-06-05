@@ -23,6 +23,9 @@
 #include "SwitchBlock.h"
 #include "MovingPlatform.h"
 
+#include "PlayScene.h"
+#include "Particle.h"
+
 void CMario::Restart() {
 	this->x = -UNIT_SIZE;
 	this->y = -UNIT_SIZE;
@@ -57,7 +60,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		ay = MARIO_GRAVITY;
 	}
-
 
 	if (this->level == MARIO_LEVEL_RACOON && this->tailHitBox !=nullptr)
 	{
