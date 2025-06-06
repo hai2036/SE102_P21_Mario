@@ -31,6 +31,7 @@ protected:
 
 public:
 	CPiranhaClamp(float x, float y);
+	bool GetIsOutside() { return isOutside; }
 	bool GetIsHostile() { return isHostile; }
 	virtual void Damage();
 };
