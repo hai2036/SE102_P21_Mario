@@ -45,6 +45,7 @@ protected:
 
 public:
 	CPiranhaPlant(float x, float y, bool isGreen);
+	bool GetIsOutside() { return isOutside; }
 	bool GetIsHostile() { return isHostile; }
 	virtual void Damage();
 };

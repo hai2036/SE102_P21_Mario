@@ -134,6 +134,7 @@ void CTailHitBox::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 void CTailHitBox::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 	CPiranhaPlant* PiranhaPlant = dynamic_cast<CPiranhaPlant*>(e->obj);
 
+	if (!PiranhaPlant->GetIsOutside()) return;
 	PiranhaPlant->Damage();
 	
 	spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
@@ -145,6 +146,7 @@ void CTailHitBox::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 void CTailHitBox::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e) {
 	CPiranhaClamp* PiranhaClamp = dynamic_cast<CPiranhaClamp*>(e->obj);
 
+	if (!PiranhaClamp->GetIsOutside()) return;
 	PiranhaClamp->Damage();
 
 	spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
