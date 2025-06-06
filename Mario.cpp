@@ -570,7 +570,11 @@ void CMario::OnCollisionWithBoomerangBro(LPCOLLISIONEVENT e)
 		{
 			boomerangBro->SetState(BOOMERANGBRO_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			spawnScoreParticle(x, y);
+
+			int score = ComboPrize();
+			AddCombo();
+			HUD::GetInstance()->AddScore(score);
+			spawnScoreParticle(x, y, score);
 		}
 	}
 	else // hit by Goomba

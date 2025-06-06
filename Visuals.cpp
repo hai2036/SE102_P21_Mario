@@ -11,7 +11,7 @@ void spawnParticle(int x, int y, int aniId)
 
 void spawnScoreParticle(int x, int y, int score)
 {
-	if (score ==0)
+	if (score == 0)
 	{
 		return;
 	}

@@ -3,6 +3,8 @@
 hud.txt
 backgroundBush.txt
 backgroundFishcake.txt
+particle.txt
+debris.txt
 coin.txt
 pipe.txt
 ground.txt
