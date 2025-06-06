@@ -87,6 +87,7 @@
     <ClCompile Include="Visuals.cpp" />
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="BoomerangBro.cpp" />
+    <ClCompile Include="Boomerang.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Visuals.h" />
     <ClInclude Include="Debris.h" />
     <ClInclude Include="BoomerangBro.h" />
+    <ClInclude Include="Boomerang.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

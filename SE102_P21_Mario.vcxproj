@@ -137,6 +137,7 @@
     <ClCompile Include="BackgroundFishcake.cpp" />
     <ClCompile Include="BackgroundHill.cpp" />
     <ClCompile Include="Blocks.cpp" />
+    <ClCompile Include="Boomerang.cpp" />
     <ClCompile Include="BoomerangBro.cpp" />
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="BoxPlatform.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="BackgroundFishcake.h" />
     <ClInclude Include="BackgroundHill.h" />
     <ClInclude Include="Blocks.h" />
+    <ClInclude Include="Boomerang.h" />
     <ClInclude Include="BoomerangBro.h" />
     <ClInclude Include="Border.h" />
     <ClInclude Include="BoxPlatform.h" />

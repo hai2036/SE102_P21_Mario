@@ -11,7 +11,10 @@
 
 #define BOOMERANGBRO_DIE_TIMEOUT 500
 #define BOOMERANGBRO_MOVE_TIMEOUT 1000
-#define BOOMERANGBRO_JUMP_COOLDOWN 4000
+#define BOOMERANGBRO_JUMP_COOLDOWN 5000
+
+#define BOOMERANGBRO_THROW_COOLDOWN 2000
+#define BOOMERANGBRO_READY_COOLDOWN 1000
 
 #define BOOMERANGBRO_STATE_DIE 100
 #define BOOMERANGBRO_STATE_WALK 200
@@ -32,6 +35,7 @@ protected:
 	ULONGLONG moving_start;
 	ULONGLONG die_start;
 	ULONGLONG jump_start;
+	ULONGLONG ready_start;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

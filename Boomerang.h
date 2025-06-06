@@ -1,12 +1,13 @@
 #pragma once
 #include "AssetIDs.h"
 #include "GameObject.h"
+#include "Fireball.h"
 
-#define FIREBALL_BBOX_SIZE 8
-#define FIREBALL_SPEED 0.05f
-#define FIREBALL_DELETE_TIME 3000
+#define BOOMERANG_BBOX_SIZE UNIT_SIZE
+#define BOOMERANG_SPEED 0.05f
+#define BOOMERANG_DELETE_TIME 3000
 
-class CFireball : public CGameObject
+class CBoomerang : public CFireball
 {
 protected:
 	bool isHostile;
@@ -16,14 +17,10 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 0; };
-	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-
 public:
-	CFireball(float x, float y, float dx, float dy, bool isHostile);
+	CBoomerang(float x, float y, float dx, float dy, bool isHostile);
 	void SetIsHostile(bool isHostile) { this->isHostile = isHostile; }
 	bool GetIsHostile() { return isHostile; }
 };

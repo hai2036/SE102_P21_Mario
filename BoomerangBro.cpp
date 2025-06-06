@@ -1,6 +1,9 @@
 #include "BoomerangBro.h"
 #include "Border.h"
 
+#include "Game.h"
+#include "Boomerang.h"
+
 CBoomerangBro::CBoomerangBro(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -57,27 +60,45 @@ void CBoomerangBro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 
-	if (isMoving) {
-		if (tick - moving_start >= BOOMERANGBRO_MOVE_TIMEOUT) {
-			isMoving = false;
-			isForward = !isForward;
-			moving_start = tick;
+	if (state == BOOMERANGBRO_STATE_WALK) {
+		if (isMoving) {
+			if (tick - moving_start >= BOOMERANGBRO_MOVE_TIMEOUT) {
+				isMoving = false;
+				isForward = !isForward;
+				moving_start = tick;
+			}
+			else {
+				vx = isForward ? BOOMERANGBRO_WALK_SPEED : -BOOMERANGBRO_WALK_SPEED;
+			}
 		}
 		else {
-			vx = isForward ? BOOMERANGBRO_WALK_SPEED : -BOOMERANGBRO_WALK_SPEED;
+			vx = 0;
+			if (tick - moving_start >= BOOMERANGBRO_MOVE_TIMEOUT) {
+				isMoving = true;
+				moving_start = tick;
+			}
 		}
-	}
-	else {
-		vx = 0;
-		if (tick - moving_start >= BOOMERANGBRO_MOVE_TIMEOUT) {
-			isMoving = true;
-			moving_start = tick;
-		}
-	}
 
-	if (tick - jump_start >= BOOMERANGBRO_JUMP_COOLDOWN) {
-		vy = -BOOMERANGBRO_JUMP_SPEED;
-		jump_start = tick;
+		if (tick - jump_start >= BOOMERANGBRO_JUMP_COOLDOWN) {
+			vy = -BOOMERANGBRO_JUMP_SPEED;
+			jump_start = tick;
+		}
+
+		if (isReady) {
+			if (tick - ready_start >= BOOMERANGBRO_THROW_COOLDOWN) {
+				LPGAMEOBJECT boomerang = new CBoomerang(x, y-8, -1, -0.2, true);
+				CGame::GetInstance()->GetCurrentScene()->AddObject(boomerang, 3);
+
+				isReady = false;
+				ready_start = tick;
+			}
+		}
+		else {
+			if (tick - ready_start >= BOOMERANGBRO_READY_COOLDOWN) {
+				isReady = true;
+				ready_start = tick;
+			}
+		}
 	}
 
 	vy += ay * dt;

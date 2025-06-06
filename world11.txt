@@ -24,6 +24,7 @@ koopa.txt
 piranhaPlant.txt
 piranhaClamp.txt
 fireball.txt
+boomerang.txt
 brick.txt
 switchBlock.txt
 #
