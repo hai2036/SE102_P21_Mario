@@ -75,6 +75,11 @@ void CBoomerangBro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+	if (tick - jump_start >= BOOMERANGBRO_JUMP_COOLDOWN) {
+		vy = -BOOMERANGBRO_JUMP_SPEED;
+		jump_start = tick;
+	}
+
 	vy += ay * dt;
 	vx += ax * dt;
 
@@ -86,17 +91,22 @@ void CBoomerangBro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CBoomerangBro::Render()
 {
 	int aniId = ID_ANI_BOOMERANGBRO_WALK_UNREADY_STAND;
+	int ox = 0;
+	int oy = 0;
 
 	if (state == BOOMERANGBRO_STATE_DIE)
 		aniId = ID_ANI_BOOMERANGBRO_DIE;
 	else {
-		if (isReady)
+		if (isReady) {
 			aniId = isMoving ? ID_ANI_BOOMERANGBRO_WALK_READY_MOVE : ID_ANI_BOOMERANGBRO_WALK_READY_STAND;
+			ox = RENDER_OFFSET_READY_X;
+			oy = RENDER_OFFSET_READY_Y;
+		}
 		else
 			aniId = isMoving ? ID_ANI_BOOMERANGBRO_WALK_UNREADY_MOVE : ID_ANI_BOOMERANGBRO_WALK_UNREADY_STAND;
 	}
 
-	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	CAnimations::GetInstance()->Get(aniId)->Render(x + ox, y + oy);
 	RenderBoundingBox();
 }
 
@@ -112,10 +122,11 @@ void CBoomerangBro::SetState(int state)
 		die_start = GetTickCount64();
 		break;
 	case BOOMERANGBRO_STATE_WALK:
-		isReady = false;
+		isReady = true;
 		isMoving = true;
 		isForward = false;
 		moving_start = GetTickCount64();
+		jump_start = GetTickCount64();
 		break;
 	}
 }
