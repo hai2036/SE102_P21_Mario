@@ -428,7 +428,11 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
 	p->GetTelePosition(this->x,this->y);
-
+	HUD::GetInstance()->StopTimer();
+	if (p->GetSceneId() == 3)
+	{
+		HUD::GetInstance()->ResetTimer();
+	}
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
 
