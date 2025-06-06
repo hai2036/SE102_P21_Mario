@@ -19,6 +19,8 @@ debris.txt
 #
 [LAYERS]
 5
+[LENGTH]
+127
 [OBJECTS]
 # type	x	y	z	extra_settings per object type
 # type: -1 = border, 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
