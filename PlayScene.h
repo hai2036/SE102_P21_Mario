@@ -10,6 +10,7 @@ class CPlayScene: public CScene
 protected: 
 	vector<vector<LPGAMEOBJECT>> objects;
 	int numberOfLayers;
+	float playSceneLength;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -17,6 +18,7 @@ protected:
 	void _ParseSection_ASSETS(string line);
 	void _ParseSection_LAYERS(string line);
 	void _ParseSection_OBJECTS(string line);
+	void _ParseSection_LENGTH(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
 	

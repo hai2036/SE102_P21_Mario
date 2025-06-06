@@ -42,6 +42,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	this->numberOfLayers = 0;
+	this->playSceneLength = 0;
 	key_handler = new CSampleKeyHandler(this);
 }
 
@@ -50,6 +51,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
 #define SCENE_SECTION_LAYERS	3
+#define SCENE_SECTION_LENGTH	4
 
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
@@ -104,6 +106,18 @@ void CPlayScene::_ParseSection_LAYERS(string line)
 		vector<LPGAMEOBJECT> layers;
 		objects.push_back(layers);
 	}
+
+}
+
+void CPlayScene::_ParseSection_LENGTH(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 1) return;
+
+	this->playSceneLength = atof(tokens[0].c_str())*UNIT_SIZE;
+
+	
 
 }
 
@@ -450,6 +464,7 @@ void CPlayScene::Load()
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
 		if (line == "[LAYERS]") { section = SCENE_SECTION_LAYERS; continue; };
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
+		if (line == "[LENGTH]") { section = SCENE_SECTION_LENGTH; continue; };
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
 
 		//
@@ -460,6 +475,7 @@ void CPlayScene::Load()
 			case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
 			case SCENE_SECTION_LAYERS: _ParseSection_LAYERS(line); break;
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+			case SCENE_SECTION_LENGTH: _ParseSection_LENGTH(line); break;
 		}
 	}
 
@@ -505,8 +521,8 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
+	if (cx >= playSceneLength - game->GetBackBufferWidth())  cx = playSceneLength - game->GetBackBufferWidth();
 	if (cy > 224 && !(dynamic_cast<CMario*>(player)->IsFlying())) cy = 224;
-
 	HUD* hud = HUD::GetInstance();
 	hud->SetPosition(cx+HUD_WIDTH/2, cy +HUD_HEIGHT/2+ game->GetBackBufferHeight());
 	CGame::GetInstance()->SetCamPos(cx, cy + HUD_HEIGHT);
