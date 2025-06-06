@@ -28,6 +28,7 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "Paragoomba.h"
+#include "BoomerangBro.h"
 #include "PiranhaPlant.h"
 #include "PiranhaClamp.h"
 #include "Koopa.h"
@@ -178,6 +179,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		
 	case OBJECT_TYPE_GOOMBA: obj = new CMobSpawner(x, y, SPAWNER_GOOMBA); break;
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CMobSpawner(x, y, SPAWNER_PARAGOOMBA); break;
+	case OBJECT_TYPE_BOOMERANGBRO: obj = new CMobSpawner(x, y, SPAWNER_BOOMERANGBRO); break;
 	case OBJECT_TYPE_PIRANHAPLANT:
 	{
 		x += UNIT_SIZE / 2;

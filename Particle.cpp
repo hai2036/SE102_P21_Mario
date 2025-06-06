@@ -27,6 +27,6 @@ void CParticle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CParticle::Render()
 {
-	if (aniId != 0 && !this->isDeleted)
+	if (!isDeleted)
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 }
