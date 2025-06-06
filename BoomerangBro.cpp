@@ -5,8 +5,6 @@ CBoomerangBro::CBoomerangBro(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = BOOMERANGBRO_GRAVITY;
-	isReady = true;
-	isMoving = true;
 	die_start = -1;
 	SetState(BOOMERANGBRO_STATE_WALK);
 }
@@ -51,14 +49,34 @@ void CBoomerangBro::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CBoomerangBro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy += ay * dt;
-	vx += ax * dt;
+	ULONGLONG tick = GetTickCount64();
 
-	if ((state == BOOMERANGBRO_STATE_DIE) && (GetTickCount64() - die_start > BOOMERANGBRO_DIE_TIMEOUT))
+	if ((state == BOOMERANGBRO_STATE_DIE) && (tick - die_start > BOOMERANGBRO_DIE_TIMEOUT))
 	{
 		this->Delete();
 		return;
 	}
+
+	if (isMoving) {
+		if (tick - moving_start >= BOOMERANGBRO_MOVE_TIMEOUT) {
+			isMoving = false;
+			isForward = !isForward;
+			moving_start = tick;
+		}
+		else {
+			vx = isForward ? BOOMERANGBRO_WALK_SPEED : -BOOMERANGBRO_WALK_SPEED;
+		}
+	}
+	else {
+		vx = 0;
+		if (tick - moving_start >= BOOMERANGBRO_MOVE_TIMEOUT) {
+			isMoving = true;
+			moving_start = tick;
+		}
+	}
+
+	vy += ay * dt;
+	vx += ax * dt;
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -67,10 +85,15 @@ void CBoomerangBro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CBoomerangBro::Render()
 {
-	int aniId = ID_ANI_BOOMERANGBRO_WALK_UNREADY_MOVE;
+	int aniId = ID_ANI_BOOMERANGBRO_WALK_UNREADY_STAND;
+
 	if (state == BOOMERANGBRO_STATE_DIE)
-	{
 		aniId = ID_ANI_BOOMERANGBRO_DIE;
+	else {
+		if (isReady)
+			aniId = isMoving ? ID_ANI_BOOMERANGBRO_WALK_READY_MOVE : ID_ANI_BOOMERANGBRO_WALK_READY_STAND;
+		else
+			aniId = isMoving ? ID_ANI_BOOMERANGBRO_WALK_UNREADY_MOVE : ID_ANI_BOOMERANGBRO_WALK_UNREADY_STAND;
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -83,14 +106,16 @@ void CBoomerangBro::SetState(int state)
 	switch (state)
 	{
 	case BOOMERANGBRO_STATE_DIE:
-		die_start = GetTickCount64();
 		vx = 0;
 		vy = 0;
 		ax = 0;
-		ay = 0;
+		die_start = GetTickCount64();
 		break;
 	case BOOMERANGBRO_STATE_WALK:
-		vx = -BOOMERANGBRO_WALK_SPEED;
+		isReady = false;
+		isMoving = true;
+		isForward = false;
+		moving_start = GetTickCount64();
 		break;
 	}
 }
