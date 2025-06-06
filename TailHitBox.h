@@ -4,7 +4,7 @@
 #define TAIL_SPEED 0.2f
 class CTailHitBox : public CGameObject
 {
-
+	int hit;	// number of object tail can hit at once
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithPrizeBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
@@ -14,7 +14,11 @@ class CTailHitBox : public CGameObject
 	void OnCollisionWithBoomerangBro(LPCOLLISIONEVENT e);
 
 public:
-	CTailHitBox(float x, float y) :CGameObject(x, y) { this->vx = TAIL_SPEED; };
+	CTailHitBox(float x, float y) :CGameObject(x, y) 
+	{ 
+		this->vx = TAIL_SPEED; 
+		this->hit = 1;
+	};
 	
 	void Render();
 	void GetBoundingBox(float& l, float& t, float& r, float& b);

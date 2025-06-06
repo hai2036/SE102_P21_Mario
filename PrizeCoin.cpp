@@ -1,5 +1,6 @@
 #include "PrizeCoin.h"
 #include "HUD.h"
+#include "Visuals.h"
 void CPrizeCoin::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -24,6 +25,8 @@ void CPrizeCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CMario* mario = dynamic_cast<CMario*>(player);
 		mario->AddCoin(1);
 		HUD::GetInstance()->AddCoin();
+		HUD::GetInstance()->AddScore(100);
+		spawnScoreParticle(x, y, 100);
 		this->Delete();
 	}
 }

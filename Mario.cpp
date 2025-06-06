@@ -51,6 +51,62 @@ void CMario::Restart() {
 	holdingObject = nullptr;
 }
 
+int CMario::ComboPrize() {
+	int score = 0;
+	switch (this->combo)
+	{
+	case 0:
+	{
+		score = 100;
+		break;
+	}
+	case 1:
+	{
+		score = 200;
+		break;
+	}
+	case 2:
+	{
+		score = 400;
+		break;
+	}
+	case 3:
+	{
+		score = 800;
+		break;
+	}
+	case 4:
+	{
+		score = 1000;
+		break;
+	}
+	case 5:
+	{
+		score = 2000;
+		break;
+	}
+	case 6:
+	{
+		score = 4000;
+		break;
+	}
+	case 7:
+	{
+		score = 8000;
+		break;
+	}
+	case 8:
+	{
+		this->lives += 1;
+		HUD::GetInstance()->AddLife();
+		break;
+	}
+	default:
+		break;
+	}
+	return score;
+}
+
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	if (this->isFlying)
@@ -84,10 +140,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 
-	// reset untouchable timer if untouchable time has passed
+	// reset flying timer if flying time has passed
 	if (isFlying && GetTickCount64() - flying_start > MARIO_FLYING_TIMEOUT)
 	{
 		isFlying = false;
+	}
+
+	if (combo > 0 && GetTickCount64() - combo_start > MARIO_COMBO_TIMEOUT)
+	{
+		combo = 0;
 	}
 
 	// reset tail attacking timmer if tail attacking time has passed
@@ -192,7 +253,10 @@ void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
 		{
 			y -= 16;
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			spawnScoreParticle(x, y);
+			int score =  ComboPrize();
+			AddCombo();
+			HUD::GetInstance()->AddScore(score);
+			spawnScoreParticle(x, y, score);
 
 			if (goomba->GetState() == PARAGOOMBA_STATE_WING)
 			{
@@ -250,7 +314,10 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			spawnScoreParticle(x, y);
+			int score = ComboPrize();
+			AddCombo();
+			HUD::GetInstance()->AddScore(score);
+			spawnScoreParticle(x, y, score);
 		}
 	}
 	else // hit by Goomba
@@ -278,19 +345,26 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				isKicking = true;
 				kicking_start = GetTickCount64();
 			}
-
+			
 			if (koopa->IsWing())
 			{
 				koopa->Damage();
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 				koopa->SetState(KOOPA_STATE_WALKING);
 				StartUntouchable();
-				spawnScoreParticle(x, y);
+				int score = ComboPrize();
+				AddCombo();
+				HUD::GetInstance()->AddScore(score);
+				spawnScoreParticle(x, y, score);
 				return;
 			}
 
 			koopa->SetState(KOOPA_STATE_HIDE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			int score = ComboPrize();
+			AddCombo();
+			HUD::GetInstance()->AddScore(score);
+			spawnScoreParticle(x, y, score);
 			
 			return;
 		}
@@ -324,6 +398,11 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 					kicking_start = GetTickCount64();
 					StartUntouchable();
 					koopa->SetState(KOOPA_STATE_KICKED);
+					int score = ComboPrize();
+					AddCombo();
+					HUD::GetInstance()->AddScore(score);
+					spawnScoreParticle(x, y, score);
+
 				}
 			}
 		}
@@ -345,13 +424,18 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 	e->obj->Delete();
 	coin++;
 	HUD::GetInstance()->AddCoin();
+	HUD::GetInstance()->AddScore(50);
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
 	p->GetTelePosition(this->x,this->y);
-
+	HUD::GetInstance()->StopTimer();
+	if (p->GetSceneId() == 3)
+	{
+		HUD::GetInstance()->ResetTimer();
+	}
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
 
@@ -381,6 +465,8 @@ void CMario::OnCollisionWithSuperMushroom(LPCOLLISIONEVENT e)
 	CSuperMushroom* superMushroom = (CSuperMushroom*)e->obj;
 	superMushroom->SetState(SUPER_MUSHROOM_STATE_DIE);
 	SetLevel(this->level+1);
+	HUD::GetInstance()->AddScore(1000);
+	spawnScoreParticle(x, y, 1000);
 }
 
 void CMario::OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e)
@@ -388,6 +474,8 @@ void CMario::OnCollisionWithSuperLeaf(LPCOLLISIONEVENT e)
 	CSuperLeaf* superLeaf = (CSuperLeaf*)e->obj;
 	superLeaf->SetState(SUPER_LEAF_STATE_DIE);
 	SetLevel(this->level + 1);
+	HUD::GetInstance()->AddScore(1000);
+	spawnScoreParticle(x, y, 1000);
 }
 
 void CMario::OnCollisionWithLifeMushroom(LPCOLLISIONEVENT e)
@@ -396,7 +484,6 @@ void CMario::OnCollisionWithLifeMushroom(LPCOLLISIONEVENT e)
 	lifeMushroom->SetState(SUPER_MUSHROOM_STATE_DIE);
 	this->lives += 1;
 	HUD::GetInstance()->AddLife();
-
 }
 
 void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
@@ -407,6 +494,8 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 	if (e->ny > 0)
 	{
 		brick->SetState(BRICK_STATE_HIT);
+
+		HUD::GetInstance()->AddScore(50);
 	}
 }
 
@@ -980,6 +1069,10 @@ void CMario::SetState(int state)
 		{
 			StartUntouchable();
 			holdingObject->SetState(KOOPA_STATE_KICKED);
+			int score = ComboPrize();
+			AddCombo();
+			HUD::GetInstance()->AddScore(score);
+			spawnScoreParticle(x, y, score);
 		}
 		
 		break;

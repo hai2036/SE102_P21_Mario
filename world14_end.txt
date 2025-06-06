@@ -4,6 +4,7 @@ hud.txt
 pipe.txt
 ground.txt
 mario.txt
+particle.txt
 #
 [LAYERS]
 4
