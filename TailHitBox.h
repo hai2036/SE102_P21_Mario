@@ -11,6 +11,7 @@ class CTailHitBox : public CGameObject
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 	void OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e);
+	void OnCollisionWithBoomerangBro(LPCOLLISIONEVENT e);
 
 public:
 	CTailHitBox(float x, float y) :CGameObject(x, y) 

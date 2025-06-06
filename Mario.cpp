@@ -14,6 +14,7 @@
 #include "SuperLeaf.h"
 #include "PiranhaPlant.h"
 #include "PiranhaClamp.h"
+#include "BoomerangBro.h"
 #include "Fireball.h"
 #include "Collision.h"
 #include "Koopa.h"
@@ -229,6 +230,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPiranhaPlant(e);
 	else if (dynamic_cast<CPiranhaClamp*>(e->obj))
 		OnCollisionWithPiranhaClamp(e);
+	else if (dynamic_cast<CBoomerangBro*>(e->obj))
+		OnCollisionWithBoomerangBro(e);
 	else if (dynamic_cast<CFireball*>(e->obj))
 		OnCollisionWithFireball(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
@@ -553,6 +556,31 @@ void CMario::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e)
 			DebugOut(L">>> Mario DIE >>> \n");
 			SetState(MARIO_STATE_DIE);
 		}
+	}
+}
+
+void CMario::OnCollisionWithBoomerangBro(LPCOLLISIONEVENT e)
+{
+	CBoomerangBro* boomerangBro = dynamic_cast<CBoomerangBro*>(e->obj);
+
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (boomerangBro->GetState() != BOOMERANGBRO_STATE_DIE)
+		{
+			boomerangBro->SetState(BOOMERANGBRO_STATE_DIE);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			spawnScoreParticle(x, y);
+		}
+	}
+	else // hit by Goomba
+	{
+
+		if (boomerangBro->GetState() != BOOMERANGBRO_STATE_DIE)
+		{
+			GetHitByEnemy();
+		}
+
 	}
 }
 

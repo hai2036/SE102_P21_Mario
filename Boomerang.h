@@ -1,29 +1,40 @@
 #pragma once
 #include "AssetIDs.h"
 #include "GameObject.h"
+#include "Fireball.h"
 
-#define FIREBALL_BBOX_SIZE 8
-#define FIREBALL_SPEED 0.05f
-#define FIREBALL_DELETE_TIME 3000
+#define BOOMERANG_BBOX_SIZE UNIT_SIZE
 
-class CFireball : public CGameObject
+#define BOOMERANG_SPEED_X 0.24f
+#define BOOMERANG_SPEED_Y 0.05f
+
+#define BOOMERANG_GRAVITY_X -0.0003f
+#define BOOMERANG_GRAVITY_Y 0.00008f
+
+#define BOOMERANG_DELETE_TIME 2500
+
+class CBoomerang : public CFireball
 {
 protected:
+	float ax;
+	float ay;
+
+	float y0;
+
 	bool isHostile;
+	bool returning = false;
+
+	ULONGLONG flight_start;
 	ULONGLONG delete_start;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 0; };
-	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-
 public:
-	CFireball(float x, float y, float dx, float dy, bool isHostile);
+	CBoomerang(float x, float y, float dx, float dy, bool isHostile);
 	void SetIsHostile(bool isHostile) { this->isHostile = isHostile; }
 	bool GetIsHostile() { return isHostile; }
 };
