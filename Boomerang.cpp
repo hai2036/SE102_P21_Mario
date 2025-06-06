@@ -2,11 +2,20 @@
 
 CBoomerang::CBoomerang(float x, float y, float dx, float dy, bool isHostile) :CFireball(x, y, dx, dy, isHostile)
 {
-	vx = BOOMERANG_SPEED * dx;
-	vy = BOOMERANG_SPEED * dy;
+	ULONGLONG tick = GetTickCount64();
 
+	vx = BOOMERANG_SPEED_X * dx;
+	vy = BOOMERANG_SPEED_Y * dy;
+	
+	ax = BOOMERANG_GRAVITY_X * dx;
+	ay = BOOMERANG_GRAVITY_Y;
+
+	y0 = y + UNIT_SIZE / 2;
+
+	returning = false;
 	this->isHostile = isHostile;
-	this->delete_start = GetTickCount64();
+	flight_start = tick;
+	delete_start = tick;
 }
 
 void CBoomerang::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -21,7 +30,7 @@ void CBoomerang::GetBoundingBox(float& left, float& top, float& right, float& bo
 void CBoomerang::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
-	y += vy * dt;
+	y += y <= y0 ? vy * dt : 0;
 };
 
 void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -32,6 +41,9 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		Delete();
 	}
+
+	vx += ax * dt;
+	vy += ay * dt;
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
