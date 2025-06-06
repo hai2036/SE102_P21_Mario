@@ -7,6 +7,7 @@
 #include "Koopa.h"
 #include "PiranhaPlant.h"
 #include "PiranhaClamp.h"
+#include "BoomerangBro.h"
 #include "GreenKoopa.h"
 #include "Brick.h"
 
@@ -56,6 +57,8 @@ void CTailHitBox::OnCollisionWith(LPCOLLISIONEVENT e) {
 				OnCollisionWithPiranhaPlant(e);
 			else if (dynamic_cast<CPiranhaClamp*>(e->obj))
 				OnCollisionWithPiranhaClamp(e);
+			else if (dynamic_cast<CBoomerangBro*>(e->obj))
+				OnCollisionWithBoomerangBro(e);
 		}
 	}
 }
@@ -137,4 +140,17 @@ void CTailHitBox::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e) {
 
 	spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
 	spawnScoreParticle(x, y);
+}
+
+void CTailHitBox::OnCollisionWithBoomerangBro(LPCOLLISIONEVENT e)
+{
+	CBoomerangBro* boomerangBro = dynamic_cast<CBoomerangBro*>(e->obj);
+
+	if (boomerangBro->GetState() != BOOMERANGBRO_STATE_DIE)
+	{
+		boomerangBro->SetState(BOOMERANGBRO_STATE_DIE);
+
+		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
+		spawnScoreParticle(x, y);
+	}
 }

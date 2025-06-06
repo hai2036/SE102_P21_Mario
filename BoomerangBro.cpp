@@ -2,13 +2,16 @@
 #include "Border.h"
 
 #include "Game.h"
+#include "Mario.h"
+
 #include "Boomerang.h"
 
 CBoomerangBro::CBoomerangBro(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
-	this->ay = BOOMERANGBRO_GRAVITY;
+	this->ay = BOOMERANGBRO_WALK_GRAVITY;
 	die_start = -1;
+	lookRight = false;
 	SetState(BOOMERANGBRO_STATE_WALK);
 }
 
@@ -54,6 +57,10 @@ void CBoomerangBro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	ULONGLONG tick = GetTickCount64();
 
+	CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetCurrentScene()->GetPlayer());
+	float marioX, marioY;
+	mario->GetPosition(marioX, marioY);
+
 	if ((state == BOOMERANGBRO_STATE_DIE) && (tick - die_start > BOOMERANGBRO_DIE_TIMEOUT))
 	{
 		this->Delete();
@@ -86,7 +93,8 @@ void CBoomerangBro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (isReady) {
 			if (tick - ready_start >= BOOMERANGBRO_THROW_COOLDOWN) {
-				LPGAMEOBJECT boomerang = new CBoomerang(x, y-8, -1, -0.2, true);
+				float dx = lookRight ? 1 : -1;
+				LPGAMEOBJECT boomerang = new CBoomerang(x, y-8, dx, -1, true);
 				CGame::GetInstance()->GetCurrentScene()->AddObject(boomerang, 3);
 
 				isReady = false;
@@ -104,6 +112,8 @@ void CBoomerangBro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
+	lookRight = marioX > x + BOOMERANGBRO_BBOX_WIDTH / 2 ? true : false ;
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -111,7 +121,7 @@ void CBoomerangBro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CBoomerangBro::Render()
 {
-	int aniId = ID_ANI_BOOMERANGBRO_WALK_UNREADY_STAND;
+	int aniId = ID_ANI_BOOMERANGBRO_WALK_UNREADY_STAND_LEFT;
 	int ox = 0;
 	int oy = 0;
 
@@ -119,12 +129,16 @@ void CBoomerangBro::Render()
 		aniId = ID_ANI_BOOMERANGBRO_DIE;
 	else {
 		if (isReady) {
-			aniId = isMoving ? ID_ANI_BOOMERANGBRO_WALK_READY_MOVE : ID_ANI_BOOMERANGBRO_WALK_READY_STAND;
+			aniId = isMoving ? ID_ANI_BOOMERANGBRO_WALK_READY_MOVE_LEFT : ID_ANI_BOOMERANGBRO_WALK_READY_STAND_LEFT;
 			ox = RENDER_OFFSET_READY_X;
 			oy = RENDER_OFFSET_READY_Y;
 		}
 		else
-			aniId = isMoving ? ID_ANI_BOOMERANGBRO_WALK_UNREADY_MOVE : ID_ANI_BOOMERANGBRO_WALK_UNREADY_STAND;
+			aniId = isMoving ? ID_ANI_BOOMERANGBRO_WALK_UNREADY_MOVE_LEFT : ID_ANI_BOOMERANGBRO_WALK_UNREADY_STAND_LEFT;
+		if (lookRight) {
+			aniId += 10;
+			ox = -ox;
+		}
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x + ox, y + oy);
@@ -138,8 +152,9 @@ void CBoomerangBro::SetState(int state)
 	{
 	case BOOMERANGBRO_STATE_DIE:
 		vx = 0;
-		vy = 0;
+		vy = -BOOMERANGBRO_DIEHOP_SPEED;
 		ax = 0;
+		ay = BOOMERANGBRO_DIE_GRAVITY;
 		die_start = GetTickCount64();
 		break;
 	case BOOMERANGBRO_STATE_WALK:
