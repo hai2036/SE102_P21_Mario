@@ -506,7 +506,6 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 	if (cy > 224 && !(dynamic_cast<CMario*>(player)->IsFlying())) cy = 224;
-
 	HUD* hud = HUD::GetInstance();
 	hud->SetPosition(cx+HUD_WIDTH/2, cy +HUD_HEIGHT/2+ game->GetBackBufferHeight());
 	CGame::GetInstance()->SetCamPos(cx, cy + HUD_HEIGHT);
