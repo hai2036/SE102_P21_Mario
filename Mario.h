@@ -273,4 +273,5 @@ public:
 	int GetCombo() { return this->combo; };
 	void AddCombo() { this->combo += 1; this->combo_start = GetTickCount64(); };
 	int ComboPrize();
+	void ComboScoreAni(float x, float y);
 };

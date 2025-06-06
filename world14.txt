@@ -15,6 +15,7 @@ superLeaf.txt
 koopa.txt
 hud.txt
 particle.txt
+debris.txt
 #
 [LAYERS]
 4

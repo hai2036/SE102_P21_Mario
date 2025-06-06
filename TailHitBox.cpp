@@ -73,10 +73,7 @@ void CTailHitBox::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 
 		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
 		CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetPlayer());
-		int score = mario->ComboPrize();
-		mario->AddCombo();
-		HUD::GetInstance()->AddScore(score);
-		spawnScoreParticle(x, y, score);
+		mario->ComboScoreAni(x, y);
 	}
 	this->hit -= 1;
 }
@@ -129,10 +126,7 @@ void CTailHitBox::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
 		CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetPlayer());
-		int score = mario->ComboPrize();
-		mario->AddCombo();
-		HUD::GetInstance()->AddScore(score);
-		spawnScoreParticle(x, y, score);
+		mario->ComboScoreAni(x, y);
 	}
 	this->hit -= 1;
 }
@@ -144,10 +138,7 @@ void CTailHitBox::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 	
 	spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
 	CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetPlayer());
-	int score = mario->ComboPrize();
-	mario->AddCombo();
-	HUD::GetInstance()->AddScore(score);
-	spawnScoreParticle(x, y, score);
+	mario->ComboScoreAni(x, y);
 	this->hit -= 1;
 }
 
@@ -158,10 +149,7 @@ void CTailHitBox::OnCollisionWithPiranhaClamp(LPCOLLISIONEVENT e) {
 
 	spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
 	CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetPlayer());
-	int score = mario->ComboPrize();
-	mario->AddCombo();
-	HUD::GetInstance()->AddScore(score);
-	spawnScoreParticle(x, y, score);
+	mario->ComboScoreAni(x, y);
 	this->hit -= 1;
 }
 
@@ -175,10 +163,7 @@ void CTailHitBox::OnCollisionWithBoomerangBro(LPCOLLISIONEVENT e)
 
 		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
 		CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetPlayer());
-    int score = mario->ComboPrize();
-    mario->AddCombo();
-    HUD::GetInstance()->AddScore(score);
-    spawnScoreParticle(x, y, score);
-    this->hit -= 1;
+		mario->ComboScoreAni(x, y);
+		this->hit -= 1;
 	}
 }

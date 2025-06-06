@@ -17,10 +17,6 @@ void CBrick::Render()
 		aniId = ID_ANI_BRICK;
 		break;
 	}
-	case BRICK_STATE_BREAK:
-	{
-		break;
-	}
 	case BRICK_STATE_EMPTY:
 	{
 		aniId = ID_ANI_BRICK_EMPTY;

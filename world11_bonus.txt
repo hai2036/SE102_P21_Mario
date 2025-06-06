@@ -5,6 +5,7 @@ ground.txt
 mario.txt
 coin.txt
 pipe.txt
+particle.txt
 #
 [LAYERS]
 4

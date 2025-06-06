@@ -107,6 +107,13 @@ int CMario::ComboPrize() {
 	return score;
 }
 
+void CMario::ComboScoreAni(float x, float y) {
+	int score = ComboPrize();
+	AddCombo();
+	HUD::GetInstance()->AddScore(score);
+	spawnScoreParticle(x, y, score);
+}
+
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	if (this->isFlying)
@@ -253,10 +260,7 @@ void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
 		{
 			y -= 16;
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			int score =  ComboPrize();
-			AddCombo();
-			HUD::GetInstance()->AddScore(score);
-			spawnScoreParticle(x, y, score);
+			ComboScoreAni(x,y);
 
 			if (goomba->GetState() == PARAGOOMBA_STATE_WING)
 			{
@@ -314,10 +318,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			int score = ComboPrize();
-			AddCombo();
-			HUD::GetInstance()->AddScore(score);
-			spawnScoreParticle(x, y, score);
+			ComboScoreAni(x, y);
 		}
 	}
 	else // hit by Goomba
@@ -352,19 +353,13 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 				koopa->SetState(KOOPA_STATE_WALKING);
 				StartUntouchable();
-				int score = ComboPrize();
-				AddCombo();
-				HUD::GetInstance()->AddScore(score);
-				spawnScoreParticle(x, y, score);
+				ComboScoreAni(x, y);
 				return;
 			}
 
 			koopa->SetState(KOOPA_STATE_HIDE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			int score = ComboPrize();
-			AddCombo();
-			HUD::GetInstance()->AddScore(score);
-			spawnScoreParticle(x, y, score);
+			ComboScoreAni(x, y);
 			
 			return;
 		}
@@ -398,10 +393,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 					kicking_start = GetTickCount64();
 					StartUntouchable();
 					koopa->SetState(KOOPA_STATE_KICKED);
-					int score = ComboPrize();
-					AddCombo();
-					HUD::GetInstance()->AddScore(score);
-					spawnScoreParticle(x, y, score);
+					ComboScoreAni(x, y);
 
 				}
 			}
@@ -570,11 +562,7 @@ void CMario::OnCollisionWithBoomerangBro(LPCOLLISIONEVENT e)
 		{
 			boomerangBro->SetState(BOOMERANGBRO_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-
-			int score = ComboPrize();
-			AddCombo();
-			HUD::GetInstance()->AddScore(score);
-			spawnScoreParticle(x, y, score);
+			ComboScoreAni(x, y);
 		}
 	}
 	else // hit by Goomba
@@ -1073,10 +1061,7 @@ void CMario::SetState(int state)
 		{
 			StartUntouchable();
 			holdingObject->SetState(KOOPA_STATE_KICKED);
-			int score = ComboPrize();
-			AddCombo();
-			HUD::GetInstance()->AddScore(score);
-			spawnScoreParticle(x, y, score);
+			ComboScoreAni(x, y);
 		}
 		
 		break;
