@@ -75,7 +75,7 @@ void CBoomerangBro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				moving_start = tick;
 			}
 			else {
-				vx = isForward ? BOOMERANGBRO_WALK_SPEED : -BOOMERANGBRO_WALK_SPEED;
+				vx = isForward ? -BOOMERANGBRO_WALK_SPEED : BOOMERANGBRO_WALK_SPEED;
 			}
 		}
 		else {
@@ -158,7 +158,7 @@ void CBoomerangBro::SetState(int state)
 		die_start = GetTickCount64();
 		break;
 	case BOOMERANGBRO_STATE_WALK:
-		isReady = true;
+		isReady = false;
 		isMoving = true;
 		isForward = false;
 		moving_start = GetTickCount64();

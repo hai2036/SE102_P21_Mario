@@ -16,7 +16,6 @@ coin.txt
 mario.txt
 goomba.txt
 paragoomba.txt
-boomerangBro.txt
 prizeBlock.txt
 superMushroom.txt
 superLeaf.txt
@@ -24,7 +23,6 @@ koopa.txt
 piranhaPlant.txt
 piranhaClamp.txt
 fireball.txt
-boomerang.txt
 brick.txt
 switchBlock.txt
 #
@@ -168,8 +166,7 @@ switchBlock.txt
 10	92	23	3	20
 
 #GOOMBAS
-#2	14	25	1
-15	14	24	1
+2	14	25	1
 2	33	25	1
 2	52	24	1
 2	55	24	1
