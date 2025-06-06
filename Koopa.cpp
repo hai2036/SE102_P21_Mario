@@ -7,6 +7,8 @@
 #include "Border.h"
 #include "Brick.h"
 #include "debug.h"
+#include "HUD.h"
+#include "Visuals.h"
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -88,6 +90,12 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	if (goomba->GetState() != GOOMBA_STATE_DIE)
 	{
 		goomba->SetState(GOOMBA_STATE_DIE);
+		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
+		CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetPlayer());
+		int score = mario->ComboPrize();
+		mario->AddCombo();
+		HUD::GetInstance()->AddScore(score);
+		spawnScoreParticle(x, y, score);
 	}
 }
 
@@ -96,6 +104,12 @@ void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e) {
 	if (koopa->GetState() != KOOPA_STATE_DIE)
 	{
 		koopa->SetState(KOOPA_STATE_DIE);
+		spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
+		CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetPlayer());
+		int score = mario->ComboPrize();
+		mario->AddCombo();
+		HUD::GetInstance()->AddScore(score);
+		spawnScoreParticle(x, y, score);
 	}
 
 }
@@ -110,13 +124,19 @@ void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 
 	brick->SetState(BRICK_STATE_HIT);
+	spawnParticle(x, y, ID_ANI_PARTICLE_HIT);
+	HUD::GetInstance()->AddScore(50);
 }
 
 void CKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 	CPiranhaPlant* PiranhaPlant = dynamic_cast<CPiranhaPlant*>(e->obj);
 	
 	PiranhaPlant->Damage();
-	
+	CMario* mario = dynamic_cast<CMario*>(CGame::GetInstance()->GetPlayer());
+	int score = mario->ComboPrize();
+	mario->AddCombo();
+	HUD::GetInstance()->AddScore(score);
+	spawnScoreParticle(x, y, score);
 }
 
 

@@ -162,7 +162,8 @@
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_TAIL_ATTACKING_TIME	200
 #define MARIO_KICKING_TIME 200
-#define MARIO_FLYING_TIMEOUT 300
+#define MARIO_FLYING_TIMEOUT 400
+#define MARIO_COMBO_TIMEOUT 2000
 
 class CMario : public CGameObject
 {
@@ -177,12 +178,14 @@ class CMario : public CGameObject
 	float ay;				// acceleration on y 
 
 	int lives;
+	int combo;
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	ULONGLONG tail_attacking_start;
 	ULONGLONG kicking_start;
 	ULONGLONG flying_start;
+	ULONGLONG combo_start;
 
 	bool isOnPlatform;
 	int coin;
@@ -227,6 +230,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
+		combo = 0;
 		lives = 1;
 		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
@@ -234,6 +238,7 @@ public:
 		tail_attacking_start = -1;
 		kicking_start = -1;
 		flying_start = -1;
+		combo_start = -1;
 		isOnPlatform = false;
 		coin = 0;
 		tailHitBox = nullptr;
@@ -264,4 +269,7 @@ public:
 	bool IsFlying() { return this->isFlying; };
 	int Getnx() { return this->nx; };
 	void Restart();
+	int GetCombo() { return this->combo; };
+	void AddCombo() { this->combo += 1; this->combo_start = GetTickCount64(); };
+	int ComboPrize();
 };

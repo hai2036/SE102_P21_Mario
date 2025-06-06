@@ -12,6 +12,7 @@ superMushroom.txt
 superLeaf.txt
 koopa.txt
 hud.txt
+particle.txt
 #
 [LAYERS]
 4
