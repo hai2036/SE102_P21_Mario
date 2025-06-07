@@ -43,11 +43,11 @@ void CSwitchBlock::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CSwitchBlock::Switch() {
 	vector<vector<LPGAMEOBJECT>> objects = CGame::GetInstance()->GetCurrentScene()->GetObjects();
 	size_t lastLayer = objects.size() - 1;
-	for (size_t i = 0; i < objects[lastLayer].size(); i++)
+	for (size_t i = 0; i < objects[3].size(); i++)
 	{
-		if (dynamic_cast<CBrick*>(objects[lastLayer][i]))
+		if (dynamic_cast<CBrick*>(objects[3][i]))
 		{
-			CBrick* brick = dynamic_cast<CBrick*>(objects[lastLayer][i]);
+			CBrick* brick = dynamic_cast<CBrick*>(objects[3][i]);
 			if (brick->GetPrizeID() == -1)
 			{
 				float tempX, tempY;
@@ -76,7 +76,7 @@ void CSwitchBlock::Switch() {
 			{
 				coin->Delete();
 				CBrick* brick = new CBrick(tempX, tempY, -1);
-				CGame::GetInstance()->GetCurrentScene()->AddObject(brick, int(lastLayer));
+				CGame::GetInstance()->GetCurrentScene()->AddObject(brick, int(3));
 			}
 		}
 	}
